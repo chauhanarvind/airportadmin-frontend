@@ -23,7 +23,6 @@ import {
 
 import { X } from "lucide-react";
 import CreateUserForm from "./forms/CreateUserForm";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface User {
   id: number;
@@ -47,7 +46,7 @@ export default function UsersTable() {
       const flatUsers = res.data.map(
         (user: ApiUser): User => ({
           id: user.id,
-          fullName: user.firstName + user.lastName,
+          fullName: user.firstName + " " + user.lastName,
           email: user.email,
           role: user.role?.name || "-",
           jobLevel: user.jobLevel?.levelName || "-",
@@ -90,9 +89,9 @@ export default function UsersTable() {
                 Create New User
               </DialogTitle>
               <DialogDescription>
-                <VisuallyHidden>
+                <span className="sr-only">
                   Fill in the details to create a new user.
-                </VisuallyHidden>
+                </span>
               </DialogDescription>
             </DialogHeader>
 
