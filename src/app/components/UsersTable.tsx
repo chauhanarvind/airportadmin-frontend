@@ -11,6 +11,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ApiUser from "../interface/ApiUser";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import { X } from "lucide-react";
+import CreateUserForm from "./forms/CreateUserForm";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface User {
   id: number;
@@ -60,7 +73,32 @@ export default function UsersTable() {
     <div className="max-w-6xl  mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Users</h1>
-        <Button>+ New User</Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>+ New User</Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-2xl w-full">
+            <DialogClose asChild>
+              <button className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100">
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </button>
+            </DialogClose>
+
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-semibold mb-2">
+                Create New User
+              </DialogTitle>
+              <DialogDescription>
+                <VisuallyHidden>
+                  Fill in the details to create a new user.
+                </VisuallyHidden>
+              </DialogDescription>
+            </DialogHeader>
+
+            <CreateUserForm />
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="border rounded-xl overflow-hidden shadow">

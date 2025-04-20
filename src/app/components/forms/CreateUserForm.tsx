@@ -62,8 +62,7 @@ export default function CreateUserForm() {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-12 p-6 bg-white rounded-2xl shadow space-y-6 ">
-      <h2 className="text-2xl font-semibold text-gray-800">Create New User</h2>
+    <div className="w-full p-4 bg-white rounded-2xl shadow space-y-6 ">
       <form className="space-y-4" onSubmit={handleSubmit}>
         {/* First Name  */}
         <div className="space-y-1">
