@@ -1,3 +1,4 @@
+import api from "@/app/lib/api";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -7,13 +8,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 interface RoleSelectorProps {
   label: string; // Job role or user role
   apiUrl: string;
-  optionKey: string; //e.g. name or roleName (column names)
+  optionKey: string; //e.g. name or roleName (column names in spring(model))
+  onChange?: (value: string) => void;
 }
 
 type Role = { id: number; [key: string]: string | number };
@@ -22,24 +23,23 @@ export default function RoleSelector({
   label,
   apiUrl,
   optionKey,
+  onChange,
 }: RoleSelectorProps) {
   const [roles, setRoles] = useState<Role[]>([]);
 
   useEffect(() => {
-    axios
+    api
       .get(apiUrl)
       .then((res) => setRoles(res.data))
       .catch((err) => console.error("Failed to fetch roles", err));
-  }, []);
+  }, [apiUrl]);
 
   const dynamicId = label.toLowerCase().replace(/\s+/g, "-"); // e.g., "Job Role" → "job-role"
-
-  console.log(roles);
 
   return (
     <div className="space-y-1">
       <Label htmlFor="role">{label}</Label>
-      <Select>
+      <Select onValueChange={onChange}>
         <SelectTrigger id={dynamicId} disabled={!roles.length}>
           <SelectValue
             placeholder={`Select a ${label.toLowerCase()}`}
@@ -47,7 +47,7 @@ export default function RoleSelector({
         </SelectTrigger>
         <SelectContent>
           {roles.map((role) => (
-            <SelectItem key={role.id} value={role[optionKey] as string}>
+            <SelectItem key={role.id} value={String(role.id)}>
               {role[optionKey]}
             </SelectItem>
           ))}
