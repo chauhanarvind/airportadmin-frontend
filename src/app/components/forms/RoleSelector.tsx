@@ -15,6 +15,7 @@ interface RoleSelectorProps {
   apiUrl: string;
   optionKey: string; //e.g. name or roleName (column names in spring(model))
   onChange?: (value: string) => void;
+  value?: string | number;
 }
 
 type Role = { id: number; [key: string]: string | number };
@@ -24,6 +25,7 @@ export default function RoleSelector({
   apiUrl,
   optionKey,
   onChange,
+  value,
 }: RoleSelectorProps) {
   const [roles, setRoles] = useState<Role[]>([]);
 
@@ -39,7 +41,7 @@ export default function RoleSelector({
   return (
     <div className="space-y-1">
       <Label htmlFor="role">{label}</Label>
-      <Select onValueChange={onChange}>
+      <Select value={value?.toString()} onValueChange={onChange}>
         <SelectTrigger id={dynamicId} disabled={!roles.length}>
           <SelectValue
             placeholder={`Select a ${label.toLowerCase()}`}

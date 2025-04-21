@@ -11,26 +11,21 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ApiUser from "../interface/ApiUser";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import { X } from "lucide-react";
-import CreateUserForm from "./forms/CreateUserForm";
+import Modal from "./forms/Modal";
+import { UserFormData } from "./forms/UserForm";
+import { AxiosError } from "axios";
 
 interface User {
   id: number;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  role: string;
-  jobLevel: string;
-  jobRole: string;
+  roleName: string;
+  jobLevelName: string;
+  jobRoleName: string;
+  roleId: number | null;
+  jobLevelId: number | null;
+  jobRoleId: number | null;
 }
 
 export default function UsersTable() {
@@ -46,11 +41,15 @@ export default function UsersTable() {
       const flatUsers = res.data.map(
         (user: ApiUser): User => ({
           id: user.id,
-          fullName: user.firstName + " " + user.lastName,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email,
-          role: user.role?.name || "-",
-          jobLevel: user.jobLevel?.levelName || "-",
-          jobRole: user.jobRole?.roleName || "-",
+          roleName: user.role?.name || "-",
+          jobLevelName: user.jobLevel?.levelName || "-",
+          jobRoleName: user.jobRole?.roleName || "-",
+          jobLevelId: user.jobLevel?.id || null,
+          jobRoleId: user.jobRole?.id || null,
+          roleId: user.role?.id || null,
         })
       );
 
@@ -68,36 +67,36 @@ export default function UsersTable() {
     fetchUsers();
   }, []);
 
+  const handleCreateUser = async (data: UserFormData) => {
+    try {
+      const res = await api.post("/api/users/create", data);
+      console.log(res.data);
+
+      if (res.status == 200) {
+        toast.success("User created successfully");
+      } else {
+        toast.error("Failed to create user");
+      }
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message?: string }>;
+      let errorMessage = error.message;
+      if (error.response?.data.message) {
+        errorMessage += `:${error.response.data.message}`;
+      }
+      console.log("Error creating user : ", error);
+      toast.error(errorMessage);
+    }
+  };
+
+  const handleUpdateUser = () => {};
+
   return (
     <div className="max-w-6xl  mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Users</h1>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>+ New User</Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl w-full">
-            <DialogClose asChild>
-              <button className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100">
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-              </button>
-            </DialogClose>
 
-            <DialogHeader>
-              <DialogTitle className="text-2xl font-semibold mb-2">
-                Create New User
-              </DialogTitle>
-              <DialogDescription>
-                <span className="sr-only">
-                  Fill in the details to create a new user.
-                </span>
-              </DialogDescription>
-            </DialogHeader>
-
-            <CreateUserForm />
-          </DialogContent>
-        </Dialog>
+        {/* Modal */}
+        <Modal triggerLabel="+ New User" onSubmit={handleCreateUser} />
       </div>
 
       <div className="border rounded-xl overflow-hidden shadow">
@@ -116,20 +115,19 @@ export default function UsersTable() {
           <TableBody>
             {users.map((user) => (
               <TableRow key={user.id}>
-                <TableCell>{user.fullName}</TableCell>
+                <TableCell>{user.firstName + " " + user.lastName}</TableCell>
                 <TableCell>{user.email}</TableCell>
-                <TableCell>{user.role}</TableCell>
-                <TableCell>{user.jobLevel}</TableCell>
-                <TableCell>{user.jobRole}</TableCell>
+                <TableCell>{user.roleName}</TableCell>
+                <TableCell>{user.jobLevelName}</TableCell>
+                <TableCell>{user.jobRoleName}</TableCell>
 
                 <TableCell className="text-right space-x-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => toast(`Edit user ID: ${user.id}`)}
-                  >
-                    Edit
-                  </Button>
+                  <Modal
+                    triggerLabel="Edit"
+                    initialData={user}
+                    onSubmit={handleUpdateUser}
+                    isEditMode={true}
+                  ></Modal>
 
                   <Button
                     variant="destructive"
