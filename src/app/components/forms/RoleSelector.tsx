@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/select";
 
 import { useEffect, useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
 interface RoleSelectorProps {
   label: string; // Job role or user role
   apiUrl: string;
-  optionKey: string; //e.g. name or roleName (column names in spring(model))
-  onChange?: (value: string) => void;
-  value?: string | number;
+  name: string; //e.g. name or roleName (column names in spring(model))
+  optionKey: string;
 }
 
 type Role = { id: number; [key: string]: string | number };
@@ -23,16 +23,19 @@ type Role = { id: number; [key: string]: string | number };
 export default function RoleSelector({
   label,
   apiUrl,
+  name,
   optionKey,
-  onChange,
-  value,
 }: RoleSelectorProps) {
   const [roles, setRoles] = useState<Role[]>([]);
+  const { control } = useFormContext();
 
   useEffect(() => {
+    console.log("hello here");
     api
       .get(apiUrl)
-      .then((res) => setRoles(res.data))
+      .then((res) => {
+        setRoles(res.data);
+      })
       .catch((err) => console.error("Failed to fetch roles", err));
   }, [apiUrl]);
 
@@ -41,20 +44,37 @@ export default function RoleSelector({
   return (
     <div className="space-y-1">
       <Label htmlFor="role">{label}</Label>
-      <Select value={value?.toString()} onValueChange={onChange}>
-        <SelectTrigger id={dynamicId} disabled={!roles.length}>
-          <SelectValue
-            placeholder={`Select a ${label.toLowerCase()}`}
-          ></SelectValue>
-        </SelectTrigger>
-        <SelectContent>
-          {roles.map((role) => (
-            <SelectItem key={role.id} value={String(role.id)}>
-              {role[optionKey]}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <Controller
+        rules={{ required: `${label} is required` }}
+        control={control}
+        name={name}
+        render={({ field, fieldState }) => (
+          <div>
+            <Select
+              value={field.value != null ? String(field.value) : ""}
+              onValueChange={(val) => field.onChange(parseInt(val))}
+            >
+              <SelectTrigger id={dynamicId} disabled={!roles.length}>
+                <SelectValue
+                  placeholder={`Select a ${label.toLowerCase()}`}
+                ></SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {roles.map((role) => (
+                  <SelectItem key={role.id} value={String(role.id)}>
+                    {role[optionKey]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {fieldState.error && (
+              <p className="text-sm text-red-500 ">
+                {fieldState.error.message}
+              </p>
+            )}
+          </div>
+        )}
+      />
     </div>
   );
 }

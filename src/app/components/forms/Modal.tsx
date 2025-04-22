@@ -42,7 +42,7 @@ export default function Modal({
           {triggerLabel}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl w-full">
+      <DialogContent className="max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <DialogClose asChild>
           <button className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100">
             <X className="h-4 w-4" />
