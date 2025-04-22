@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
 import UserForm, { UserFormData } from "./UserForm";
+import { useState } from "react";
 
 interface ModalProps {
   triggerLabel: string; // "+new user or edit"
@@ -24,10 +25,20 @@ export default function Modal({
   onSubmit,
   isEditMode = false,
 }: ModalProps) {
+  const [open, setOpen] = useState(false);
+
+  const handleSubmitAndClose = (data: UserFormData) => {
+    onSubmit(data);
+    setOpen(false);
+  };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={isEditMode ? "outline" : "default"} size="sm">
+        <Button
+          onClick={() => setOpen(true)}
+          variant={isEditMode ? "outline" : "default"}
+          size="sm"
+        >
           {triggerLabel}
         </Button>
       </DialogTrigger>
@@ -54,7 +65,7 @@ export default function Modal({
 
         <UserForm
           initialData={initialData}
-          onSubmit={onSubmit}
+          onSubmit={handleSubmitAndClose}
           isEditMode={isEditMode}
           submitText={isEditMode ? "Update User" : "Create User"}
         />

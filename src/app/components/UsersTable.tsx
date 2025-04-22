@@ -123,6 +123,7 @@ export default function UsersTable() {
 
                 <TableCell className="text-right space-x-2">
                   <Modal
+                    key={user.id}
                     triggerLabel="Edit"
                     initialData={user}
                     onSubmit={handleUpdateUser}

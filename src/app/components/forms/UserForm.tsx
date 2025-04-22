@@ -2,8 +2,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import RoleSelector from "./RoleSelector";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 export type UserFormData = {
   id?: number; //used only for edit
@@ -29,79 +30,60 @@ export default function UserForm({
   isEditMode = false,
   submitText = "Submit",
 }: UserFormProps) {
-  const [firstName, setFirstName] = useState(initialData.firstName || "");
-  const [lastName, setLastName] = useState(initialData.lastName || "");
-  const [email, setEmail] = useState(initialData.email || "");
-  const [password, setPassword] = useState("");
-  const [roleId, setRoleId] = useState<number | null>(
-    initialData.roleId || null
-  ); // user role
-  const [jobRoleId, setJobRoleId] = useState<number | null>(
-    initialData.jobRoleId || null
-  );
-  const [jobLevelId, setJobLevelId] = useState<number | null>(
-    initialData.jobLevelId || null
-  );
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { isDirty, isValid, errors },
+  } = useForm<UserFormData>({
+    mode: "onChange",
+    defaultValues: {
+      firstName: initialData.firstName || "",
+      lastName: initialData.lastName || "",
+      email: initialData.email || "",
+      roleId: initialData.roleId || null,
+      jobLevelId: initialData.jobLevelId || null,
+      jobRoleId: initialData.jobRoleId || null,
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !roleId ||
-      jobLevelId ||
-      jobRoleId
-    ) {
-      toast.error("Please fill all required fields");
-      return;
-    }
-
-    if (!isEditMode && !!password) {
+  const handleFormSubmit = async (data: UserFormData) => {
+    if (!isEditMode && !watch("password")) {
       toast.error("Please set a password");
       return;
     }
 
-    const payLoad: UserFormData = {
-      firstName,
-      lastName,
-      password,
-      email,
-      roleId,
-      jobLevelId,
-      jobRoleId,
-      ...(isEditMode ? {} : { password }),
-      ...(initialData?.id ? { id: initialData.id } : {}), // pass id during edit
-    };
-
-    onSubmit(payLoad);
+    onSubmit({ ...data, id: initialData.id });
   };
 
   useEffect(() => {
-    setFirstName(initialData.firstName || "");
-    setLastName(initialData.lastName || "");
-    setEmail(initialData.email || "");
-    setRoleId(initialData.roleId || null);
-    setJobRoleId(initialData.jobRoleId || null);
-    setJobLevelId(initialData.jobLevelId || null);
-    setPassword("");
-
-    console.log(initialData.jobRoleId);
-  }, [initialData]);
+    if (Object.keys(initialData).length > 0) {
+      reset({
+        firstName: initialData.firstName || "",
+        lastName: initialData.lastName || "",
+        email: initialData.email || "",
+        roleId: initialData.roleId || null,
+        jobLevelId: initialData.jobLevelId || null,
+        jobRoleId: initialData.jobRoleId || null,
+      });
+    }
+  }, [initialData, reset]);
 
   return (
     <div className="w-full p-4 bg-white rounded-2xl shadow space-y-6 ">
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleSubmit(handleFormSubmit)}>
         {/* First Name  */}
         <div className="space-y-1">
           <Label htmlFor="name">First Name</Label>
           <Input
             id="name"
-            placeholder="John"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            {...register("firstName", { required: "First name is required" })}
           />
+          {errors.firstName && (
+            <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+          )}
         </div>
 
         {/* Last Name */}
@@ -109,10 +91,11 @@ export default function UserForm({
           <Label htmlFor="lastName">Last Name</Label>
           <Input
             id="lastName"
-            placeholder="Doe"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            {...register("lastName", { required: "Last name is required" })}
           />
+          {errors.lastName && (
+            <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+          )}
         </div>
 
         {/* Email  */}
@@ -120,10 +103,18 @@ export default function UserForm({
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
-            placeholder="example@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^\S+@\S+\.\S+$/,
+                message: "Invalid email format",
+              },
+            })}
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
         </div>
 
         {/* Role Drop Down */}
@@ -131,8 +122,8 @@ export default function UserForm({
           label="User Role"
           apiUrl="/api/roles/"
           optionKey="name"
-          onChange={(value) => setRoleId(Number(value))}
-          value={roleId?.toString()}
+          onChange={(value) => setValue("roleId", parseInt(value))}
+          value={watch("roleId")?.toString() ?? ""}
         />
 
         {/* Job Role Drop Down  */}
@@ -140,8 +131,8 @@ export default function UserForm({
           label="Job Role"
           apiUrl="/api/job-roles/"
           optionKey="roleName"
-          onChange={(value) => setJobRoleId(Number(value))}
-          value={jobRoleId?.toString()}
+          onChange={(value) => setValue("jobRoleId", parseInt(value))}
+          value={watch("jobRoleId")?.toString() ?? ""}
         />
 
         {/* Job level drop down */}
@@ -149,25 +140,34 @@ export default function UserForm({
           label="Job Level"
           apiUrl="/api/job-levels/"
           optionKey="levelName"
-          onChange={(value) => setJobLevelId(Number(value))}
-          value={jobRoleId?.toString()}
+          onChange={(value) => setValue("jobLevelId", parseInt(value))}
+          value={watch("jobLevelId")?.toString() ?? ""}
         />
 
         {/* password */}
-        <div className="space-y-1">
-          <Label htmlFor="password">Set Password</Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        {!isEditMode && (
+          <div className="space-y-1">
+            <Label htmlFor="password">Set Password</Label>
+            <Input
+              id="password"
+              type="password"
+              {...register("password", {
+                required: "Password is required for new users",
+              })}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
+          </div>
+        )}
 
         {/* Submit Button  */}
         <div>
-          <Button type="submit" className="w-full">
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={(isEditMode && !isDirty) || !isValid}
+          >
             {submitText}
           </Button>
         </div>
