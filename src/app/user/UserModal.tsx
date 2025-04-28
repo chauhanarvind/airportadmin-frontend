@@ -9,8 +9,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
-import UserForm, { UserFormData } from "./UserForm";
 import { useState } from "react";
+import UserForm, { UserFormData } from "./UserForm";
 
 interface ModalProps {
   triggerLabel: string; // "+new user or edit"
@@ -19,7 +19,7 @@ interface ModalProps {
   isEditMode?: boolean;
 }
 
-export default function Modal({
+export default function UserModal({
   triggerLabel,
   initialData,
   onSubmit,

@@ -19,6 +19,7 @@ interface Role {
   id: number;
   roleName: string;
   categoryName?: string;
+  categoryId?: number;
 }
 
 export default function RoleTable() {
@@ -37,6 +38,7 @@ export default function RoleTable() {
           id: role.id,
           roleName: role.roleName,
           categoryName: role?.category?.categoryName,
+          categoryId: role.category?.id,
         })
       );
 
@@ -54,6 +56,7 @@ export default function RoleTable() {
   }, []);
 
   const handleCreateRole = async (data: RoleFormData) => {
+    console.log("data=>", data);
     handleCreate("/api/job-roles/create", data, label, fetchRoles);
   };
 

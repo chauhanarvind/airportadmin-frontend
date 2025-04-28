@@ -11,9 +11,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ApiUser from "../interface/ApiUser";
-import Modal from "./forms/Modal";
-import { UserFormData } from "./forms/UserForm";
-import { AxiosError } from "axios";
+import { UserFormData } from "./UserForm";
+import UserModal from "./UserModal";
+import { handleCreate, handleDelete, handleUpdate } from "../lib/crudService";
 
 interface User {
   id: number;
@@ -29,7 +29,7 @@ interface User {
   jobRoleId: number | null;
 }
 
-export default function UsersTable() {
+export default function UserTable() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -70,73 +70,15 @@ export default function UsersTable() {
   }, []);
 
   const handleCreateUser = async (data: UserFormData) => {
-    console.log(data);
-
-    try {
-      const res = await api.post("/api/users/create", data);
-      console.log(res.data);
-
-      if (res.status == 200) {
-        toast.success("User created successfully");
-        fetchUsers();
-      } else {
-        toast.error("Failed to create user");
-      }
-    } catch (err: unknown) {
-      const error = err as AxiosError<{ message?: string }>;
-      let errorMessage = error.message;
-      if (error.response?.data.message) {
-        errorMessage += `:${error.response.data.message}`;
-      }
-      console.log("Error creating user : ", error);
-      toast.error(errorMessage);
-    }
+    handleCreate("/api/users/create", data, "User", fetchUsers);
   };
 
   const handleUpdateUser = async (data: UserFormData) => {
-    console.log(data);
-    try {
-      const res = await api.post(`/api/users/${data.id}`, data);
-      console.log(res.data);
-
-      if (res.status == 200) {
-        toast.success("User updated successfully");
-        fetchUsers();
-      } else {
-        toast.error("Failed to update user");
-      }
-    } catch (err: unknown) {
-      const error = err as AxiosError<{ message?: string }>;
-      let errorMessage = error.message;
-      if (error.response?.data.message) {
-        errorMessage += `:${error.response.data.message}`;
-      }
-      console.log("Error updating user : ", error);
-      toast.error(errorMessage);
-    }
+    handleUpdate(`/api/users/${data.id}`, data, "User", fetchUsers);
   };
 
   const handleDeleteUser = async (data: UserFormData) => {
-    try {
-      console.log(data.id);
-      const res = await api.delete(`/api/users/${data.id}`);
-      console.log(res);
-
-      if (res.status == 204) {
-        toast.success("User deleted successfully");
-        fetchUsers();
-      } else {
-        toast.error("Failed to delete user");
-      }
-    } catch (err: unknown) {
-      const error = err as AxiosError<{ message?: string }>;
-      let errorMessage = error.message;
-      if (error.response?.data.message) {
-        errorMessage += `:${error.response.data.message}`;
-      }
-      console.log("Error deleting user : ", error);
-      toast.error(errorMessage);
-    }
+    handleDelete(`/api/users/${data.id}`, "User", fetchUsers);
   };
 
   return (
@@ -145,7 +87,7 @@ export default function UsersTable() {
         <h1 className="text-2xl font-semibold">Users</h1>
 
         {/* Modal */}
-        <Modal triggerLabel="+ New User" onSubmit={handleCreateUser} />
+        <UserModal triggerLabel="+ New User" onSubmit={handleCreateUser} />
       </div>
 
       <div className="border rounded-xl overflow-hidden shadow">
@@ -173,13 +115,13 @@ export default function UsersTable() {
                 <TableCell>{user.jobRoleName}</TableCell>
 
                 <TableCell className="text-right space-x-2">
-                  <Modal
+                  <UserModal
                     key={user.id}
                     triggerLabel="Edit"
                     initialData={user}
                     onSubmit={handleUpdateUser}
                     isEditMode={true}
-                  ></Modal>
+                  />
 
                   <Button
                     variant="destructive"

@@ -3,10 +3,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
+import RoleSelector from "../components/RoleSelector";
 
 export type RoleFormData = {
   id?: number; //wont be needing during create, only for edit
-  name: string;
+  roleName: string;
   categoryId: number | null;
 };
 
@@ -26,7 +27,7 @@ export default function RoleForm({
   const methods = useForm<RoleFormData>({
     mode: "onChange",
     defaultValues: {
-      name: initialData.name || "",
+      roleName: initialData.roleName || "",
       categoryId: initialData.categoryId || null,
     },
   });
@@ -43,9 +44,10 @@ export default function RoleForm({
   };
 
   useEffect(() => {
+    console.log(initialData.categoryId);
     if (Object.keys(initialData).length > 0) {
       reset({
-        name: initialData.name || "",
+        roleName: initialData.roleName || "",
         categoryId: initialData.categoryId || null,
       });
     }
@@ -60,14 +62,22 @@ export default function RoleForm({
             <Label htmlFor="name">Job Role Name</Label>
             <Input
               id="name"
-              {...register("name", {
+              {...register("roleName", {
                 required: "Job role name is required",
               })}
             />
-            {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            {errors.roleName && (
+              <p className="text-red-500 text-sm">{errors.roleName.message}</p>
             )}
           </div>
+
+          {/* Job category drop down */}
+          <RoleSelector
+            label="Job Category"
+            apiUrl="/api/job-categories/"
+            name="categoryId"
+            optionKey="categoryName"
+          />
 
           {/* Submit Button  */}
           <div>

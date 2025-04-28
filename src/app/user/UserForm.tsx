@@ -1,10 +1,10 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import RoleSelector from "./RoleSelector";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
+import RoleSelector from "../components/RoleSelector";
 
 export type UserFormData = {
   id?: number; //used only for edit
