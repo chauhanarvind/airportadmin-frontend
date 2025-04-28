@@ -9,17 +9,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
-import UserForm, { UserFormData } from "./UserForm";
 import { useState } from "react";
+import CategoryForm, { CategoryFormData } from "./CategoryForm";
 
 interface ModalProps {
   triggerLabel: string; // "+new user or edit"
-  initialData?: Partial<Omit<UserFormData, "password">>;
-  onSubmit: (data: UserFormData) => void;
+  initialData?: Partial<CategoryFormData>;
+  onSubmit: (data: CategoryFormData) => void;
   isEditMode?: boolean;
 }
 
-export default function Modal({
+export default function CategoryModal({
   triggerLabel,
   initialData,
   onSubmit,
@@ -27,10 +27,11 @@ export default function Modal({
 }: ModalProps) {
   const [open, setOpen] = useState(false);
 
-  const handleSubmitAndClose = (data: UserFormData) => {
+  const handleSubmitAndClose = (data: CategoryFormData) => {
     onSubmit(data);
     setOpen(false);
   };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -63,11 +64,13 @@ export default function Modal({
           </DialogDescription>
         </DialogHeader>
 
-        <UserForm
+        <CategoryForm
           initialData={initialData}
           onSubmit={handleSubmitAndClose}
           isEditMode={isEditMode}
-          submitText={isEditMode ? "Update user" : "Create user"}
+          submitText={
+            isEditMode ? "Update job category" : "Create job category"
+          }
         />
       </DialogContent>
     </Dialog>
