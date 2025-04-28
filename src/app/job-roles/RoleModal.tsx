@@ -10,16 +10,16 @@ import {
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
 import { useState } from "react";
-import CategoryForm, { CategoryFormData } from "./CategoryForm";
+import RoleForm, { RoleFormData } from "./RoleForm";
 
 interface ModalProps {
   triggerLabel: string; // "+new user or edit"
-  initialData?: Partial<CategoryFormData>;
-  onSubmit: (data: CategoryFormData) => void;
+  initialData?: Partial<RoleFormData>;
+  onSubmit: (data: RoleFormData) => void;
   isEditMode?: boolean;
 }
 
-export default function CategoryModal({
+export default function RoleModal({
   triggerLabel,
   initialData,
   onSubmit,
@@ -27,7 +27,7 @@ export default function CategoryModal({
 }: ModalProps) {
   const [open, setOpen] = useState(false);
 
-  const handleSubmitAndClose = (data: CategoryFormData) => {
+  const handleSubmitAndClose = (data: RoleFormData) => {
     onSubmit(data);
     setOpen(false);
   };
@@ -53,24 +53,22 @@ export default function CategoryModal({
 
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold mb-2">
-            {isEditMode ? "Edit user" : "Create New User"}
+            {isEditMode ? "Edit Job Role" : "Create New Job Role"}
           </DialogTitle>
           <DialogDescription>
             <span className="sr-only">
               {isEditMode
-                ? "Update job category information."
-                : "Fill in the details to create a new job category."}
+                ? "Update job role."
+                : "Fill in the details to create a new job role."}
             </span>
           </DialogDescription>
         </DialogHeader>
 
-        <CategoryForm
+        <RoleForm
           initialData={initialData}
           onSubmit={handleSubmitAndClose}
           isEditMode={isEditMode}
-          submitText={
-            isEditMode ? "Update job category" : "Create job category"
-          }
+          submitText={isEditMode ? "Update job role" : "Create job role"}
         />
       </DialogContent>
     </Dialog>
