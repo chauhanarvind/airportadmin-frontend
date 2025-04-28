@@ -5,8 +5,14 @@ interface ApiUser {
   email: string;
   role?: { id: number; name: string };
   jobLevel?: { id: number; levelName: string };
-  jobRole?: { id: number; roleName: string };
-  jobCategory?: { id: number; jobCategory: string };
+  jobRole?: {
+    id: number;
+    roleName: string;
+    category?: {
+      id: number;
+      categoryName: string;
+    };
+  };
 }
 
 export default ApiUser;

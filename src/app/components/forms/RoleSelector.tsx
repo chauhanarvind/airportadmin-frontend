@@ -30,14 +30,13 @@ export default function RoleSelector({
   const { control } = useFormContext();
 
   useEffect(() => {
-    console.log("hello here");
     api
       .get(apiUrl)
       .then((res) => {
         setRoles(res.data);
       })
       .catch((err) => console.error("Failed to fetch roles", err));
-  }, [apiUrl]);
+  }, [apiUrl, roles.length]);
 
   const dynamicId = label.toLowerCase().replace(/\s+/g, "-"); // e.g., "Job Role" → "job-role"
 

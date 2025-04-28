@@ -23,6 +23,7 @@ interface User {
   roleName: string;
   jobLevelName: string;
   jobRoleName: string;
+  jobCategoryName: string;
   roleId: number | null;
   jobLevelId: number | null;
   jobRoleId: number | null;
@@ -46,6 +47,7 @@ export default function UsersTable() {
           email: user.email,
           roleName: user.role?.name || "-",
           jobLevelName: user.jobLevel?.levelName || "-",
+          jobCategoryName: user.jobRole?.category?.categoryName || "-",
           jobRoleName: user.jobRole?.roleName || "-",
           jobLevelId: user.jobLevel?.id || null,
           jobRoleId: user.jobRole?.id || null,
@@ -68,12 +70,15 @@ export default function UsersTable() {
   }, []);
 
   const handleCreateUser = async (data: UserFormData) => {
+    console.log(data);
+
     try {
       const res = await api.post("/api/users/create", data);
       console.log(res.data);
 
       if (res.status == 200) {
         toast.success("User created successfully");
+        fetchUsers();
       } else {
         toast.error("Failed to create user");
       }
@@ -88,7 +93,51 @@ export default function UsersTable() {
     }
   };
 
-  const handleUpdateUser = () => {};
+  const handleUpdateUser = async (data: UserFormData) => {
+    console.log(data);
+    try {
+      const res = await api.post(`/api/users/${data.id}`, data);
+      console.log(res.data);
+
+      if (res.status == 200) {
+        toast.success("User updated successfully");
+        fetchUsers();
+      } else {
+        toast.error("Failed to update user");
+      }
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message?: string }>;
+      let errorMessage = error.message;
+      if (error.response?.data.message) {
+        errorMessage += `:${error.response.data.message}`;
+      }
+      console.log("Error updating user : ", error);
+      toast.error(errorMessage);
+    }
+  };
+
+  const handleDeleteUser = async (data: UserFormData) => {
+    try {
+      console.log(data.id);
+      const res = await api.delete(`/api/users/${data.id}`);
+      console.log(res);
+
+      if (res.status == 204) {
+        toast.success("User deleted successfully");
+        fetchUsers();
+      } else {
+        toast.error("Failed to delete user");
+      }
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message?: string }>;
+      let errorMessage = error.message;
+      if (error.response?.data.message) {
+        errorMessage += `:${error.response.data.message}`;
+      }
+      console.log("Error deleting user : ", error);
+      toast.error(errorMessage);
+    }
+  };
 
   return (
     <div className="max-w-6xl  mx-auto p-6 space-y-6">
@@ -107,6 +156,7 @@ export default function UsersTable() {
               <TableHead>Email</TableHead>
               <TableHead>Role</TableHead>
               <TableHead>Job Level</TableHead>
+              <TableHead>Job Category</TableHead>
               <TableHead>Job Role</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
@@ -119,6 +169,7 @@ export default function UsersTable() {
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.roleName}</TableCell>
                 <TableCell>{user.jobLevelName}</TableCell>
+                <TableCell>{user.jobCategoryName}</TableCell>
                 <TableCell>{user.jobRoleName}</TableCell>
 
                 <TableCell className="text-right space-x-2">
@@ -133,7 +184,7 @@ export default function UsersTable() {
                   <Button
                     variant="destructive"
                     size="sm"
-                    onClick={() => toast(`Delete user ID: ${user.id}`)}
+                    onClick={() => handleDeleteUser(user)}
                   >
                     Delete
                   </Button>
