@@ -14,6 +14,7 @@ import ApiUser from "../interface/ApiUser";
 import { UserFormData } from "./UserForm";
 import UserModal from "./UserModal";
 import { handleCreate, handleDelete, handleUpdate } from "../lib/crudService";
+import { useAuth } from "../components/AuthProvider";
 
 interface User {
   id: number;
@@ -81,13 +82,17 @@ export default function UserTable() {
     handleDelete(`/api/users/${data.id}`, "User", fetchUsers);
   };
 
+  const { user } = useAuth();
+  const userRole = user?.role;
   return (
     <div className="max-w-6xl  mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Users</h1>
 
         {/* Modal */}
-        <UserModal triggerLabel="+ New User" onSubmit={handleCreateUser} />
+        {userRole == "Admin" && (
+          <UserModal triggerLabel="+ New User" onSubmit={handleCreateUser} />
+        )}
       </div>
 
       <div className="border rounded-xl overflow-hidden shadow">
@@ -100,7 +105,9 @@ export default function UserTable() {
               <TableHead>Job Level</TableHead>
               <TableHead>Job Category</TableHead>
               <TableHead>Job Role</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              {userRole == "Admin" && (
+                <TableHead className="text-right">Actions</TableHead>
+              )}
             </TableRow>
           </TableHeader>
 
@@ -114,23 +121,25 @@ export default function UserTable() {
                 <TableCell>{user.jobCategoryName}</TableCell>
                 <TableCell>{user.jobRoleName}</TableCell>
 
-                <TableCell className="text-right space-x-2">
-                  <UserModal
-                    key={user.id}
-                    triggerLabel="Edit"
-                    initialData={user}
-                    onSubmit={handleUpdateUser}
-                    isEditMode={true}
-                  />
+                {userRole == "Admin" && (
+                  <TableCell className="text-right space-x-2">
+                    <UserModal
+                      key={user.id}
+                      triggerLabel="Edit"
+                      initialData={user}
+                      onSubmit={handleUpdateUser}
+                      isEditMode={true}
+                    />
 
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => handleDeleteUser(user)}
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDeleteUser(user)}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
 
