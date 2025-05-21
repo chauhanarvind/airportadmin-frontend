@@ -53,9 +53,14 @@ export default function RoleSelector({
               value={field.value != null ? String(field.value) : ""}
               onValueChange={(val) => field.onChange(parseInt(val))}
             >
-              <SelectTrigger id={dynamicId} disabled={!roles.length}>
+              <SelectTrigger
+                id={dynamicId}
+                disabled={!roles.length}
+                className="truncate max-w-[200px]"
+              >
                 <SelectValue
                   placeholder={`Select a ${label.toLowerCase()}`}
+                  className="truncate"
                 ></SelectValue>
               </SelectTrigger>
               <SelectContent>
