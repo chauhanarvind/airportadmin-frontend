@@ -95,16 +95,15 @@ const RosterRow = React.memo(function RosterRow({
           Delete
         </Button>
 
-        {isFirstRow && (
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => addRows()}
-          >
-            +
-          </Button>
-        )}
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => addRows()}
+          className={clsx(!isFirstRow && "invisible")}
+        >
+          +
+        </Button>
       </TableCell>
     </TableRow>
   );

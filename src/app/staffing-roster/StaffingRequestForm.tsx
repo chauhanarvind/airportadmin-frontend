@@ -2,6 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import RoleSelector from "@/app/components/RoleSelector";
 import { useMemo } from "react";
@@ -30,18 +31,23 @@ export default function StaffingRequestForm() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Submit Staffing Request</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Week start date */}
-        <div className="space-y-1 max-w-md">
+      <div className="flex flex-col md:flex-row md:items-start md:gap-6">
+        {/* Week Start Date */}
+        <div className="space-y-1 max-w-[300px] flex-1">
           <Label htmlFor="weekStart">Week Start Date</Label>
           <Input
             id="weekStart"
             type="date"
-            {...register("weekStart", { required: "Please select a date" })}
+            className="max-w-[220px]"
+            {...register("weekStart", {
+              required: "Please select a date",
+            })}
           />
-          {errors.weekStart && (
-            <p className="text-sm text-red-500">{errors.weekStart.message}</p>
-          )}
+          <div className="min-h-[1.25rem]">
+            {typeof errors.weekStart?.message === "string" && (
+              <p className="text-sm text-red-500">{errors.weekStart.message}</p>
+            )}
+          </div>
           {weekRange && (
             <p className="text-sm text-muted-foreground">
               Roster for {weekRange.mondayText} – {weekRange.sundayText}
@@ -49,22 +55,38 @@ export default function StaffingRequestForm() {
           )}
         </div>
 
-        {/* Location selector */}
-        <RoleSelector
-          label="Location"
-          apiUrl="/api/locations/"
-          name="locationId"
-          optionKey="locationName"
-        />
-      </div>
+        {/* Location Selector */}
+        <div className="space-y-1 max-w-[300px] flex-1">
+          <RoleSelector
+            label="Location"
+            apiUrl="/api/locations/"
+            name="locationId"
+            optionKey="locationName"
+          />
+        </div>
 
-      {/* Optional reason */}
-      <div className="space-y-1 max-w-md">
-        <Label htmlFor="reason">Reason (optional)</Label>
-        <Input id="reason" {...register("reason")} />
-        {errors.reason && (
-          <p className="text-red-500 text-sm">{errors.reason.message}</p>
-        )}
+        <div className="space-y-1 max-w-[300px] flex-1">
+          <RoleSelector
+            label="Request Type"
+            apiUrl="/api/locations/"
+            name="locationId"
+            optionKey="locationName"
+          />
+        </div>
+
+        {/* Reason Textarea */}
+        <div className="space-y-1 max-w-[300px] flex-1">
+          <Label htmlFor="reason">Reason (optional)</Label>
+          <Textarea
+            id="reason"
+            className="min-h-[80px]"
+            placeholder="Explain why this request is needed..."
+            {...register("reason")}
+          />
+          {typeof errors.reason?.message === "string" && (
+            <p className="text-sm text-red-500">{errors.reason.message}</p>
+          )}
+        </div>
       </div>
     </div>
   );
