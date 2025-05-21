@@ -21,6 +21,16 @@ export type StaffingRequestFormData = {
   items: StaffingItem[];
 };
 
+const defaultDays = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
 export default function StaffingRosterPage() {
   const methods = useForm<StaffingRequestFormData>({
     defaultValues: {
@@ -28,7 +38,14 @@ export default function StaffingRosterPage() {
       requestType: null,
       reason: "",
       weekStart: undefined,
-      items: [],
+      items: defaultDays.map((day) => ({
+        day,
+        jobRoleId: null,
+        jobLevelId: null,
+        requiredCount: 0,
+        startTime: "",
+        endTime: "",
+      })),
     },
   });
 
@@ -40,7 +57,8 @@ export default function StaffingRosterPage() {
   });
 
   const onSubmit = (data: StaffingRequestFormData) => {
-    console.log("Complete staffing request submitted:", data);
+    console.log("Submitted staffing request:", data);
+    // Optionally send to API here
   };
 
   return (
@@ -49,7 +67,7 @@ export default function StaffingRosterPage() {
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-6 max-w-6xl mx-auto p-6"
       >
-        <StaffingRequestForm replace={fieldArray.replace} />
+        <StaffingRequestForm />
         <StaffingRosterTable
           fields={fieldArray.fields}
           append={fieldArray.append}

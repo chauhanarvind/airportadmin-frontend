@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFieldArray } from "react-hook-form";
 import {
   Table,
   TableHeader,
@@ -9,9 +9,7 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import RoleSelector from "@/app/components/RoleSelector";
+import RosterRow from "./RosterRow";
 import clsx from "clsx";
 
 const days = [
@@ -29,14 +27,12 @@ export default function StaffingRosterTable({
   append,
   remove,
 }: {
-  fields: any[];
-  append: Function;
-  remove: Function;
+  fields: ReturnType<typeof useFieldArray>["fields"];
+  append: ReturnType<typeof useFieldArray>["append"];
+  remove: ReturnType<typeof useFieldArray>["remove"];
 }) {
-  const { register } = useFormContext();
-
   const groupedByDay = days.map((day) =>
-    fields.filter((field) => field.day?.trim() === day)
+    fields.filter((field) => field.day === day)
   );
 
   return (
@@ -63,77 +59,15 @@ export default function StaffingRosterTable({
                 const rowBg = dayIdx % 2 === 0 ? "bg-muted/40" : "";
 
                 return (
-                  <TableRow key={field.id} className={clsx(rowBg)}>
-                    <TableCell>{isFirstRow ? field.day : ""}</TableCell>
-
-                    <TableCell>
-                      <RoleSelector
-                        label=""
-                        apiUrl="/api/job-roles/"
-                        name={`items.${index}.jobRoleId`}
-                        optionKey="roleName"
-                      />
-                    </TableCell>
-
-                    <TableCell>
-                      <RoleSelector
-                        label=""
-                        apiUrl="/api/job-levels/"
-                        name={`items.${index}.jobLevelId`}
-                        optionKey="levelName"
-                      />
-                    </TableCell>
-
-                    <TableCell>
-                      <Input
-                        type="number"
-                        min={0}
-                        {...register(`items.${index}.requiredCount`)}
-                      />
-                    </TableCell>
-
-                    <TableCell>
-                      <Input
-                        type="time"
-                        {...register(`items.${index}.startTime`)}
-                      />
-                    </TableCell>
-
-                    <TableCell>
-                      <Input
-                        type="time"
-                        {...register(`items.${index}.endTime`)}
-                      />
-                    </TableCell>
-
-                    <TableCell className="text-right space-x-2">
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        onClick={() => remove(index)}
-                      >
-                        Delete
-                      </Button>
-                      {isFirstRow && (
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() =>
-                            append({
-                              day: field.day,
-                              jobRoleId: null,
-                              jobLevelId: null,
-                              requiredCount: 0,
-                              startTime: "",
-                              endTime: "",
-                            })
-                          }
-                        >
-                          +
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
+                  <RosterRow
+                    key={field.id}
+                    field={field}
+                    index={index}
+                    isFirstRow={isFirstRow}
+                    rowBg={rowBg}
+                    append={append}
+                    remove={remove}
+                  />
                 );
               })
             )}
