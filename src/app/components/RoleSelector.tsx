@@ -12,10 +12,12 @@ import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
 interface RoleSelectorProps {
-  label: string; // Job role or user role
-  apiUrl: string;
-  name: string; //e.g. name or roleName (column names in spring(model))
-  optionKey: string;
+  label: string;
+  apiUrl?: string; // optional if using static options
+  name: string;
+  optionKey?: string; // optional for staticOptions
+  required: boolean;
+  staticOptions?: string[]; // array of strings
 }
 
 type Role = { id: number; [key: string]: string | number };
@@ -25,56 +27,68 @@ export default function RoleSelector({
   apiUrl,
   name,
   optionKey,
+  required,
+  staticOptions = [],
 }: RoleSelectorProps) {
   const [roles, setRoles] = useState<Role[]>([]);
   const { control } = useFormContext();
 
   useEffect(() => {
-    api
-      .get(apiUrl)
-      .then((res) => {
-        setRoles(res.data);
-      })
-      .catch((err) => console.error("Failed to fetch roles", err));
-  }, [apiUrl, roles.length]);
+    if (!staticOptions.length && apiUrl) {
+      api
+        .get(apiUrl)
+        .then((res) => {
+          setRoles(res.data);
+        })
+        .catch((err) => console.error("Failed to fetch roles", err));
+    }
+  }, [apiUrl, staticOptions.length]);
 
-  const dynamicId = label.toLowerCase().replace(/\s+/g, "-"); // e.g., "Job Role" → "job-role"
+  const dynamicId = label.toLowerCase().replace(/\s+/g, "-");
 
   return (
     <div className="space-y-1">
-      <Label htmlFor="role">{label}</Label>
+      <Label htmlFor={dynamicId}>{label}</Label>
       <Controller
-        rules={{ required: `${label} is required` }}
+        rules={required ? { required: `${label} is required` } : {}}
         control={control}
         name={name}
         render={({ field, fieldState }) => (
           <div>
             <Select
               value={field.value != null ? String(field.value) : ""}
-              onValueChange={(val) => field.onChange(parseInt(val))}
+              onValueChange={(val) =>
+                staticOptions.length
+                  ? field.onChange(val)
+                  : field.onChange(parseInt(val))
+              }
             >
               <SelectTrigger
                 id={dynamicId}
-                disabled={!roles.length}
-                className="truncate max-w-[180px]"
+                disabled={!staticOptions.length && !roles.length}
+                className="w-[200px] truncate"
               >
                 <SelectValue
                   placeholder={`Select a ${label.toLowerCase()}`}
                   className="truncate"
-                ></SelectValue>
+                />
               </SelectTrigger>
               <SelectContent>
-                {roles.map((role) => (
-                  <SelectItem key={role.id} value={String(role.id)}>
-                    {role[optionKey]}
-                  </SelectItem>
-                ))}
+                {staticOptions.length
+                  ? staticOptions.map((opt) => (
+                      <SelectItem key={opt} value={opt}>
+                        {opt}
+                      </SelectItem>
+                    ))
+                  : roles.map((role) => (
+                      <SelectItem key={role.id} value={String(role.id)}>
+                        {role[optionKey ?? "name"]}
+                      </SelectItem>
+                    ))}
               </SelectContent>
             </Select>
             {fieldState.error && (
-              <p className="text-sm text-red-500 ">
-                {fieldState.error.message}
-              </p>
+              <p className="text-sm text-red-500">{fieldState.error.message}</p>
             )}
           </div>
         )}

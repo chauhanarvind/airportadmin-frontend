@@ -7,14 +7,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import RoleSelector from "@/app/components/RoleSelector";
 import clsx from "clsx";
+import { StaffingItem } from "./StaffingTypes";
 
 type RosterRowProps = {
-  field: any;
+  field: StaffingItem;
   index: number;
   isFirstRow: boolean;
   rowBg: string;
-  append: (row: any) => void;
+  append: (row: StaffingItem) => void;
   remove: (index: number) => void;
+  groupCountForDay: number;
+  rowIdxInGroup: number;
 };
 
 const RosterRow = React.memo(function RosterRow({
@@ -24,10 +27,22 @@ const RosterRow = React.memo(function RosterRow({
   rowBg,
   append,
   remove,
+  groupCountForDay,
+  rowIdxInGroup,
 }: RosterRowProps) {
-  const { register } = useFormContext();
+  const { register, watch, setValue } = useFormContext();
+  const currentRow = watch(`items.${index}`) as StaffingItem;
 
-  const addRows = () => {
+  const isRowFilled =
+    currentRow?.jobRoleId &&
+    currentRow?.jobLevelId &&
+    currentRow?.requiredCount > 0 &&
+    currentRow?.startTime &&
+    currentRow?.endTime;
+
+  const addRow = () => {
+    if (!isRowFilled) return;
+
     append({
       day: field.day,
       jobRoleId: null,
@@ -36,7 +51,22 @@ const RosterRow = React.memo(function RosterRow({
       startTime: "",
       endTime: "",
     });
+
+    setTimeout(() => {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+    }, 0);
   };
+
+  const clearRow = () => {
+    setValue(`items.${index}.jobRoleId`, null);
+    setValue(`items.${index}.jobLevelId`, null);
+    setValue(`items.${index}.requiredCount`, 0);
+    setValue(`items.${index}.startTime`, "");
+    setValue(`items.${index}.endTime`, "");
+  };
+
   return (
     <TableRow className={clsx(rowBg)}>
       <TableCell>{isFirstRow ? field.day : ""}</TableCell>
@@ -47,6 +77,7 @@ const RosterRow = React.memo(function RosterRow({
           apiUrl="/api/job-roles/"
           name={`items.${index}.jobRoleId`}
           optionKey="roleName"
+          required={false}
         />
       </TableCell>
 
@@ -56,6 +87,7 @@ const RosterRow = React.memo(function RosterRow({
           apiUrl="/api/job-levels/"
           name={`items.${index}.jobLevelId`}
           optionKey="levelName"
+          required={false}
         />
       </TableCell>
 
@@ -86,21 +118,36 @@ const RosterRow = React.memo(function RosterRow({
       </TableCell>
 
       <TableCell className="text-right space-x-2">
-        <Button
-          type="button"
-          variant="destructive"
-          size="sm"
-          onClick={() => remove(index)}
-        >
-          Delete
-        </Button>
+        {rowIdxInGroup === 0 && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={clearRow}
+            disabled={groupCountForDay > 1}
+          >
+            Clear
+          </Button>
+        )}
+
+        {rowIdxInGroup > 0 && (
+          <Button
+            type="button"
+            variant="destructive"
+            size="sm"
+            onClick={() => remove(index)}
+          >
+            Delete
+          </Button>
+        )}
 
         <Button
           type="button"
           variant="outline"
           size="sm"
-          onClick={() => addRows()}
+          onClick={addRow}
           className={clsx(!isFirstRow && "invisible")}
+          disabled={!isRowFilled}
         >
           +
         </Button>

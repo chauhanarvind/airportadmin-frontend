@@ -17,6 +17,8 @@ export default function StaffingRequestForm() {
 
   const selectedDate = watch("weekStart");
 
+  const requestTypes = ["Regular", "Emergency", "Extra", "Replacement"];
+
   const weekRange = useMemo(() => {
     if (!selectedDate) return null;
     const monday = startOfWeek(new Date(selectedDate), { weekStartsOn: 1 });
@@ -31,7 +33,7 @@ export default function StaffingRequestForm() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Submit Staffing Request</h1>
 
-      <div className="flex flex-col md:flex-row md:items-start md:gap-6">
+      <div className="flex flex-col md:flex-row md:items-start md:gap-6 flex-wrap">
         {/* Week Start Date */}
         <div className="space-y-1 max-w-[300px] flex-1">
           <Label htmlFor="weekStart">Week Start Date</Label>
@@ -62,19 +64,21 @@ export default function StaffingRequestForm() {
             apiUrl="/api/locations/"
             name="locationId"
             optionKey="locationName"
+            required={true}
           />
         </div>
 
+        {/* Request Type Selector (assuming this comes from a role-like API) */}
         <div className="space-y-1 max-w-[300px] flex-1">
           <RoleSelector
             label="Request Type"
-            apiUrl="/api/locations/"
-            name="locationId"
-            optionKey="locationName"
+            name="requestType"
+            required={true}
+            staticOptions={["Regular", "Emergency", "Holiday"]}
           />
         </div>
 
-        {/* Reason Textarea */}
+        {/* Reason Field */}
         <div className="space-y-1 max-w-[300px] flex-1">
           <Label htmlFor="reason">Reason (optional)</Label>
           <Textarea

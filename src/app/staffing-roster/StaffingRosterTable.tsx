@@ -1,16 +1,14 @@
 "use client";
 
-import { useFormContext, useFieldArray } from "react-hook-form";
 import {
   Table,
   TableHeader,
   TableRow,
   TableHead,
   TableBody,
-  TableCell,
 } from "@/components/ui/table";
 import RosterRow from "./RosterRow";
-import clsx from "clsx";
+import { StaffingRosterTableProps } from "./StaffingTypes";
 
 const days = [
   "Monday",
@@ -26,11 +24,7 @@ export default function StaffingRosterTable({
   fields,
   append,
   remove,
-}: {
-  fields: ReturnType<typeof useFieldArray>["fields"];
-  append: ReturnType<typeof useFieldArray>["append"];
-  remove: ReturnType<typeof useFieldArray>["remove"];
-}) {
+}: StaffingRosterTableProps) {
   const groupedByDay = days.map((day) =>
     fields.filter((field) => field.day === day)
   );
@@ -67,6 +61,8 @@ export default function StaffingRosterTable({
                     rowBg={rowBg}
                     append={append}
                     remove={remove}
+                    groupCountForDay={group.length}
+                    rowIdxInGroup={rowIdx}
                   />
                 );
               })

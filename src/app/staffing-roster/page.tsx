@@ -3,23 +3,13 @@
 import { FormProvider, useForm, useFieldArray } from "react-hook-form";
 import StaffingRequestForm from "./StaffingRequestForm";
 import StaffingRosterTable from "./StaffingRosterTable";
-
-export type StaffingItem = {
-  day: string;
-  jobRoleId: number | null;
-  jobLevelId: number | null;
-  requiredCount: number;
-  startTime: string;
-  endTime: string;
-};
-
-export type StaffingRequestFormData = {
-  locationId: number | null;
-  requestType: string | null;
-  reason: string;
-  weekStart?: string;
-  items: StaffingItem[];
-};
+import {
+  CleanedStaffingItem,
+  StaffingRequestFormData,
+  StaffingRequestPayload,
+} from "./StaffingTypes";
+import { cleanStaffingRequestData } from "./CleaningStaffingRequestData";
+import { toast } from "sonner";
 
 const defaultDays = [
   "Monday",
@@ -35,7 +25,7 @@ export default function StaffingRosterPage() {
   const methods = useForm<StaffingRequestFormData>({
     defaultValues: {
       locationId: null,
-      requestType: null,
+      requestType: "Regular",
       reason: "",
       weekStart: undefined,
       items: defaultDays.map((day) => ({
@@ -56,9 +46,49 @@ export default function StaffingRosterPage() {
     name: "items",
   });
 
-  const onSubmit = (data: StaffingRequestFormData) => {
-    console.log("Submitted staffing request:", data);
-    // Optionally send to API here
+  const onSubmit = (formData: StaffingRequestFormData) => {
+    const groupedDays = groupItemsByDate(formData);
+    const payload: StaffingRequestPayload = {
+      managerId: 1, // Replace with auth context if needed
+      locationId: formData.locationId!,
+      requestType: formData.requestType!,
+      reason: formData.reason,
+      status: "PENDING",
+      days: groupedDays,
+    };
+
+    const cleaned = cleanStaffingRequestData(payload);
+    if (cleaned.days.length === 0) {
+      toast.error("At least one valid staffing item is required.");
+      return;
+    }
+    console.log("Cleaned Payload:", cleaned);
+
+    // axios.post("/api/staffing-requests", cleaned)
+    //   .then(() => toast.success("Submitted successfully!"))
+    //   .catch(() => toast.error("Submission failed."));
+  };
+
+  const groupItemsByDate = (formData: StaffingRequestFormData) => {
+    const start = new Date(formData.weekStart ?? "");
+    const dayMap = new Map<string, CleanedStaffingItem[]>(); // ← update this
+
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(start);
+      date.setDate(start.getDate() + i);
+      const iso = date.toISOString().split("T")[0];
+      const dayName = defaultDays[i];
+
+      const itemsForDay = formData.items.filter((item) => item.day === dayName);
+      const cleanedItems = itemsForDay.map(({ day, ...rest }) => rest); // day removed
+
+      dayMap.set(iso, cleanedItems);
+    }
+
+    return Array.from(dayMap.entries()).map(([date, items]) => ({
+      date,
+      items,
+    }));
   };
 
   return (
