@@ -7,10 +7,11 @@ type DecodedToken = {
   sub: string; // email
   role: string;
   exp: number;
+  userId: number;
 };
 
 type AuthContextType = {
-  user: { email: string; role: string } | null;
+  user: { email: string; role: string; id: number } | null;
   logout: () => void;
   isAuthenticated: boolean;
   loading: boolean;
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (decoded.exp < now) {
         logout();
       } else {
-        setUser({ email: decoded.sub, role: decoded.role });
+        setUser({ email: decoded.sub, role: decoded.role, id: decoded.userId });
 
         // optional: auto-logout when token expires
         const timeout = setTimeout(logout, (decoded.exp - now) * 1000);

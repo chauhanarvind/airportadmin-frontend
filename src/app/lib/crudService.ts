@@ -6,7 +6,7 @@ export async function handleCreate<T>(
   url: string,
   data: T,
   label: string,
-  callback: () => void
+  callback?: () => void
 ) {
   try {
     const res = await api.post(url, data);
@@ -14,7 +14,7 @@ export async function handleCreate<T>(
 
     if (res.status == 200) {
       toast.success(`${label} created successfully`);
-      callback();
+      if (callback) callback();
     } else {
       toast.error(`Failed to create ${label}`);
     }

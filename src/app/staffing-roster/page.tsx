@@ -10,6 +10,8 @@ import {
 } from "./StaffingTypes";
 import { cleanStaffingRequestData } from "./CleaningStaffingRequestData";
 import { toast } from "sonner";
+import { useRequireRoles } from "../lib/useRequireRoles";
+import { handleCreate } from "../lib/crudService";
 
 const defaultDays = [
   "Monday",
@@ -46,27 +48,33 @@ export default function StaffingRosterPage() {
     name: "items",
   });
 
+  const { user } = useRequireRoles(["Admin", "Supervisor", "Manager"]);
+
   const onSubmit = (formData: StaffingRequestFormData) => {
     const groupedDays = groupItemsByDate(formData);
     const payload: StaffingRequestPayload = {
-      managerId: 1, // Replace with auth context if needed
+      managerId: user?.id || null, // Replace with auth context if needed
       locationId: formData.locationId!,
       requestType: formData.requestType!,
       reason: formData.reason,
-      status: "PENDING",
+      status: "Pending",
       days: groupedDays,
     };
 
     const cleaned = cleanStaffingRequestData(payload);
+
+    console.log(cleaned);
     if (cleaned.days.length === 0) {
       toast.error("At least one valid staffing item is required.");
       return;
     }
     console.log("Cleaned Payload:", cleaned);
 
-    // axios.post("/api/staffing-requests", cleaned)
-    //   .then(() => toast.success("Submitted successfully!"))
-    //   .catch(() => toast.error("Submission failed."));
+    handleCreateStaffingRequest(cleaned);
+  };
+
+  const handleCreateStaffingRequest = async (data: StaffingRequestPayload) => {
+    handleCreate("/api/staffing-requests/submit", data, "Staffing Request");
   };
 
   const groupItemsByDate = (formData: StaffingRequestFormData) => {
