@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RoleSelector from "@/app/components/RoleSelector";
 import { useMemo } from "react";
 import { format, addDays, startOfWeek } from "date-fns";
@@ -17,8 +18,6 @@ export default function StaffingRequestForm() {
 
   const selectedDate = watch("weekStart");
 
-  const requestTypes = ["Regular", "Emergency", "Extra", "Replacement"];
-
   const weekRange = useMemo(() => {
     if (!selectedDate) return null;
     const monday = startOfWeek(new Date(selectedDate), { weekStartsOn: 1 });
@@ -30,68 +29,73 @@ export default function StaffingRequestForm() {
   }, [selectedDate]);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">Submit Staffing Request</h1>
-
-      <div className="flex flex-col md:flex-row md:items-start md:gap-6 flex-wrap">
-        {/* Week Start Date */}
-        <div className="space-y-1 max-w-[300px] flex-1">
-          <Label htmlFor="weekStart">Week Start Date</Label>
-          <Input
-            id="weekStart"
-            type="date"
-            className="max-w-[220px]"
-            {...register("weekStart", {
-              required: "Please select a date",
-            })}
-          />
-          <div className="min-h-[1.25rem]">
-            {typeof errors.weekStart?.message === "string" && (
-              <p className="text-sm text-red-500">{errors.weekStart.message}</p>
+    <Card className="rounded-2xl shadow-md">
+      <CardHeader>
+        <CardTitle className="text-xl">Submit Staffing Request</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="flex flex-col md:flex-row flex-wrap gap-4">
+          {/* Week Start Date */}
+          <div className="flex flex-col space-y-1 w-[200px]">
+            <Label htmlFor="weekStart">Week Start Date</Label>
+            <Input
+              id="weekStart"
+              type="date"
+              className="focus:ring-2 focus:ring-blue-500"
+              {...register("weekStart", {
+                required: "Please select a date",
+              })}
+            />
+            {errors.weekStart && (
+              <p className="text-sm text-red-500">
+                {errors.weekStart.message as string}
+              </p>
+            )}
+            {weekRange && (
+              <p className="text-sm text-muted-foreground">
+                Roster for {weekRange.mondayText} – {weekRange.sundayText}
+              </p>
             )}
           </div>
-          {weekRange && (
-            <p className="text-sm text-muted-foreground">
-              Roster for {weekRange.mondayText} – {weekRange.sundayText}
-            </p>
-          )}
-        </div>
 
-        {/* Location Selector */}
-        <div className="space-y-1 max-w-[300px] flex-1">
-          <RoleSelector
-            label="Location"
-            apiUrl="/api/locations/"
-            name="locationId"
-            optionKey="locationName"
-            required={true}
-          />
-        </div>
+          {/* Location Selector */}
+          <div className="flex flex-col space-y-1 w-[200px]">
+            <RoleSelector
+              label="Location"
+              apiUrl="/api/locations/"
+              name="locationId"
+              optionKey="locationName"
+              required={true}
+            />
+          </div>
 
-        {/* Request Type Selector (assuming this comes from a role-like API) */}
-        <div className="space-y-1 max-w-[300px] flex-1">
-          <RoleSelector
-            label="Request Type"
-            name="requestType"
-            required={true}
-            staticOptions={requestTypes}
-          />
-        </div>
+          {/* Request Type */}
+          <div className="flex flex-col space-y-1 w-[200px]">
+            <RoleSelector
+              label="Request Type"
+              name="requestType"
+              required={true}
+              staticOptions={["Regular", "Emergency", "Extra", "Replacement"]}
+            />
+          </div>
 
-        {/* Reason Field */}
-        <div className="space-y-1 max-w-[300px] flex-1">
-          <Label htmlFor="reason">Reason (optional)</Label>
-          <Textarea
-            id="reason"
-            className="min-h-[80px]"
-            placeholder="Explain why this request is needed..."
-            {...register("reason")}
-          />
-          {typeof errors.reason?.message === "string" && (
-            <p className="text-sm text-red-500">{errors.reason.message}</p>
-          )}
+          {/* Reason */}
+          <div className="flex flex-col space-y-1 w-[300px]">
+            <Label htmlFor="reason">Reason (optional)</Label>
+            <Textarea
+              id="reason"
+              placeholder="Explain why this request is needed..."
+              className="min-h-[80px] focus:ring-2 focus:ring-blue-500"
+              {...register("reason")}
+            />
+            {errors.reason && (
+              <p className="text-sm text-red-500">
+                {errors.reason.message as string}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

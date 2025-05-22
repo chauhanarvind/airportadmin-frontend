@@ -12,6 +12,8 @@ import { cleanStaffingRequestData } from "./CleaningStaffingRequestData";
 import { toast } from "sonner";
 import { useRequireRoles } from "../lib/useRequireRoles";
 import { handleCreate } from "../lib/crudService";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 const defaultDays = [
   "Monday",
@@ -41,7 +43,8 @@ export default function StaffingRosterPage() {
     },
   });
 
-  const { control, handleSubmit } = methods;
+  const { control, handleSubmit, getValues, formState } = methods;
+  const { isSubmitting } = formState;
 
   const fieldArray = useFieldArray({
     control,
@@ -50,36 +53,40 @@ export default function StaffingRosterPage() {
 
   const { user } = useRequireRoles(["Admin", "Supervisor", "Manager"]);
 
-  const onSubmit = (formData: StaffingRequestFormData) => {
+  const onSubmit = async () => {
+    const formData = getValues(); // ensure latest values
     const groupedDays = groupItemsByDate(formData);
+
     const payload: StaffingRequestPayload = {
-      managerId: user?.id || null, // Replace with auth context if needed
+      managerId: user?.id || null,
       locationId: formData.locationId!,
       requestType: formData.requestType!,
       reason: formData.reason,
-      status: "Pending",
       days: groupedDays,
     };
 
     const cleaned = cleanStaffingRequestData(payload);
 
-    console.log(cleaned);
     if (cleaned.days.length === 0) {
       toast.error("At least one valid staffing item is required.");
       return;
     }
-    console.log("Cleaned Payload:", cleaned);
 
-    handleCreateStaffingRequest(cleaned);
-  };
-
-  const handleCreateStaffingRequest = async (data: StaffingRequestPayload) => {
-    handleCreate("/api/staffing-requests/submit", data, "Staffing Request");
+    try {
+      await handleCreate(
+        "/api/staffing-requests/submit",
+        cleaned,
+        "Staffing Request"
+      );
+      toast.success("Staffing request submitted successfully!");
+    } catch (error) {
+      toast.error("Something went wrong while submitting the request.");
+    }
   };
 
   const groupItemsByDate = (formData: StaffingRequestFormData) => {
     const start = new Date(formData.weekStart ?? "");
-    const dayMap = new Map<string, CleanedStaffingItem[]>(); // ← update this
+    const dayMap = new Map<string, CleanedStaffingItem[]>();
 
     for (let i = 0; i < 7; i++) {
       const date = new Date(start);
@@ -88,7 +95,7 @@ export default function StaffingRosterPage() {
       const dayName = defaultDays[i];
 
       const itemsForDay = formData.items.filter((item) => item.day === dayName);
-      const cleanedItems = itemsForDay.map(({ day, ...rest }) => rest); // day removed
+      const cleanedItems = itemsForDay.map(({ day, ...rest }) => rest);
 
       dayMap.set(iso, cleanedItems);
     }
@@ -105,20 +112,23 @@ export default function StaffingRosterPage() {
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-6 max-w-6xl mx-auto p-6"
       >
-        <StaffingRequestForm />
-        <StaffingRosterTable
-          fields={fieldArray.fields}
-          append={fieldArray.append}
-          remove={fieldArray.remove}
-        />
-        <div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white px-4 py-2 rounded-md"
-          >
-            Submit Weekly Staffing Request
-          </button>
-        </div>
+        <Card className="rounded-2xl shadow-md">
+          <CardContent className="space-y-6 pt-6">
+            <StaffingRequestForm />
+            <StaffingRosterTable
+              fields={fieldArray.fields}
+              append={fieldArray.append}
+              remove={fieldArray.remove}
+            />
+            <div>
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                {isSubmitting
+                  ? "Submitting..."
+                  : "Submit Weekly Staffing Request"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </form>
     </FormProvider>
   );

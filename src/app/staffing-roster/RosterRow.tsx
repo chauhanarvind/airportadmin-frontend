@@ -42,7 +42,6 @@ const RosterRow = React.memo(function RosterRow({
 
   const addRow = () => {
     if (!isRowFilled) return;
-
     append({
       day: field.day,
       jobRoleId: null,
@@ -51,7 +50,6 @@ const RosterRow = React.memo(function RosterRow({
       startTime: "",
       endTime: "",
     });
-
     setTimeout(() => {
       if (document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();
@@ -68,8 +66,10 @@ const RosterRow = React.memo(function RosterRow({
   };
 
   return (
-    <TableRow className={clsx(rowBg)}>
-      <TableCell>{isFirstRow ? field.day : ""}</TableCell>
+    <TableRow className={clsx("transition-all", rowBg, "hover:bg-muted/60")}>
+      <TableCell className="font-medium">
+        {isFirstRow ? field.day : ""}
+      </TableCell>
 
       <TableCell>
         <RoleSelector
@@ -95,8 +95,7 @@ const RosterRow = React.memo(function RosterRow({
         <Input
           type="number"
           min={0}
-          autoFocus={false}
-          className="w-full max-w-[100px]"
+          className="w-full max-w-[80px] focus:ring-2 focus:ring-blue-500"
           {...register(`items.${index}.requiredCount`)}
         />
       </TableCell>
@@ -104,7 +103,7 @@ const RosterRow = React.memo(function RosterRow({
       <TableCell>
         <Input
           type="time"
-          className="w-full max-w-[120px]"
+          className="w-full max-w-[110px] focus:ring-2 focus:ring-blue-500"
           {...register(`items.${index}.startTime`)}
         />
       </TableCell>
@@ -112,12 +111,12 @@ const RosterRow = React.memo(function RosterRow({
       <TableCell>
         <Input
           type="time"
-          className="w-full max-w-[120px]"
+          className="w-full max-w-[110px] focus:ring-2 focus:ring-blue-500"
           {...register(`items.${index}.endTime`)}
         />
       </TableCell>
 
-      <TableCell className="text-right space-x-2">
+      <TableCell className="text-right space-x-2 pr-6 whitespace-nowrap flex justify-end items-center">
         {rowIdxInGroup === 0 && (
           <Button
             type="button"
@@ -147,7 +146,8 @@ const RosterRow = React.memo(function RosterRow({
           size="sm"
           onClick={addRow}
           className={clsx(!isFirstRow && "invisible")}
-          disabled={!isRowFilled}
+          disabled={!isRowFilled || rowIdxInGroup !== groupCountForDay - 1}
+          tabIndex={isRowFilled ? 0 : -1}
         >
           +
         </Button>
@@ -157,5 +157,4 @@ const RosterRow = React.memo(function RosterRow({
 });
 
 RosterRow.displayName = "RosterRow";
-
 export default RosterRow;
