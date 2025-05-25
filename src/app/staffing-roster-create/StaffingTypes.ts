@@ -38,7 +38,6 @@ export type StaffingRequestPayload = {
   managerId: number | null;
   locationId: number;
   requestType: string;
-  status: string;
   reason: string;
   days: StaffingDay[];
 };

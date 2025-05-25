@@ -29,7 +29,7 @@ export default function StaffingRosterPage() {
   const methods = useForm<StaffingRequestFormData>({
     defaultValues: {
       locationId: null,
-      requestType: "Regular",
+      requestType: "REGULAR",
       reason: "",
       weekStart: undefined,
       items: defaultDays.map((day) => ({
@@ -72,16 +72,9 @@ export default function StaffingRosterPage() {
       return;
     }
 
-    try {
-      await handleCreate(
-        "/api/staffing-requests/submit",
-        cleaned,
-        "Staffing Request"
-      );
-      toast.success("Staffing request submitted successfully!");
-    } catch (error) {
-      toast.error("Something went wrong while submitting the request.");
-    }
+    console.log(cleaned);
+
+    handleCreate("/api/staffing-requests/submit", cleaned, "Staffing Request");
   };
 
   const groupItemsByDate = (formData: StaffingRequestFormData) => {

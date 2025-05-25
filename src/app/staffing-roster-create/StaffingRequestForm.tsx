@@ -75,7 +75,7 @@ export default function StaffingRequestForm() {
               label="Request Type"
               name="requestType"
               required={true}
-              staticOptions={["Regular", "Emergency", "Extra", "Replacement"]}
+              staticOptions={["REGULAR", "EMERGENCY", "EXTRA", "REPLACEMENT"]}
             />
           </div>
 

@@ -125,6 +125,7 @@ export default function UserForm({
             apiUrl="/api/roles/"
             name="roleId"
             optionKey="name"
+            required={true}
           />
 
           {/* Job Role Drop Down  */}
@@ -133,6 +134,7 @@ export default function UserForm({
             apiUrl="/api/job-roles/"
             name="jobRoleId"
             optionKey="roleName"
+            required={true}
           />
 
           {/* Job level drop down */}
@@ -141,6 +143,7 @@ export default function UserForm({
             apiUrl="/api/job-levels/"
             name="jobLevelId"
             optionKey="levelName"
+            required={true}
           />
 
           {/* password */}
