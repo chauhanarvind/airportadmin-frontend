@@ -47,7 +47,8 @@ export default function Sidebar() {
           // Simple item
           if (!children) {
             if (!href) return null;
-            const isActive = pathname === href;
+            const isActive = href && pathname.startsWith(href);
+
             return (
               <Link
                 key={href}

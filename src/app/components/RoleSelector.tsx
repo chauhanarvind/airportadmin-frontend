@@ -47,7 +47,8 @@ export default function RoleSelector({
   const dynamicId = label.toLowerCase().replace(/\s+/g, "-");
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-3">
+      {/* <-- updated from space-y-1 to space-y-2 */}
       <Label htmlFor={dynamicId}>{label}</Label>
       <Controller
         rules={required ? { required: `${label} is required` } : {}}
