@@ -1,6 +1,6 @@
 "use client";
 
-import { useRequireRoles } from "../lib/useRequireRoles";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import CategoryTable from "./CategoryTable";
 
 export default function Page() {

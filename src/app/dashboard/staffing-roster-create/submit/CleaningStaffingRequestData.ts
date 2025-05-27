@@ -2,7 +2,7 @@ import {
   CleanedStaffingItem,
   StaffingDay,
   StaffingRequestPayload,
-} from "./StaffingTypes";
+} from "../StaffingTypes";
 
 export function cleanStaffingRequestData(
   data: StaffingRequestPayload

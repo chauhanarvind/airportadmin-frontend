@@ -73,15 +73,23 @@ export default function RoleSelector({
                   className="truncate"
                 />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white shadow-lg border rounded-md">
                 {staticOptions.length
                   ? staticOptions.map((opt) => (
-                      <SelectItem key={opt} value={opt}>
+                      <SelectItem
+                        key={opt}
+                        value={opt}
+                        className="bg-white hover:bg-gray-100"
+                      >
                         {opt}
                       </SelectItem>
                     ))
                   : roles.map((role) => (
-                      <SelectItem key={role.id} value={String(role.id)}>
+                      <SelectItem
+                        key={role.id}
+                        value={String(role.id)}
+                        className="bg-white hover:bg-gray-100"
+                      >
                         {role[optionKey ?? "name"]}
                       </SelectItem>
                     ))}
