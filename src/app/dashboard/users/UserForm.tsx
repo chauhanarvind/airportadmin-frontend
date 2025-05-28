@@ -34,6 +34,7 @@ export default function UserForm({
       roleId: initialData.roleId ?? undefined,
       jobLevelId: initialData.jobLevelId ?? undefined,
       jobRoleId: initialData.jobRoleId ?? undefined,
+      constraintProfileId: initialData.constraintProfileId ?? undefined,
     },
   });
 
@@ -143,6 +144,16 @@ export default function UserForm({
                 name="jobLevelId"
                 optionKey="levelName"
                 required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <RoleSelector
+                label="Constraint Profiles"
+                apiUrl="/api/constraint-profiles/"
+                name="constraintProfileId"
+                optionKey="name"
+                required={false}
               />
             </div>
           </div>

@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import api from "@/app/lib/api";
-import { toast } from "sonner";
+
 import {
   Table,
   TableBody,
@@ -13,15 +12,15 @@ import {
 } from "@/components/ui/table";
 import { useRouter } from "next/navigation";
 
-import { useAuth } from "@/app/components/AuthProvider";
 import { UserResponse } from "./UserTypes";
 import { handleFetchAll } from "@/app/lib/crudService";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function UserTable() {
   const [users, setUsers] = useState<UserResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { user } = useAuth();
+  useRequireRoles(["Admin", "Manager"]);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -47,6 +46,7 @@ export default function UserTable() {
             <TableHead>Role</TableHead>
             <TableHead>Job Level</TableHead>
             <TableHead>Job Role</TableHead>
+            <TableHead>Constraint Profile</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -62,6 +62,7 @@ export default function UserTable() {
               <TableCell>{u.roleName}</TableCell>
               <TableCell>{u.jobLevelName}</TableCell>
               <TableCell>{u.jobRoleName}</TableCell>
+              <TableCell>{u.constraintProfileName ?? "-"} </TableCell>
             </TableRow>
           ))}
 

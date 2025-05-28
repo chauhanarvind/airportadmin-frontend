@@ -18,6 +18,7 @@ export interface UpdateUser {
   roleId?: number;
   jobRoleId?: number;
   jobLevelId?: number;
+  constraintProfileId?: number;
 }
 
 // Matches UserResponseDto

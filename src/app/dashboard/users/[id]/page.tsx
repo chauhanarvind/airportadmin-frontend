@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { toast } from "sonner";
-import api from "@/app/lib/api";
+
 import { handleGetById, handleUpdate } from "@/app/lib/crudService";
 import UserForm from "../UserForm";
 import {
@@ -49,6 +48,7 @@ export default function EditUserPage() {
             roleId: user.roleId ?? undefined,
             jobLevelId: user.jobLevelId ?? undefined,
             jobRoleId: user.jobRoleId ?? undefined,
+            constraintProfileId: user.constraintProfileId ?? undefined,
           });
         } else {
           router.push("/dashboard/users");
