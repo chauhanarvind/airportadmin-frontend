@@ -14,7 +14,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import api from "@/app/lib/api";
-import { StaffAvailabilityResponseDto } from "./StaffAvailabilityTypes";
+import { StaffAvailabilityResponseDto } from "./MyStaffAvailabilityTypes";
 
 export default function StaffAvailabilityPage() {
   const [data, setData] = useState<StaffAvailabilityResponseDto[]>([]);

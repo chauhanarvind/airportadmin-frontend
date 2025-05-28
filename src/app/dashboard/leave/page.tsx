@@ -4,7 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { uiTheme } from "@/app/lib/uiConfig";
 import FilterBar from "./FilterBar";
-import LeaveTable from "./LeaveTable";
+import LeaveTable from "../common/leave/LeaveTable";
 
 export default function LeaveRequestsPage() {
   useRequireRoles(["Admin", "Supervisor", "Manager"]);

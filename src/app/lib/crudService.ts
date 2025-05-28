@@ -71,7 +71,28 @@ export async function handleDelete(
   }
 }
 
-export async function handleFetchAll<T>(
+export async function handleFetchList<T>(
+  url: string,
+  label: string,
+  onSuccess?: (data: T) => void
+) {
+  try {
+    const res = await api.get<T>(url);
+    if (res.status === 200) {
+      onSuccess?.(res.data);
+      return res.data;
+    } else {
+      toast.error(`Failed to fetch ${label}`);
+    }
+  } catch (err: unknown) {
+    const error = err as AxiosError<{ message?: string }>;
+    const errorMessage = error.response?.data?.message || error.message;
+    toast.error(`${label} fetch failed: ${errorMessage}`);
+    console.error(`Error fetching ${label}:`, error);
+  }
+}
+
+export async function handleFetchPaged<T>(
   url: string,
   label: string,
   onSuccess?: (data: T) => void

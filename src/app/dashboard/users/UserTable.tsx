@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/navigation";
 
 import { UserResponse } from "./UserTypes";
-import { handleFetchAll } from "@/app/lib/crudService";
+import { handleFetchList } from "@/app/lib/crudService";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function UserTable() {
@@ -25,7 +25,10 @@ export default function UserTable() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const data = await handleFetchAll<UserResponse[]>("/api/users/", "Users");
+      const data = await handleFetchList<UserResponse[]>(
+        "/api/users/",
+        "Users"
+      );
       if (data) setUsers(data);
     } finally {
       setLoading(false);

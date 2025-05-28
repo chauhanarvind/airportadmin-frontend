@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { handleFetchAll } from "@/app/lib/crudService";
+import { handleFetchList } from "@/app/lib/crudService";
 
 import {
   Table,
@@ -22,7 +22,7 @@ export default function JobRoleTable() {
   const fetchJobRoles = async () => {
     setLoading(true);
     try {
-      const data = await handleFetchAll<JobRoleResponse[]>(
+      const data = await handleFetchList<JobRoleResponse[]>(
         "/api/job-roles/",
         "Job Roles"
       );

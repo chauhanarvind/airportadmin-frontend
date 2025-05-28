@@ -58,7 +58,13 @@ export default function LeaveForm({ onSubmit }: Props) {
         label="Update Status"
         name="status"
         required={true}
-        staticOptions={["APPROVED", "REJECTED", "PENDING"]}
+        staticOptions={[
+          "PENDING",
+          "APPROVED",
+          "REJECTED",
+          "CANCELLED",
+          "RESUBMITTED",
+        ]}
       />
 
       {/* Submit Button */}

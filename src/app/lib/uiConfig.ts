@@ -26,7 +26,9 @@ export const uiTheme = {
   navInactive: "text-gray-700 hover:bg-blue-100",
   buttons: {
     card: "bg-white text-gray-800 shadow-sm hover:shadow-md rounded-md px-3 py-1.5",
+    outline: "bg-white text-blue-600 border border-blue-600 hover:bg-blue-100", // new
   },
+
   layout: {
     container: "max-w-6xl mx-auto space-y-6", // shared layout width
     formGrid: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6",

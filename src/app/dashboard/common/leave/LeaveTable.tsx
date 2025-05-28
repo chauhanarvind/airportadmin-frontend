@@ -13,14 +13,15 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { handleFetchPaged } from "@/app/lib/crudService";
-import { LeaveRequestResponse } from "../common/leave/LeaveTypes";
-import LeaveStatusBadge from "../common/leave/LeaveStatusBadge";
+import { LeaveRequestResponse } from "./LeaveTypes";
+import LeaveStatusBadge from "./LeaveStatusBadge";
 
 interface LeaveTableProps {
   filters?: {
     userId?: string;
     status?: string;
   };
+  basePath?: string; // optional, defaults to "leave"
 }
 
 interface PaginatedResponse<T> {
@@ -31,7 +32,7 @@ interface PaginatedResponse<T> {
   number: number;
 }
 
-export default function LeaveTable({ filters }: LeaveTableProps) {
+export default function LeaveTable({ filters, basePath }: LeaveTableProps) {
   const [leaves, setLeaves] = useState<LeaveRequestResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -90,7 +91,9 @@ export default function LeaveTable({ filters }: LeaveTableProps) {
             <TableRow
               key={leave.id}
               className="hover:bg-blue-100 transition cursor-pointer"
-              onClick={() => router.push(`/dashboard/leave/${leave.id}`)}
+              onClick={() =>
+                router.push(`/dashboard/${basePath ?? "leave"}/${leave.id}`)
+              }
             >
               <TableCell>{leave.userName ?? `User ${leave.userId}`}</TableCell>
               <TableCell>{leave.startDate}</TableCell>

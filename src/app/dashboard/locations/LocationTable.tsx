@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { handleFetchAll } from "@/app/lib/crudService";
+import { handleFetchList } from "@/app/lib/crudService";
 import { LocationResponse } from "./LocationTypes";
 
 import {
@@ -22,7 +22,7 @@ export default function LocationTable() {
   const fetchLocations = async () => {
     setLoading(true);
     try {
-      const data = await handleFetchAll<LocationResponse[]>(
+      const data = await handleFetchList<LocationResponse[]>(
         "/api/locations/",
         "Locations"
       );

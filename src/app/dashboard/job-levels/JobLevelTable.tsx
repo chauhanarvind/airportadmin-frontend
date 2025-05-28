@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { handleFetchAll } from "@/app/lib/crudService";
+import { handleFetchList } from "@/app/lib/crudService";
 import { JobLevelResponse } from "./JobLevelTypes";
 
 import {
@@ -22,7 +22,7 @@ export default function JobLevelTable() {
   const fetchLevels = async () => {
     setLoading(true);
     try {
-      const data = await handleFetchAll<JobLevelResponse[]>(
+      const data = await handleFetchList<JobLevelResponse[]>(
         "/api/job-levels/",
         "Job Levels"
       );

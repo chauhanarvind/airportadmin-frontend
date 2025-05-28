@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { handleFetchAll } from "@/app/lib/crudService";
+import { handleFetchList } from "@/app/lib/crudService";
 import { ConstraintProfileResponse } from "./ConstraintProfileTypes";
 
 import {
@@ -22,7 +22,7 @@ export default function ConstraintProfileTable() {
   const fetchProfiles = async () => {
     setLoading(true);
     try {
-      const data = await handleFetchAll<ConstraintProfileResponse[]>(
+      const data = await handleFetchList<ConstraintProfileResponse[]>(
         "/api/constraint-profiles/",
         "Constraint Profiles"
       );

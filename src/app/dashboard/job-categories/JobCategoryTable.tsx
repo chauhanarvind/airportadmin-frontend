@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { handleFetchAll } from "@/app/lib/crudService";
+import { handleFetchList } from "@/app/lib/crudService";
 import { JobCategoryResponse } from "./JobCategoryTypes";
 
 import {
@@ -22,7 +22,7 @@ export default function JobCategoryTable() {
   const fetchCategories = async () => {
     setLoading(true);
     try {
-      const data = await handleFetchAll<JobCategoryResponse[]>(
+      const data = await handleFetchList<JobCategoryResponse[]>(
         "/api/job-categories/",
         "Job Categories"
       );
