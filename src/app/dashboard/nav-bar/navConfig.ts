@@ -18,7 +18,6 @@ export const navItems = [
         roles: ["Admin"],
       },
       { label: "Job Levels", href: "/dashboard/job-levels", roles: ["Admin"] },
-      { label: "Locations", href: "/dashboard/locations", roles: ["Admin"] },
     ],
   },
   {
