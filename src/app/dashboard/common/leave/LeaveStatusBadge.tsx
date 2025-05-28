@@ -1,29 +1,24 @@
-import { Badge } from "@/components/ui/badge";
-import { LeaveStatus } from "./LeaveTypes";
+import { LeaveStatus, LeaveStatusLabels } from "./LeaveTypes";
 
 interface Props {
   status: LeaveStatus;
 }
 
+const statusColors: Record<LeaveStatus, string> = {
+  APPROVED: "bg-green-100 text-green-800",
+  PENDING: "bg-yellow-100 text-yellow-800",
+  REJECTED: "bg-red-100 text-red-800",
+  CANCELLED: "bg-gray-100 text-gray-800",
+  RESUBMITTED: "bg-blue-100 text-blue-800",
+};
+
 export default function LeaveStatusBadge({ status }: Props) {
-  const { color, text } = getStatusStyle(status);
+  const label = LeaveStatusLabels[status] ?? status;
+  const colorClass = statusColors[status] ?? "bg-muted text-muted-foreground";
 
   return (
-    <Badge className={`${color} uppercase font-semibold text-xs`}>{text}</Badge>
+    <span className={`text-xs font-medium px-2.5 py-0.5 rounded ${colorClass}`}>
+      {label}
+    </span>
   );
-}
-
-function getStatusStyle(status: LeaveStatus) {
-  switch (status) {
-    case "PENDING":
-      return { color: "bg-yellow-100 text-yellow-800", text: "Pending" };
-    case "APPROVED":
-      return { color: "bg-green-100 text-green-800", text: "Approved" };
-    case "REJECTED":
-      return { color: "bg-red-100 text-red-800", text: "Rejected" };
-    case "CANCELLED":
-      return { color: "bg-gray-200 text-gray-700", text: "Cancelled" };
-    default:
-      return { color: "bg-muted", text: status };
-  }
 }

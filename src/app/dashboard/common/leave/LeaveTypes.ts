@@ -18,10 +18,30 @@ export interface LeaveRequestResponse {
   endDate: string;
   status: LeaveStatus;
   userId: number;
-  userName?: string; // for display only
+  userName?: string; // optional, for display
   reason: string;
-  createdAt: string; // ISO datetime string
+  createdAt: string; // ISO format
 }
 
-// Enum for LeaveStatus
-export type LeaveStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
+// Enum for status
+export enum LeaveStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  CANCELLED = "CANCELLED",
+  RESUBMITTED = "RESUBMITTED",
+}
+
+// UI labels
+export const LeaveStatusLabels: Record<LeaveStatus, string> = {
+  [LeaveStatus.PENDING]: "Pending",
+  [LeaveStatus.APPROVED]: "Approved",
+  [LeaveStatus.REJECTED]: "Rejected",
+  [LeaveStatus.CANCELLED]: "Cancelled",
+  [LeaveStatus.RESUBMITTED]: "Resubmitted",
+};
+
+// UI dropdown options
+export const LeaveStatusOptions = Object.entries(LeaveStatusLabels).map(
+  ([value, label]) => ({ value, label })
+);
