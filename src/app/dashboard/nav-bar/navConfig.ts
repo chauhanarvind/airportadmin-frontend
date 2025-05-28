@@ -23,6 +23,16 @@ export const navItems = [
         href: "/dashboard/constraints",
         roles: ["Admin"],
       },
+      {
+        label: "Leave Request",
+        href: "/dashboard/leave-requests",
+        roles: ["Admin"],
+      },
+      {
+        label: "My Leave Request",
+        href: "/dashboard/my-leave-requests",
+        roles: ["Admin", "Crew", "Manager", "Supervisor"],
+      },
     ],
   },
   {
