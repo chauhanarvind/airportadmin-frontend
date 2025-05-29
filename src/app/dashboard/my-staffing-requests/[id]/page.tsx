@@ -16,7 +16,7 @@ import { handleGetById } from "@/app/lib/crudService";
 import { uiTheme } from "@/app/lib/uiConfig";
 import { StaffingRequestDetail } from "../../common/staffing-requests/StaffingRequestTypes";
 import RosterStatusBadge from "../../common/staffing-requests/RosterStatusBadge";
-import StaffingRosterTable from "../../common/staffing-requests/StaffingRosterTable";
+import StaffingRequestTableView from "../../common/staffing-requests/StaffingRequestTableView";
 
 export default function MyStaffingRequestDetailPage() {
   const { id } = useParams();
@@ -88,7 +88,7 @@ export default function MyStaffingRequestDetailPage() {
 
       {/* Roster Table */}
       <div className="mt-6">
-        <StaffingRosterTable days={request.days} />
+        <StaffingRequestTableView days={request.days} />
       </div>
     </PageContainer>
   );

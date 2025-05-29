@@ -26,6 +26,7 @@ interface StaffingRequestTableProps {
   clickableRows?: boolean; // allow row click navigation (default: true)
 }
 
+// to view on landing
 export default function StaffingRequestTable({
   filters,
   basePath = "staffing-requests",

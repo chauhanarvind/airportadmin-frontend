@@ -79,3 +79,49 @@ export const RequestTypeLabels: Record<RequestType, string> = {
   REGULAR: "Regular",
   EMERGENCY: "Emergency",
 };
+
+// -------------- Generated Roster DTOs --------------
+
+export interface StaffingAssignmentItem {
+  id: number;
+  jobRoleName: string;
+  jobLevelName: string;
+  startTime: string;
+  endTime: string;
+  userFullName: string | null;
+  unassigned: boolean;
+}
+
+export interface StaffingAssignmentDay {
+  id: number;
+  date: string;
+  items: StaffingAssignmentItem[];
+}
+
+export interface StaffingAssignmentDetail {
+  requestId: number;
+  locationName: string;
+  days: StaffingAssignmentDay[];
+}
+
+export interface StaffingAssignmentItem {
+  id: number;
+  jobRoleName: string;
+  jobLevelName: string;
+  startTime: string;
+  endTime: string;
+  userFullName: string | null;
+  unassigned: boolean;
+}
+
+export interface StaffingAssignmentDay {
+  id: number;
+  date: string;
+  items: StaffingAssignmentItem[];
+}
+
+export interface StaffingAssignmentDetail {
+  requestId: number;
+  locationName: string;
+  days: StaffingAssignmentDay[];
+}
