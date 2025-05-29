@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { handleFetchList } from "@/app/lib/crudService";
 import { JobCategoryResponse } from "./JobCategoryTypes";
 
@@ -14,27 +15,34 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import EmptyState from "@/app/components/ui/EmptyState";
+import PageLoader from "@/app/components/ui/PageLoader";
+
 export default function JobCategoryTable() {
   const [categories, setCategories] = useState<JobCategoryResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const fetchCategories = async () => {
-    setLoading(true);
-    try {
-      const data = await handleFetchList<JobCategoryResponse[]>(
-        "/api/job-categories/",
-        "Job Categories"
-      );
-      if (data) setCategories(data);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      try {
+        const data = await handleFetchList<JobCategoryResponse[]>(
+          "/api/job-categories/",
+          "Job Categories"
+        );
+        if (data) setCategories(data);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchCategories();
   }, []);
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -49,20 +57,17 @@ export default function JobCategoryTable() {
           {categories.map((cat) => (
             <TableRow
               key={cat.id}
-              className="hover:bg-blue-100 transition cursor-pointer"
+              className="hover:bg-blue-50 transition cursor-pointer"
               onClick={() => router.push(`/dashboard/job-categories/${cat.id}`)}
             >
               <TableCell>{cat.categoryName}</TableCell>
             </TableRow>
           ))}
 
-          {categories.length === 0 && !loading && (
+          {categories.length === 0 && (
             <TableRow>
-              <TableCell
-                colSpan={1}
-                className="text-center text-muted-foreground py-6"
-              >
-                No job categories found.
+              <TableCell colSpan={1}>
+                <EmptyState message="No job categories found." />
               </TableCell>
             </TableRow>
           )}

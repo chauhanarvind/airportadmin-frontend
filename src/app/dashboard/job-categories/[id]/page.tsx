@@ -7,14 +7,18 @@ import { ArrowLeft } from "lucide-react";
 
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { handleGetById, handleUpdate } from "@/app/lib/crudService";
-import { uiTheme } from "@/app/lib/uiConfig";
 import { Button } from "@/components/ui/button";
+import PageHeader from "@/app/components/ui/PageHeader";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageLoader from "@/app/components/ui/PageLoader";
+
 import JobCategoryForm from "../JobCategoryForm";
 import {
   JobCategoryResponse,
   CreateJobCategory,
   UpdateJobCategory,
 } from "../JobCategoryTypes";
+import { uiTheme } from "@/app/lib/uiConfig";
 
 type JobCategoryFormData = Partial<UpdateJobCategory> & CreateJobCategory;
 
@@ -64,30 +68,23 @@ export default function EditJobCategoryPage() {
     );
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600 text-lg">Loading category details...</p>
-      </div>
-    );
-  }
-
+  if (loading) return <PageLoader />;
   if (!initialData) return null;
 
   return (
-    <div className={uiTheme.layout.container}>
-      {/* Back Button + Heading */}
-      <div className="flex items-center gap-3">
-        <Link href="/dashboard/job-categories">
-          <Button size="sm" className={uiTheme.buttons.card}>
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back
-          </Button>
-        </Link>
-        <h1 className={uiTheme.text.heading}>Edit Job Category</h1>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Edit Job Category"
+        actions={
+          <Link href="/dashboard/job-categories">
+            <Button size="sm" className={uiTheme.buttons.back}>
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        }
+      />
 
-      {/* Form Card */}
       <div
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} space-y-6`}
       >
@@ -98,6 +95,6 @@ export default function EditJobCategoryPage() {
           submitText="Update Category"
         />
       </div>
-    </div>
+    </PageContainer>
   );
 }

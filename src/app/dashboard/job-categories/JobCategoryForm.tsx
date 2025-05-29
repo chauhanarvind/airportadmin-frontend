@@ -2,12 +2,11 @@
 
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 import { uiTheme } from "@/app/lib/uiConfig";
+import TextInput from "@/app/components/form/TextInput";
 import { CreateJobCategory, UpdateJobCategory } from "./JobCategoryTypes";
 
 type JobCategoryFormData = Partial<UpdateJobCategory> & CreateJobCategory;
@@ -33,10 +32,9 @@ export default function JobCategoryForm({
   });
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { isDirty, errors },
+    formState: { isDirty },
   } = methods;
 
   useEffect(() => {
@@ -58,29 +56,13 @@ export default function JobCategoryForm({
     <FormProvider {...methods}>
       <form className="space-y-8" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className={uiTheme.layout.formGrid}>
-          <div className="space-y-2 w-full">
-            <Label htmlFor="categoryName" className={uiTheme.text.label}>
-              Category Name
-            </Label>
-            <Input
-              id="categoryName"
-              className="w-full"
-              {...register("categoryName", {
-                required: "Category name is required",
-              })}
-            />
-            {errors.categoryName && (
-              <p className="text-red-500 text-sm">
-                {errors.categoryName.message}
-              </p>
-            )}
-          </div>
+          <TextInput name="categoryName" label="Category Name" required />
         </div>
 
         <div>
           <Button
             type="submit"
-            className="w-full"
+            className={`w-full ${uiTheme.buttons.submit}`}
             disabled={isEditMode && !isDirty}
           >
             {submitText || (isEditMode ? "Update Category" : "Create Category")}
