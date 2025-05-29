@@ -1,8 +1,13 @@
 "use client";
 
 import { useForm, FormProvider } from "react-hook-form";
+
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { uiTheme } from "@/app/lib/uiConfig";
+
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
+
 import FilterBar from "./FilterBar";
 import LeaveTable from "../common/leave/LeaveTable";
 
@@ -20,10 +25,8 @@ export default function LeaveRequestsPage() {
   const filters = watch();
 
   return (
-    <div className={uiTheme.layout.container}>
-      <div className="flex justify-between items-center">
-        <h1 className={uiTheme.text.heading}>Leave Requests</h1>
-      </div>
+    <PageContainer>
+      <PageHeader title="Leave Requests" />
 
       <FormProvider {...methods}>
         <div
@@ -38,6 +41,6 @@ export default function LeaveRequestsPage() {
           <LeaveTable filters={filters} />
         </div>
       </FormProvider>
-    </div>
+    </PageContainer>
   );
 }

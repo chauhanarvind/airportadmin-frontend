@@ -7,14 +7,19 @@ import { ArrowLeft } from "lucide-react";
 
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { handleGetById, handleUpdate } from "@/app/lib/crudService";
-import { uiTheme } from "@/app/lib/uiConfig";
 import { Button } from "@/components/ui/button";
+
+import PageHeader from "@/app/components/ui/PageHeader";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageLoader from "@/app/components/ui/PageLoader";
+
 import JobLevelForm from "../JobLevelForm";
 import {
   JobLevelResponse,
   CreateJobLevel,
   UpdateJobLevel,
 } from "../JobLevelTypes";
+import { uiTheme } from "@/app/lib/uiConfig";
 
 type JobLevelFormData = Partial<UpdateJobLevel> & CreateJobLevel;
 
@@ -64,30 +69,23 @@ export default function EditJobLevelPage() {
     );
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600 text-lg">Loading job level details...</p>
-      </div>
-    );
-  }
-
+  if (loading) return <PageLoader />;
   if (!initialData) return null;
 
   return (
-    <div className={uiTheme.layout.container}>
-      {/* Back Button + Heading */}
-      <div className="flex items-center gap-3">
-        <Link href="/dashboard/job-levels">
-          <Button size="sm" className={uiTheme.buttons.card}>
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back
-          </Button>
-        </Link>
-        <h1 className={uiTheme.text.heading}>Edit Job Level</h1>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Edit Job Level"
+        actions={
+          <Link href="/dashboard/job-levels">
+            <Button size="sm" className={uiTheme.buttons.back}>
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        }
+      />
 
-      {/* Form Card */}
       <div
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} space-y-6`}
       >
@@ -98,6 +96,6 @@ export default function EditJobLevelPage() {
           submitText="Update Level"
         />
       </div>
-    </div>
+    </PageContainer>
   );
 }

@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+
 import { uiTheme } from "@/app/lib/uiConfig";
+import { useAuth } from "@/app/components/AuthProvider";
+import { Button } from "@/components/ui/button";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
+import PageLoader from "@/app/components/ui/PageLoader";
 
 import StaffAvailabilityTable from "../common/staff-availability/StaffAvailabilityTable";
-import { useAuth } from "@/app/components/AuthProvider";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export default function MyStaffAvailabilityPage() {
   const { user } = useAuth();
@@ -16,18 +20,18 @@ export default function MyStaffAvailabilityPage() {
     if (user?.id) setUserId(user.id);
   }, [user]);
 
-  if (!userId) {
-    return <p className="p-4">Loading...</p>;
-  }
+  if (!userId) return <PageLoader />;
 
   return (
-    <div className={uiTheme.layout.container}>
-      <div className="flex justify-between items-center">
-        <h1 className={uiTheme.text.heading}>My Availability</h1>
-        <Link href="/dashboard/my-staff-availability/apply">
-          <Button className={uiTheme.colors.primary}>Add Availability</Button>
-        </Link>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="My Availability"
+        actions={
+          <Link href="/dashboard/my-staff-availability/apply">
+            <Button className={uiTheme.colors.primary}>Add Availability</Button>
+          </Link>
+        }
+      />
 
       <div
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} mt-4`}
@@ -38,6 +42,6 @@ export default function MyStaffAvailabilityPage() {
           clickableRows={true}
         />
       </div>
-    </div>
+    </PageContainer>
   );
 }

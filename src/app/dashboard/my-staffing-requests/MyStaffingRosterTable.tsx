@@ -12,8 +12,16 @@ export default function MyStaffingRosterTable() {
     name: "days",
   });
 
+  if (dayFields.length === 0) {
+    return (
+      <div className="text-center text-muted-foreground p-4 border rounded-md">
+        No staffing days available.
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {dayFields.map((day, dayIndex) => (
         <DayRosterTable key={day.id} day={day} dayIndex={dayIndex} />
       ))}

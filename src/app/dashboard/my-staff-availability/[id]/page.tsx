@@ -2,9 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 import { uiTheme } from "@/app/lib/uiConfig";
 import { handleGetById, handleCreate } from "@/app/lib/crudService";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
+import PageLoader from "@/app/components/ui/PageLoader";
+import { Button } from "@/components/ui/button";
 
 import MyStaffAvailabilityForm from "../MyStaffAvailabilityForm";
 import {
@@ -37,11 +43,21 @@ export default function EditStaffAvailabilityPage() {
     );
   };
 
-  if (!entry) return <p className="p-4">Loading...</p>;
+  if (!entry) return <PageLoader />;
 
   return (
-    <div className={uiTheme.layout.container}>
-      <h1 className={uiTheme.text.heading}>Edit Availability</h1>
+    <PageContainer>
+      <PageHeader
+        title="Edit Availability"
+        actions={
+          <Link href="/dashboard/my-staff-availability">
+            <Button size="sm" className={uiTheme.buttons.back}>
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        }
+      />
 
       <div
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} mt-4`}
@@ -57,6 +73,6 @@ export default function EditStaffAvailabilityPage() {
           }}
         />
       </div>
-    </div>
+    </PageContainer>
   );
 }

@@ -26,7 +26,9 @@ export default function DayRosterTable({ day, dayIndex }: Props) {
   });
 
   return (
-    <div className="border rounded-md p-4 space-y-4">
+    <div
+      className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} space-y-4`}
+    >
       <h3 className="font-semibold text-lg">
         {new Date(day.date).toLocaleDateString(undefined, {
           weekday: "long",
@@ -37,43 +39,38 @@ export default function DayRosterTable({ day, dayIndex }: Props) {
       </h3>
 
       {itemFields.map((item, itemIndex) => (
-        <div
-          key={item.id}
-          className="grid grid-cols-1 md:grid-cols-6 gap-4 items-end"
-        >
-          <div>
-            <RoleSelector
-              label="Job Role"
-              name={`days.${dayIndex}.items.${itemIndex}.jobRoleId`}
-              apiUrl="/api/job-roles/"
-              optionKey="roleName"
-              required={true}
-            />
-          </div>
+        <div key={item.id} className={`${uiTheme.layout.formGrid} items-end`}>
+          <RoleSelector
+            label="Job Role"
+            name={`days.${dayIndex}.items.${itemIndex}.jobRoleId`}
+            apiUrl="/api/job-roles/"
+            optionKey="roleName"
+            required
+          />
 
-          <div>
-            <RoleSelector
-              label="Job Level"
-              apiUrl="/api/job-levels/"
-              name={`days.${dayIndex}.items.${itemIndex}.jobLevelId`}
-              optionKey="levelName"
-              required={true}
-            />
-          </div>
+          <RoleSelector
+            label="Job Level"
+            name={`days.${dayIndex}.items.${itemIndex}.jobLevelId`}
+            apiUrl="/api/job-levels/"
+            optionKey="levelName"
+            required
+          />
 
-          <div>
-            <Label>Required Count</Label>
+          <div className="space-y-1">
+            <Label className={uiTheme.text.label}>Required Count</Label>
             <Input
               type="number"
               {...register(
                 `days.${dayIndex}.items.${itemIndex}.requiredCount`,
-                { required: true }
+                {
+                  required: true,
+                }
               )}
             />
           </div>
 
-          <div>
-            <Label>Start Time</Label>
+          <div className="space-y-1">
+            <Label className={uiTheme.text.label}>Start Time</Label>
             <Input
               type="time"
               {...register(`days.${dayIndex}.items.${itemIndex}.startTime`, {
@@ -82,8 +79,8 @@ export default function DayRosterTable({ day, dayIndex }: Props) {
             />
           </div>
 
-          <div>
-            <Label>End Time</Label>
+          <div className="space-y-1">
+            <Label className={uiTheme.text.label}>End Time</Label>
             <Input
               type="time"
               {...register(`days.${dayIndex}.items.${itemIndex}.endTime`, {
@@ -94,9 +91,8 @@ export default function DayRosterTable({ day, dayIndex }: Props) {
 
           <div>
             <Button
-              className={uiTheme.buttons.destructive}
-              variant="destructive"
               type="button"
+              className={uiTheme.buttons.destructive}
               onClick={() => remove(itemIndex)}
             >
               Remove
@@ -107,7 +103,7 @@ export default function DayRosterTable({ day, dayIndex }: Props) {
 
       <Button
         type="button"
-        className="mt-2"
+        className={uiTheme.colors.primary}
         onClick={() =>
           append({
             jobRoleId: 0,

@@ -7,6 +7,8 @@ interface TextInputProps {
   label: string;
   type?: string;
   required?: boolean;
+  disabled?: boolean;
+  placeholder?: string;
 }
 
 export default function TextInput({
@@ -14,6 +16,8 @@ export default function TextInput({
   label,
   type = "text",
   required = false,
+  disabled,
+  placeholder,
 }: TextInputProps) {
   const {
     register,
@@ -26,6 +30,8 @@ export default function TextInput({
       <Input
         id={name}
         type={type}
+        placeholder={placeholder}
+        disabled={disabled}
         {...register(
           name,
           required ? { required: `${label} is required` } : {}

@@ -2,14 +2,14 @@
 
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
+import TextInput from "@/app/components/form/TextInput";
+import SelectInput from "@/app/components/form/SelectInput";
 import { uiTheme } from "@/app/lib/uiConfig";
-import RoleSelector from "@/app/components/RoleSelector";
-import { CreateJobRole, UpdateJobRole, JobRoleResponse } from "./JobRoleTypes";
+
+import { CreateJobRole, UpdateJobRole } from "./JobRoleTypes";
 
 type JobRoleFormData = Partial<UpdateJobRole> & CreateJobRole;
 
@@ -35,10 +35,9 @@ export default function JobRoleForm({
   });
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { isDirty, errors },
+    formState: { isDirty },
   } = methods;
 
   useEffect(() => {
@@ -60,34 +59,20 @@ export default function JobRoleForm({
     <FormProvider {...methods}>
       <form className="space-y-8" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className={uiTheme.layout.formGrid}>
-          <div className="space-y-2">
-            <Label htmlFor="roleName" className={uiTheme.text.label}>
-              Job Role Name
-            </Label>
-            <Input
-              id="roleName"
-              {...register("roleName", { required: "Role name is required" })}
-            />
-            {errors.roleName && (
-              <p className="text-red-500 text-sm">{errors.roleName.message}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <RoleSelector
-              label="Job Category"
-              apiUrl="/api/job-categories/"
-              name="categoryId"
-              optionKey="categoryName"
-              required
-            />
-          </div>
+          <TextInput name="roleName" label="Job Role Name" required />
+          <SelectInput
+            name="categoryId"
+            label="Job Category"
+            apiUrl="/api/job-categories/"
+            optionKey="categoryName"
+            required
+          />
         </div>
 
         <div>
           <Button
             type="submit"
-            className="w-full"
+            className={`w-full ${uiTheme.buttons.submit}`}
             disabled={isEditMode && !isDirty}
           >
             {submitText || (isEditMode ? "Update Job Role" : "Create Job Role")}

@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { uiTheme } from "@/app/lib/uiConfig";
-import LeaveTable from "@/app/dashboard/common/leave/LeaveTable";
-import { useAuth } from "@/app/components/AuthProvider";
 import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
+import LeaveTable from "@/app/dashboard/common/leave/LeaveTable";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
+import PageLoader from "@/app/components/ui/PageLoader";
+import { useAuth } from "@/app/components/AuthProvider";
 
 export default function MyLeavePage() {
-  const { user } = useAuth(); // get logged-in user
+  const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -17,24 +20,24 @@ export default function MyLeavePage() {
     }
   }, [user]);
 
-  if (!userId) {
-    return <div className="p-4">Loading...</div>;
-  }
+  if (!userId) return <PageLoader />;
 
   return (
-    <div className={uiTheme.layout.container}>
-      <div className="flex justify-between items-center">
-        <h1 className={uiTheme.text.heading}>My Leave Requests</h1>
-        <Link href="/dashboard/my-leave/">
-          <Button className={uiTheme.colors.primary}>Apply new leave</Button>
-        </Link>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="My Leave Requests"
+        actions={
+          <Link href="/dashboard/my-leave/apply">
+            <Button className="bg-blue-600 text-white hover:bg-blue-700">
+              Apply New Leave
+            </Button>
+          </Link>
+        }
+      />
 
-      <div
-        className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} mt-4`}
-      >
+      <div className="bg-white shadow-md rounded-2xl p-4 mt-4">
         <LeaveTable filters={{ userId: String(userId) }} basePath="my-leave" />
       </div>
-    </div>
+    </PageContainer>
   );
 }

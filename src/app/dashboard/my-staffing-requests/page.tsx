@@ -1,45 +1,46 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { uiTheme } from "@/app/lib/uiConfig";
-import StaffingRequestTable from "../common/staffing-requests/StaffingRequestTable";
 import { useAuth } from "@/app/components/AuthProvider";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+import StaffingRequestTable from "../common/staffing-requests/StaffingRequestTable";
+
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
+import PageLoader from "@/app/components/ui/PageLoader";
+import { uiTheme } from "@/app/lib/uiConfig";
 
 export default function MyStaffingRequestsPage() {
   const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);
 
   useEffect(() => {
-    if (user?.id) {
-      setUserId(user.id);
-    }
+    if (user?.id) setUserId(user.id);
   }, [user]);
 
-  if (!userId) {
-    return <p className="p-4">Loading...</p>;
-  }
+  if (!userId) return <PageLoader />;
 
   return (
-    <div className={uiTheme.layout.container}>
-      <div className="flex justify-between items-center">
-        <h1 className={uiTheme.text.heading}>My Staffing Requests</h1>
-        <Link href="/dashboard/my-staffing-requests/apply">
-          <Button className={uiTheme.colors.primary}>
-            Create New Staffing Request
-          </Button>
-        </Link>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="My Staffing Requests"
+        actions={
+          <Link href="/dashboard/my-staffing-requests/apply">
+            <Button className={uiTheme.colors.primary}>
+              Create New Staffing Request
+            </Button>
+          </Link>
+        }
+      />
 
-      <div
-        className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} mt-4`}
-      >
+      <div className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding}`}>
         <StaffingRequestTable
           filters={{ userId: String(userId) }}
           basePath="my-staffing-requests"
         />
       </div>
-    </div>
+    </PageContainer>
   );
 }

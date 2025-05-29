@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
 
 import LocationForm from "../LocationForm";
 import { handleCreate } from "@/app/lib/crudService";
-import { uiTheme } from "@/app/lib/uiConfig";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { CreateLocation, LocationResponse } from "../LocationTypes";
+import { uiTheme } from "@/app/lib/uiConfig";
 
 export default function CreateLocationPage() {
   useRequireRoles(["Admin", "Manager"]);
@@ -25,19 +28,19 @@ export default function CreateLocationPage() {
   };
 
   return (
-    <div className={uiTheme.layout.container}>
-      {/* Back Button + Heading */}
-      <div className="flex items-center gap-3">
-        <Link href="/dashboard/locations">
-          <Button size="sm" className={uiTheme.buttons.card}>
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back
-          </Button>
-        </Link>
-        <h1 className={uiTheme.text.heading}>Create New Location</h1>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Create New Location"
+        actions={
+          <Link href="/dashboard/locations">
+            <Button size="sm" className={uiTheme.buttons.back}>
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        }
+      />
 
-      {/* Form Card */}
       <div
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} space-y-6`}
       >
@@ -47,6 +50,6 @@ export default function CreateLocationPage() {
           submitText="Create Location"
         />
       </div>
-    </div>
+    </PageContainer>
   );
 }

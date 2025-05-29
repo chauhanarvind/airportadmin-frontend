@@ -2,11 +2,10 @@
 
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
+import TextInput from "@/app/components/form/TextInput";
 import { uiTheme } from "@/app/lib/uiConfig";
 import { CreateJobLevel, UpdateJobLevel } from "./JobLevelTypes";
 
@@ -33,10 +32,9 @@ export default function JobLevelForm({
   });
 
   const {
-    register,
     handleSubmit,
     reset,
-    formState: { isDirty, errors },
+    formState: { isDirty },
   } = methods;
 
   useEffect(() => {
@@ -58,27 +56,13 @@ export default function JobLevelForm({
     <FormProvider {...methods}>
       <form className="space-y-8" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className={uiTheme.layout.formGrid}>
-          <div className="space-y-2 w-full">
-            <Label htmlFor="levelName" className={uiTheme.text.label}>
-              Level Name
-            </Label>
-            <Input
-              id="levelName"
-              className="w-full"
-              {...register("levelName", {
-                required: "Level name is required",
-              })}
-            />
-            {errors.levelName && (
-              <p className="text-red-500 text-sm">{errors.levelName.message}</p>
-            )}
-          </div>
+          <TextInput name="levelName" label="Level Name" required />
         </div>
 
         <div>
           <Button
             type="submit"
-            className="w-full"
+            className={`w-full ${uiTheme.buttons.submit}`}
             disabled={isEditMode && !isDirty}
           >
             {submitText || (isEditMode ? "Update Level" : "Create Level")}

@@ -43,12 +43,14 @@ export default function StaffingRequestTable({
       url = `/api/staffing-requests/user/${filters.userId}`;
     }
 
-    const data = await handleFetchList<StaffingRequestResponse[]>(
-      url,
-      "Staffing requests"
-    );
-    if (data) setRequests(data);
+    const data = await handleFetchList<any>(url, "Staffing requests");
+    console.log(data);
 
+    const normalized: StaffingRequestResponse[] = Array.isArray(data)
+      ? data
+      : data?.content ?? [];
+
+    setRequests(normalized);
     setLoading(false);
   };
 

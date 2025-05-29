@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { handleFetchList } from "@/app/lib/crudService";
+import { JobRoleResponse } from "./JobRoleTypes";
 
 import {
   Table,
@@ -12,29 +14,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { JobRoleResponse } from "./JobRoleTypes";
+
+import EmptyState from "@/app/components/ui/EmptyState";
+import PageLoader from "@/app/components/ui/PageLoader";
 
 export default function JobRoleTable() {
   const [jobRoles, setJobRoles] = useState<JobRoleResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const fetchJobRoles = async () => {
-    setLoading(true);
-    try {
-      const data = await handleFetchList<JobRoleResponse[]>(
-        "/api/job-roles/",
-        "Job Roles"
-      );
-      if (data) setJobRoles(data);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchJobRoles = async () => {
+      setLoading(true);
+      try {
+        const data = await handleFetchList<JobRoleResponse[]>(
+          "/api/job-roles/",
+          "Job Roles"
+        );
+        if (data) setJobRoles(data);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchJobRoles();
   }, []);
+
+  if (loading) return <PageLoader />;
 
   return (
     <div className="overflow-x-auto">
@@ -50,7 +56,7 @@ export default function JobRoleTable() {
           {jobRoles.map((role) => (
             <TableRow
               key={role.id}
-              className="hover:bg-blue-100 transition cursor-pointer"
+              className="hover:bg-blue-50 transition cursor-pointer"
               onClick={() => router.push(`/dashboard/job-roles/${role.id}`)}
             >
               <TableCell>{role.roleName}</TableCell>
@@ -58,13 +64,10 @@ export default function JobRoleTable() {
             </TableRow>
           ))}
 
-          {jobRoles.length === 0 && !loading && (
+          {jobRoles.length === 0 && (
             <TableRow>
-              <TableCell
-                colSpan={2}
-                className="text-center text-muted-foreground py-6"
-              >
-                No job roles found.
+              <TableCell colSpan={2}>
+                <EmptyState message="No job roles found." />
               </TableCell>
             </TableRow>
           )}

@@ -1,13 +1,14 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import RoleSelector from "@/app/components/RoleSelector";
 import { LeaveRequestResponse } from "@/app/dashboard/common/leave/LeaveTypes";
 import { uiTheme } from "@/app/lib/uiConfig";
+
+import TextInput from "@/app/components/form/TextInput";
+import DateInput from "@/app/components/form/DateInput";
+import SelectInput from "@/app/components/form/SelectInput";
 
 interface Props {
   onSubmit: (data: LeaveRequestResponse) => void;
@@ -15,9 +16,7 @@ interface Props {
 
 export default function LeaveForm({ onSubmit }: Props) {
   const {
-    register,
     handleSubmit,
-
     formState: { isSubmitting },
   } = useFormContext<LeaveRequestResponse>();
 
@@ -25,39 +24,18 @@ export default function LeaveForm({ onSubmit }: Props) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Dates */}
       <div className={uiTheme.layout.formGrid}>
-        <div className="space-y-2">
-          <Label htmlFor="startDate" className={uiTheme.text.label}>
-            Start Date
-          </Label>
-          <Input
-            id="startDate"
-            type="date"
-            disabled
-            {...register("startDate")}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="endDate" className={uiTheme.text.label}>
-            End Date
-          </Label>
-          <Input id="endDate" type="date" disabled {...register("endDate")} />
-        </div>
+        <DateInput name="startDate" label="Start Date" disabled />
+        <DateInput name="endDate" label="End Date" disabled />
       </div>
 
       {/* Reason */}
-      <div className="space-y-2">
-        <Label htmlFor="reason" className={uiTheme.text.label}>
-          Reason
-        </Label>
-        <Input id="reason" disabled {...register("reason")} />
-      </div>
+      <TextInput name="reason" label="Reason" disabled />
 
-      {/* Status Dropdown using RoleSelector */}
-      <RoleSelector
-        label="Update Status"
+      {/* Status */}
+      <SelectInput
         name="status"
-        required={true}
+        label="Update Status"
+        required
         staticOptions={[
           "PENDING",
           "APPROVED",
@@ -67,10 +45,9 @@ export default function LeaveForm({ onSubmit }: Props) {
         ]}
       />
 
-      {/* Submit Button */}
       <Button
         type="submit"
-        className={uiTheme.colors.primary}
+        className={uiTheme.buttons.submit}
         disabled={isSubmitting}
       >
         Update Status

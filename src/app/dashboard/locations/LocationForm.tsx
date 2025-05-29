@@ -2,12 +2,11 @@
 
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
+import TextInput from "@/app/components/form/TextInput";
 import { uiTheme } from "@/app/lib/uiConfig";
 import { CreateLocation, UpdateLocation } from "./LocationTypes";
 
@@ -38,7 +37,7 @@ export default function LocationForm({
     register,
     handleSubmit,
     reset,
-    formState: { isDirty, errors },
+    formState: { isDirty },
   } = methods;
 
   useEffect(() => {
@@ -60,28 +59,12 @@ export default function LocationForm({
     <FormProvider {...methods}>
       <form className="space-y-8" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className={uiTheme.layout.formGrid}>
-          <div className="space-y-2 w-full">
-            <Label htmlFor="locationName" className={uiTheme.text.label}>
-              Location Name
-            </Label>
-            <Input
-              id="locationName"
-              className="w-full"
-              {...register("locationName", {
-                required: "Location name is required",
-              })}
-            />
-            {errors.locationName && (
-              <p className="text-red-500 text-sm">
-                {errors.locationName.message}
-              </p>
-            )}
-          </div>
+          <TextInput name="locationName" label="Location Name" required />
 
           <div className="space-y-2 w-full">
-            <Label htmlFor="description" className={uiTheme.text.label}>
+            <label htmlFor="description" className={uiTheme.text.label}>
               Description
-            </Label>
+            </label>
             <Textarea
               id="description"
               className="w-full"
@@ -94,7 +77,7 @@ export default function LocationForm({
         <div>
           <Button
             type="submit"
-            className="w-full"
+            className={`w-full ${uiTheme.buttons.submit}`}
             disabled={isEditMode && !isDirty}
           >
             {submitText || (isEditMode ? "Update Location" : "Create Location")}

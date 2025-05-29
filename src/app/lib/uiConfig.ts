@@ -1,6 +1,12 @@
 // src/lib/uiConfig.ts
 
 export const uiTheme = {
+  components: {
+    select: {
+      trigger: "bg-white border border-gray-300 rounded-md px-3 py-2",
+      content: "bg-white border border-gray-200 shadow-md rounded-md",
+    },
+  },
   colors: {
     primary: "bg-blue-600 text-white hover:bg-blue-700",
     secondary:

@@ -44,9 +44,8 @@ export default function MyStaffingRequestForm({ onSubmit }: Props) {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        {/* Location */}
-
-        <div className="space-y-2">
+        <div className={uiTheme.layout.formGrid}>
+          {/* Location */}
           <RoleSelector
             label="Location"
             name="locationId"
@@ -54,25 +53,25 @@ export default function MyStaffingRequestForm({ onSubmit }: Props) {
             optionKey="locationName"
             required={true}
           />
-        </div>
 
-        {/* Request Type */}
-        <div className="space-y-2">
-          <Label className={uiTheme.text.label}>Request Type</Label>
-          <Select
-            defaultValue="REGULAR"
-            onValueChange={(val) =>
-              setValue("requestType", val as "REGULAR" | "EMERGENCY")
-            }
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="REGULAR">Regular</SelectItem>
-              <SelectItem value="EMERGENCY">Emergency</SelectItem>
-            </SelectContent>
-          </Select>
+          {/* Request Type */}
+          <div className="space-y-2">
+            <Label className={uiTheme.text.label}>Request Type</Label>
+            <Select
+              defaultValue="REGULAR"
+              onValueChange={(val) =>
+                setValue("requestType", val as "REGULAR" | "EMERGENCY")
+              }
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="REGULAR">Regular</SelectItem>
+                <SelectItem value="EMERGENCY">Emergency</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* Reason */}
@@ -89,6 +88,7 @@ export default function MyStaffingRequestForm({ onSubmit }: Props) {
         {/* Roster Table */}
         {days.length > 0 && <MyStaffingRosterTable />}
 
+        {/* Submit */}
         <Button
           type="submit"
           className={uiTheme.colors.primary}

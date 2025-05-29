@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
 
 import JobRoleForm from "../JobRoleForm";
 import { handleCreate } from "@/app/lib/crudService";
-import { uiTheme } from "@/app/lib/uiConfig";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { CreateJobRole, JobRoleResponse } from "../JobRoleTypes";
+import { uiTheme } from "@/app/lib/uiConfig";
 
 export default function CreateJobRolePage() {
   useRequireRoles(["Admin"]);
@@ -25,19 +28,19 @@ export default function CreateJobRolePage() {
   };
 
   return (
-    <div className={uiTheme.layout.container}>
-      {/* Back Button + Heading */}
-      <div className="flex items-center gap-3">
-        <Link href="/dashboard/job-roles">
-          <Button size="sm" className={uiTheme.buttons.card}>
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back
-          </Button>
-        </Link>
-        <h1 className={uiTheme.text.heading}>Create New Job Role</h1>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Create New Job Role"
+        actions={
+          <Link href="/dashboard/job-roles">
+            <Button size="sm" className={uiTheme.buttons.back}>
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        }
+      />
 
-      {/* Form Card */}
       <div
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} space-y-6`}
       >
@@ -47,6 +50,6 @@ export default function CreateJobRolePage() {
           submitText="Create Job Role"
         />
       </div>
-    </div>
+    </PageContainer>
   );
 }

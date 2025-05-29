@@ -6,12 +6,14 @@ interface DateInputProps {
   name: string;
   label: string;
   required?: boolean;
+  disabled?: boolean;
 }
 
 export default function DateInput({
   name,
   label,
   required = false,
+  disabled,
 }: DateInputProps) {
   const {
     register,
@@ -24,6 +26,7 @@ export default function DateInput({
       <Input
         id={name}
         type="date"
+        disabled={disabled}
         {...register(
           name,
           required ? { required: `${label} is required` } : {}

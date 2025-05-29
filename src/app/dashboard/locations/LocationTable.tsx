@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { handleFetchList } from "@/app/lib/crudService";
 import { LocationResponse } from "./LocationTypes";
 
@@ -14,27 +15,32 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import PageLoader from "@/app/components/ui/PageLoader";
+import EmptyState from "@/app/components/ui/EmptyState";
+
 export default function LocationTable() {
   const [locations, setLocations] = useState<LocationResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const fetchLocations = async () => {
-    setLoading(true);
-    try {
-      const data = await handleFetchList<LocationResponse[]>(
-        "/api/locations/",
-        "Locations"
-      );
-      if (data) setLocations(data);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchLocations = async () => {
+      setLoading(true);
+      try {
+        const data = await handleFetchList<LocationResponse[]>(
+          "/api/locations/",
+          "Locations"
+        );
+        if (data) setLocations(data);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchLocations();
   }, []);
+
+  if (loading) return <PageLoader />;
 
   return (
     <div className="overflow-x-auto">
@@ -50,7 +56,7 @@ export default function LocationTable() {
           {locations.map((loc) => (
             <TableRow
               key={loc.id}
-              className="hover:bg-blue-100 transition cursor-pointer"
+              className="hover:bg-blue-50 transition cursor-pointer"
               onClick={() => router.push(`/dashboard/locations/${loc.id}`)}
             >
               <TableCell>{loc.locationName}</TableCell>
@@ -58,13 +64,10 @@ export default function LocationTable() {
             </TableRow>
           ))}
 
-          {locations.length === 0 && !loading && (
+          {locations.length === 0 && (
             <TableRow>
-              <TableCell
-                colSpan={2}
-                className="text-center text-muted-foreground py-6"
-              >
-                No locations found.
+              <TableCell colSpan={2}>
+                <EmptyState message="No locations found." />
               </TableCell>
             </TableRow>
           )}

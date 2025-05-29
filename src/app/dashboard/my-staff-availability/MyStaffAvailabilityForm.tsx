@@ -1,14 +1,15 @@
 "use client";
 
 import { useForm, FormProvider } from "react-hook-form";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-
-import { uiTheme } from "@/app/lib/uiConfig";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+
+import DateInput from "@/app/components/form/DateInput";
+import TextInput from "@/app/components/form/TextInput";
 import { StaffAvailabilityRequest } from "../common/staff-availability/StaffAvailabilityTypes";
+import { uiTheme } from "@/app/lib/uiConfig";
 
 interface Props {
   onSubmit: (data: StaffAvailabilityRequest) => void;
@@ -30,11 +31,10 @@ export default function MyStaffAvailabilityForm({
   });
 
   const {
-    register,
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = methods;
 
   const isAvailable = watch("isAvailable");
@@ -51,14 +51,11 @@ export default function MyStaffAvailabilityForm({
         return false;
       }
 
-      if (data.unavailableFrom && data.unavailableTo) {
-        if (data.unavailableFrom === data.unavailableTo) {
-          toast.error("Unavailable From and To cannot be the same time.");
-          return false;
-        }
+      if (hasFrom && hasTo && data.unavailableFrom === data.unavailableTo) {
+        toast.error("Unavailable From and To cannot be the same time.");
+        return false;
       }
     } else {
-      // User is unavailable for the whole day — clear any partial time
       data.unavailableFrom = undefined;
       data.unavailableTo = undefined;
     }
@@ -74,20 +71,7 @@ export default function MyStaffAvailabilityForm({
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-        {/* Date */}
-        <div className="space-y-2">
-          <Label htmlFor="date" className={uiTheme.text.label}>
-            Date
-          </Label>
-          <Input
-            id="date"
-            type="date"
-            {...register("date", { required: "Date is required" })}
-          />
-          {errors.date && (
-            <p className="text-red-500 text-sm">{errors.date.message}</p>
-          )}
-        </div>
+        <DateInput name="date" label="Date" required />
 
         {/* Availability Toggle */}
         <div className="flex items-center space-x-2">
@@ -104,33 +88,24 @@ export default function MyStaffAvailabilityForm({
         {/* Time Range (if partially unavailable) */}
         {isAvailable && (
           <div className={uiTheme.layout.formGrid}>
-            <div className="space-y-2">
-              <Label htmlFor="unavailableFrom" className={uiTheme.text.label}>
-                Unavailable From
-              </Label>
-              <Input
-                type="time"
-                id="unavailableFrom"
-                {...register("unavailableFrom")}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="unavailableTo" className={uiTheme.text.label}>
-                Unavailable To
-              </Label>
-              <Input
-                type="time"
-                id="unavailableTo"
-                {...register("unavailableTo")}
-              />
-            </div>
+            <TextInput
+              name="unavailableFrom"
+              label="Unavailable From"
+              type="time"
+              required={false}
+            />
+            <TextInput
+              name="unavailableTo"
+              label="Unavailable To"
+              type="time"
+              required={false}
+            />
           </div>
         )}
 
         <Button
           type="submit"
-          className={uiTheme.colors.primary}
+          className={uiTheme.buttons.submit}
           disabled={isSubmitting}
         >
           Submit Availability

@@ -7,10 +7,14 @@ import { ArrowLeft } from "lucide-react";
 
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { handleGetById, handleUpdate } from "@/app/lib/crudService";
-import { uiTheme } from "@/app/lib/uiConfig";
 import { Button } from "@/components/ui/button";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
+import PageLoader from "@/app/components/ui/PageLoader";
+
 import JobRoleForm from "../JobRoleForm";
 import { JobRoleResponse, CreateJobRole, UpdateJobRole } from "../JobRoleTypes";
+import { uiTheme } from "@/app/lib/uiConfig";
 
 type JobRoleFormData = Partial<UpdateJobRole> & CreateJobRole;
 
@@ -61,30 +65,23 @@ export default function EditJobRolePage() {
     );
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600 text-lg">Loading job role details...</p>
-      </div>
-    );
-  }
-
+  if (loading) return <PageLoader />;
   if (!initialData) return null;
 
   return (
-    <div className={uiTheme.layout.container}>
-      {/* Back Button + Heading */}
-      <div className="flex items-center gap-3">
-        <Link href="/dashboard/job-roles">
-          <Button size="sm" className={uiTheme.buttons.card}>
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back
-          </Button>
-        </Link>
-        <h1 className={uiTheme.text.heading}>Edit Job Role</h1>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Edit Job Role"
+        actions={
+          <Link href="/dashboard/job-roles">
+            <Button size="sm" className={uiTheme.buttons.back}>
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        }
+      />
 
-      {/* Form Card */}
       <div
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} space-y-6`}
       >
@@ -95,6 +92,6 @@ export default function EditJobRolePage() {
           submitText="Update Job Role"
         />
       </div>
-    </div>
+    </PageContainer>
   );
 }

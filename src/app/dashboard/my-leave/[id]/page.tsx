@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 import {
   LeaveRequestCreate,
@@ -10,6 +12,12 @@ import {
 import { handleGetById, handleUpdate } from "@/app/lib/crudService";
 import { MyLeaveForm } from "../MyLeaveForm";
 import LeaveStatusBadge from "@/app/dashboard/common/leave/LeaveStatusBadge";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
+import PageLoader from "@/app/components/ui/PageLoader";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { uiTheme } from "@/app/lib/uiConfig";
 
 export default function MyLeaveDetailPage() {
@@ -54,21 +62,29 @@ export default function MyLeaveDetailPage() {
     if (res) router.push("/dashboard/my-leave");
   };
 
-  if (!leave) return <p className="p-4">Loading...</p>;
+  if (!leave) return <PageLoader />;
 
   return (
-    <div className={uiTheme.layout.container}>
-      <h1 className={uiTheme.text.heading}>Leave Request</h1>
+    <PageContainer>
+      <PageHeader
+        title="Leave Request"
+        actions={
+          <Link href="/dashboard/my-leave">
+            <Button size="sm" className={uiTheme.buttons.back}>
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        }
+      />
 
       <div
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} mt-4 space-y-6`}
       >
         <div className="flex items-center justify-between">
-          <div>
-            <p className={uiTheme.text.label}>
-              Submitted On {new Date(leave.createdAt).toLocaleString()}
-            </p>
-          </div>
+          <p className={uiTheme.text.label}>
+            Submitted On {new Date(leave.createdAt).toLocaleString()}
+          </p>
           <LeaveStatusBadge status={leave.status} />
         </div>
 
@@ -86,31 +102,33 @@ export default function MyLeaveDetailPage() {
         ) : (
           <div className="space-y-4">
             <div className={uiTheme.layout.formGrid}>
-              <div>
-                <p className={uiTheme.text.label}>Start Date</p>
-                <p>{leave.startDate}</p>
+              <div className="space-y-2">
+                <Label className={uiTheme.text.label}>Start Date</Label>
+                <Input value={leave.startDate} disabled />
               </div>
-              <div>
-                <p className={uiTheme.text.label}>End Date</p>
-                <p>{leave.endDate}</p>
+              <div className="space-y-2">
+                <Label className={uiTheme.text.label}>End Date</Label>
+                <Input value={leave.endDate} disabled />
               </div>
-            </div>
-            <div>
-              <p className={uiTheme.text.label}>Reason</p>
-              <p>{leave.reason}</p>
             </div>
 
-            {leave.status === "PENDING" || leave.status === "RESUBMITTED" ? (
-              <button
+            <div className="space-y-2">
+              <Label className={uiTheme.text.label}>Reason</Label>
+              <Input value={leave.reason} disabled />
+            </div>
+
+            {(leave.status === "PENDING" || leave.status === "RESUBMITTED") && (
+              <Button
+                variant="ghost"
                 onClick={handleCancel}
-                className="text-sm text-red-600 underline mt-4"
+                className="text-red-600 text-sm underline px-0"
               >
                 Cancel Request
-              </button>
-            ) : null}
+              </Button>
+            )}
           </div>
         )}
       </div>
-    </div>
+    </PageContainer>
   );
 }
