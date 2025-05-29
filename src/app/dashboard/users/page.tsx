@@ -4,23 +4,28 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import UserTable from "./UserTable";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
-import { uiTheme } from "@/app/lib/uiConfig";
+import PageContainer from "@/app/components/layout/PageContainer";
+import PageHeader from "@/app/components/ui/PageHeader";
 
 export default function UsersPage() {
   useRequireRoles(["Admin", "Supervisor", "Manager"]);
 
   return (
-    <div className={uiTheme.layout.container}>
-      <div className="flex justify-between items-center">
-        <h1 className={uiTheme.text.heading}>User Management</h1>
-        <Link href="/dashboard/users/new">
-          <Button className={uiTheme.colors.primary}>Add New User</Button>
-        </Link>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="User Management"
+        actions={
+          <Link href="/dashboard/users/new">
+            <Button className="bg-blue-600 text-white hover:bg-blue-700">
+              Add New User
+            </Button>
+          </Link>
+        }
+      />
 
-      <div className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding}`}>
+      <div className="bg-white shadow-md rounded-2xl p-4">
         <UserTable />
       </div>
-    </div>
+    </PageContainer>
   );
 }

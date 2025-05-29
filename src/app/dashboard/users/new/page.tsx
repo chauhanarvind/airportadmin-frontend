@@ -1,13 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { handleCreate } from "@/app/lib/crudService";
-import UserForm from "../UserForm";
-import { useRequireRoles } from "@/app/lib/useRequireRoles";
-import { uiTheme } from "@/app/lib/uiConfig";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import PageHeader from "@/app/components/ui/PageHeader";
+import PageContainer from "@/app/components/layout/PageContainer";
+
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
+import { handleCreate } from "@/app/lib/crudService";
+
+import UserForm from "../UserForm";
 import { CreateUser, UpdateUser, UserResponse } from "../UserTypes";
 
 type UserFormData = Partial<UpdateUser> & CreateUser;
@@ -18,7 +22,6 @@ export default function CreateUserPage() {
   const router = useRouter();
 
   const handleSubmit = async (data: UserFormData) => {
-    console.log(data);
     await handleCreate<UserFormData, UserResponse>(
       "/api/users/create",
       data,
@@ -28,28 +31,29 @@ export default function CreateUserPage() {
   };
 
   return (
-    <div className={uiTheme.layout.container}>
-      {/* Back Button + Heading */}
-      <div className="flex items-center gap-3">
-        <Link href="/dashboard/users">
-          <Button size="sm" className={uiTheme.buttons.card}>
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back
-          </Button>
-        </Link>
-        <h1 className={uiTheme.text.heading}>Create New User</h1>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Create New User"
+        actions={
+          <Link href="/dashboard/users">
+            <Button
+              size="sm"
+              className="bg-white text-gray-800 hover:bg-gray-100 shadow-sm rounded-md"
+            >
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        }
+      />
 
-      {/* Form in card */}
-      <div
-        className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} space-y-6`}
-      >
+      <div className="bg-white shadow-md rounded-2xl p-4 space-y-6">
         <UserForm
           onSubmit={handleSubmit}
           isEditMode={false}
           submitText="Create User"
         />
       </div>
-    </div>
+    </PageContainer>
   );
 }

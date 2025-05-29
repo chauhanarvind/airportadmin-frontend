@@ -33,6 +33,11 @@ export const navItems = [
         href: "/dashboard/my-staff-availability",
         roles: ["Admin", "Crew"],
       },
+      {
+        label: "My Staffing Requests",
+        href: "/dashboard/my-staffing-requests",
+        roles: ["Admin", "Crew"],
+      },
     ],
   },
   {
@@ -53,6 +58,11 @@ export const navItems = [
       {
         label: "Staff Availability",
         href: "/dashboard/staff-availability",
+        roles: ["Admin"],
+      },
+      {
+        label: "Staffing Requests",
+        href: "/dashboard/staffing-requests",
         roles: ["Admin"],
       },
     ],
