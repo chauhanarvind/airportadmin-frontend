@@ -1,6 +1,12 @@
-import { Briefcase, Settings, Users } from "lucide-react";
+import { Briefcase, Settings, Users, User } from "lucide-react";
 
 export const navItems = [
+  {
+    label: "My Profile",
+    icon: User,
+    roles: ["Admin", "Crew"],
+    href: "/dashboard/my-profile",
+  },
   {
     label: "Users",
     icon: Users,
@@ -8,35 +14,61 @@ export const navItems = [
     roles: ["Admin"],
   },
   {
-    label: "Job Settings",
+    label: "My Profile",
     icon: Briefcase,
     children: [
-      { label: "Job Roles", href: "/dashboard/job-roles", roles: ["Admin"] },
-      {
-        label: "Job Categories",
-        href: "/dashboard/job-categories",
-        roles: ["Admin"],
-      },
-      { label: "Job Levels", href: "/dashboard/job-levels", roles: ["Admin"] },
-      {
-        label: "Constraint Profiles",
-        href: "/dashboard/constraints",
-        roles: ["Admin"],
-      },
       {
         label: "My Leave",
-        href: "/dashboard/my-leave",
-        roles: ["Admin", "Crew"],
+        href: "/dashboard'/my-leave",
+        roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
       {
         label: "My Availability",
         href: "/dashboard/my-staff-availability",
-        roles: ["Admin", "Crew"],
+
+        roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
       {
         label: "My Staffing Requests",
         href: "/dashboard/my-staffing-requests",
-        roles: ["Admin", "Crew"],
+
+        roles: ["Admin", "Manager", "Supervisor", "Crew"],
+      },
+      {
+        label: "My Shifts",
+        href: "/dashboard/my-shift",
+
+        roles: ["Admin", "Manager", "Supervisor", "Crew"],
+      },
+    ],
+  },
+  {
+    label: "Job Settings",
+    icon: Briefcase,
+    children: [
+      {
+        label: "Job Roles",
+        href: "/dashboard/job-roles",
+
+        roles: ["Admin", "Manager", "Supervisor"],
+      },
+      {
+        label: "Job Categories",
+        href: "/dashboard/job-categories",
+
+        roles: ["Admin", "Manager", "Supervisor"],
+      },
+      {
+        label: "Job Levels",
+        href: "/dashboard/job-levels",
+
+        roles: ["Admin", "Manager", "Supervisor"],
+      },
+      {
+        label: "Constraint Profiles",
+        href: "/dashboard/constraints",
+
+        roles: ["Admin", "Manager", "Supervisor"],
       },
     ],
   },
@@ -44,26 +76,29 @@ export const navItems = [
     label: "Admin Settings",
     icon: Settings,
     children: [
-      { label: "User Roles", href: "/dashboard/roles", roles: ["Admin"] },
       {
         label: "Locations",
         href: "/dashboard/locations",
-        roles: ["Admin", "Manager"],
+
+        roles: ["Admin", "Manager", "Supervisor"],
       },
       {
         label: "Leave Requests",
         href: "/dashboard/leave",
-        roles: ["Admin"],
+
+        roles: ["Admin", "Manager", "Supervisor"],
       },
       {
         label: "Staff Availability",
         href: "/dashboard/staff-availability",
-        roles: ["Admin"],
+
+        roles: ["Admin", "Manager", "Supervisor"],
       },
       {
         label: "Staffing Requests",
         href: "/dashboard/staffing-requests",
-        roles: ["Admin"],
+
+        roles: ["Admin", "Manager", "Supervisor"],
       },
     ],
   },

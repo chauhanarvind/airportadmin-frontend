@@ -10,7 +10,7 @@ import { uiTheme } from "@/app/lib/uiConfig";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const pathname = usePathname();
 
   if (!user) return null;
@@ -35,7 +35,9 @@ export default function Sidebar() {
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">
-        {!collapsed && <span className="font-bold text-lg">Admin Panel</span>}
+        {!collapsed && (
+          <span className="font-bold text-lg">{user.role} Panel</span>
+        )}
         <button onClick={() => setCollapsed(!collapsed)}>
           {collapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
         </button>
@@ -92,6 +94,20 @@ export default function Sidebar() {
           );
         })}
       </nav>
+      {/* Logout Button */}
+      <div className="mt-auto p-4 border-t">
+        <button
+          onClick={() => {
+            if (confirm("Are you sure you want to log out?")) {
+              logout(); // ✅ from useAuth
+            }
+          }}
+          className="flex items-center gap-3 text-sm font-medium text-red-600 hover:text-red-800 transition-colors"
+        >
+          <Menu size={18} />
+          {!collapsed && <span>Logout</span>}
+        </button>
+      </div>
     </aside>
   );
 }
