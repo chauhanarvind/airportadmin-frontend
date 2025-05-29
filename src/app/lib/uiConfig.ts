@@ -26,7 +26,8 @@ export const uiTheme = {
   navInactive: "text-gray-700 hover:bg-blue-100",
   buttons: {
     card: "bg-white text-gray-800 shadow-sm hover:shadow-md rounded-md px-3 py-1.5",
-    outline: "bg-white text-blue-600 border border-blue-600 hover:bg-blue-100", // new
+    outline: "bg-white text-blue-600 border border-blue-600 hover:bg-blue-100",
+    destructive: "bg-red-100 text-red-700 hover:bg-red-200 px-3",
   },
 
   layout: {
