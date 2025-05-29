@@ -68,14 +68,33 @@ export default function AdminStaffingRequestDetailPage() {
 
   const handleStatusUpdate = async () => {
     const payload: StaffingRequestUpdate = { status: selectedStatus };
+
     await handleUpdate(
       `/api/staffing-requests/${requestId}/status`,
       "PUT",
       payload,
       "Staffing request",
-      (updated) => {
+      async () => {
         toast.success("Status updated");
-        setRequest((prev) => prev && { ...prev, status: updated.status });
+
+        // ✅ Fetch fresh request from backend
+        const req = await handleGetById<StaffingRequestDetail>(
+          `/api/staffing-requests/${requestId}`,
+          "Staffing request"
+        );
+
+        if (req) {
+          setRequest(req);
+          setSelectedStatus(req.status);
+        }
+
+        if (selectedStatus === "APPROVED") {
+          const exists = await handleGetById<boolean>(
+            `/api/roster/check/${requestId}`,
+            "Roster check"
+          );
+          setRosterExists(!!exists);
+        }
       }
     );
   };
@@ -84,7 +103,14 @@ export default function AdminStaffingRequestDetailPage() {
     try {
       await handleCreate(`/api/roster/generate/${requestId}`, {}, "Roster");
       toast.success("Roster generated successfully");
-      router.refresh();
+
+      const exists = await handleGetById<boolean>(
+        `/api/roster/check/${requestId}`,
+        "Roster check"
+      );
+      setRosterExists(!!exists);
+
+      // router.refresh();
     } catch (err) {
       console.error(err);
     }
@@ -99,7 +125,12 @@ export default function AdminStaffingRequestDetailPage() {
         actions={
           <div className="flex gap-2">
             {!rosterExists && request.status === "APPROVED" && (
-              <Button onClick={handleGenerateRoster}>Generate Roster</Button>
+              <Button
+                onClick={handleGenerateRoster}
+                className={uiTheme.colors.primary}
+              >
+                Generate Roster
+              </Button>
             )}
             {rosterExists && (
               <Link href={`/dashboard/staffing-requests/${requestId}/roster`}>
