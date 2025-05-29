@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { StaffingRequestCreate } from "../common/staffing-requests/StaffingRequestTypes";
 import WeekPicker from "../common/staffing-requests/WeekPicker";
+import RoleSelector from "@/app/components/RoleSelector";
 
 interface Props {
   onSubmit: (data: StaffingRequestCreate) => void;
@@ -35,7 +36,7 @@ export default function MyStaffingRequestForm({ onSubmit }: Props) {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = methods;
 
   const days = watch("days");
@@ -44,18 +45,15 @@ export default function MyStaffingRequestForm({ onSubmit }: Props) {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Location */}
+
         <div className="space-y-2">
-          <Label htmlFor="locationId" className={uiTheme.text.label}>
-            Location ID
-          </Label>
-          <Input
-            id="locationId"
-            type="number"
-            {...register("locationId", { required: "Location is required" })}
+          <RoleSelector
+            label="Location"
+            name="locationId"
+            apiUrl="/api/locations/"
+            optionKey="locationName"
+            required={true}
           />
-          {errors.locationId && (
-            <p className="text-red-500 text-sm">{errors.locationId.message}</p>
-          )}
         </div>
 
         {/* Request Type */}

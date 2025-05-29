@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { StaffingRequestCreate } from "../common/staffing-requests/StaffingRequestTypes";
 import { uiTheme } from "@/app/lib/uiConfig";
+import RoleSelector from "@/app/components/RoleSelector";
 
 interface Props {
   day: { id: string; date: string };
@@ -41,22 +42,22 @@ export default function DayRosterTable({ day, dayIndex }: Props) {
           className="grid grid-cols-1 md:grid-cols-6 gap-4 items-end"
         >
           <div>
-            <Label>Job Role ID</Label>
-            <Input
-              type="number"
-              {...register(`days.${dayIndex}.items.${itemIndex}.jobRoleId`, {
-                required: true,
-              })}
+            <RoleSelector
+              label="Job Role"
+              name={`days.${dayIndex}.items.${itemIndex}.jobRoleId`}
+              apiUrl="/api/job-roles/"
+              optionKey="roleName"
+              required={true}
             />
           </div>
 
           <div>
-            <Label>Job Level ID</Label>
-            <Input
-              type="number"
-              {...register(`days.${dayIndex}.items.${itemIndex}.jobLevelId`, {
-                required: true,
-              })}
+            <RoleSelector
+              label="Job Level"
+              apiUrl="/api/job-levels/"
+              name={`days.${dayIndex}.items.${itemIndex}.jobLevelId`}
+              optionKey="levelName"
+              required={true}
             />
           </div>
 
