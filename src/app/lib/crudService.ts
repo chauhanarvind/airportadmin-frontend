@@ -18,8 +18,12 @@ export async function handleCreate<TRequest, TResponse = void>(
       toast.error(`Failed to create ${label}`);
     }
   } catch (err: unknown) {
-    const error = err as AxiosError<{ message?: string }>;
-    const errorMessage = error.response?.data?.message || error.message;
+    const error = err as AxiosError<{ message?: string; error?: string }>;
+    const errorMessage =
+      error.response?.data?.error ||
+      error.response?.data?.message ||
+      error.message;
+
     toast.error(`${label} creation failed: ${errorMessage}`);
     console.error(`Error creating ${label}:`, error);
   }
@@ -43,10 +47,14 @@ export async function handleUpdate<TResponse, TData>(
       toast.error(`Failed to update ${label}`);
     }
   } catch (err: unknown) {
-    const error = err as AxiosError<{ message?: string }>;
-    const errorMessage = error.response?.data?.message || error.message;
-    toast.error(`${label} update failed: ${errorMessage}`);
-    console.error(`Error updating ${label}:`, error);
+    const error = err as AxiosError<{ message?: string; error?: string }>;
+    const errorMessage =
+      error.response?.data?.error ||
+      error.response?.data?.message ||
+      error.message;
+
+    toast.error(`${label} creation failed: ${errorMessage}`);
+    console.error(`Error creating ${label}:`, error);
   }
 }
 

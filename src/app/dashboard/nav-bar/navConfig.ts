@@ -28,6 +28,11 @@ export const navItems = [
         href: "/dashboard/my-leave",
         roles: ["Admin", "Crew"],
       },
+      {
+        label: "My Availability",
+        href: "/dashboard/my-staff-availability",
+        roles: ["Admin", "Crew"],
+      },
     ],
   },
   {
@@ -43,6 +48,11 @@ export const navItems = [
       {
         label: "Leave Requests",
         href: "/dashboard/leave",
+        roles: ["Admin"],
+      },
+      {
+        label: "Staff Availability",
+        href: "/dashboard/staff-availability",
         roles: ["Admin"],
       },
     ],
