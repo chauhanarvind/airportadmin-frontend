@@ -4,17 +4,10 @@ import { useEffect, useState } from "react";
 import PageHeader from "@/app/components/ui/PageHeader";
 import PageContainer from "@/app/components/layout/PageContainer";
 import PageLoader from "@/app/components/ui/PageLoader";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { uiTheme } from "@/app/lib/uiConfig";
-import { handleFetchList, handleFetchPaged } from "@/app/lib/crudService";
+
+import { handleFetchList } from "@/app/lib/crudService";
 import { useAuth } from "@/app/components/AuthProvider";
+import MyShiftTable from "./MyShiftTable";
 
 interface MyShift {
   id: number;
@@ -81,56 +74,8 @@ export default function MyShiftsPage() {
 
       {sortedWeeks.map((weekStart) => {
         const shifts = shiftGroups[weekStart];
-        const endOfWeek = new Date(weekStart);
-        endOfWeek.setDate(endOfWeek.getDate() + 6);
-
         return (
-          <div
-            key={weekStart}
-            className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} mt-6`}
-          >
-            <h2 className="font-semibold text-lg mb-3">
-              Week of{" "}
-              {new Date(weekStart).toLocaleDateString(undefined, {
-                month: "short",
-                day: "numeric",
-              })}{" "}
-              –{" "}
-              {endOfWeek.toLocaleDateString(undefined, {
-                month: "short",
-                day: "numeric",
-              })}
-            </h2>
-
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Start</TableHead>
-                  <TableHead>End</TableHead>
-                  <TableHead>Location</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {shifts.map((shift) => (
-                  <TableRow key={shift.id}>
-                    <TableCell>
-                      {new Date(shift.date).toLocaleDateString(undefined, {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </TableCell>
-                    <TableCell>{shift.roleName}</TableCell>
-                    <TableCell>{shift.startTime}</TableCell>
-                    <TableCell>{shift.endTime}</TableCell>
-                    <TableCell>{shift.locationName}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+          <MyShiftTable key={weekStart} weekStart={weekStart} shifts={shifts} />
         );
       })}
     </PageContainer>
