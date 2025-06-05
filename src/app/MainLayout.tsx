@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "./dashboard/nav-bar/SideBar";
+import Sidebar from "./features/nav-bar/SideBar";
 import { uiTheme } from "@/app/lib/uiConfig";
 
 // src/app/MainLayout.tsx
