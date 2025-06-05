@@ -58,7 +58,7 @@ export default function JobCategoryTable() {
             <TableRow
               key={cat.id}
               className="hover:bg-blue-50 transition cursor-pointer"
-              onClick={() => router.push(`/dashboard/job-categories/${cat.id}`)}
+              onClick={() => router.push(`/features/job-categories/${cat.id}`)}
             >
               <TableCell>{cat.categoryName}</TableCell>
             </TableRow>

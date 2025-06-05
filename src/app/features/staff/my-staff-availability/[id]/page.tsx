@@ -39,7 +39,7 @@ export default function EditStaffAvailabilityPage() {
       "/api/staff-availability",
       data,
       "Staff availability",
-      () => router.push("/dashboard/my-staff-availability")
+      () => router.push("/features/my-staff-availability")
     );
   };
 
@@ -50,7 +50,7 @@ export default function EditStaffAvailabilityPage() {
       <PageHeader
         title="Edit Availability"
         actions={
-          <Link href="/dashboard/my-staff-availability">
+          <Link href="/features/my-staff-availability">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

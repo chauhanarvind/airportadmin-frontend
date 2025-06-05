@@ -18,7 +18,7 @@ export default function JobLevelsPage() {
       <PageHeader
         title="Job Level Management"
         actions={
-          <Link href="/dashboard/job-levels/new">
+          <Link href="/features/job-levels/new">
             <Button className={uiTheme.colors.primary}>Add New Level</Button>
           </Link>
         }

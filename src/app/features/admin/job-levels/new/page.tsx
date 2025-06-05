@@ -23,7 +23,7 @@ export default function CreateJobLevelPage() {
       "/api/job-levels/create",
       data,
       "Job Level",
-      () => router.push("/dashboard/job-levels")
+      () => router.push("/features/job-levels")
     );
   };
 
@@ -32,7 +32,7 @@ export default function CreateJobLevelPage() {
       <PageHeader
         title="Create New Job Level"
         actions={
-          <Link href="/dashboard/job-levels">
+          <Link href="/features/job-levels">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

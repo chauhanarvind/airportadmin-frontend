@@ -56,7 +56,7 @@ export default function EditUserPage() {
             constraintProfileId: user.constraintProfileId ?? undefined,
           });
         } else {
-          router.push("/dashboard/users");
+          router.push("/features/users");
         }
       } finally {
         setLoading(false);
@@ -72,7 +72,7 @@ export default function EditUserPage() {
       "PUT",
       data,
       "User",
-      () => router.push("/dashboard/users")
+      () => router.push("/features/users")
     );
   };
 
@@ -87,7 +87,7 @@ export default function EditUserPage() {
       <PageHeader
         title="Edit User"
         actions={
-          <Link href="/dashboard/users">
+          <Link href="/features/users">
             <Button
               size="sm"
               className="bg-white text-gray-800 hover:bg-gray-100 shadow-sm rounded-md"

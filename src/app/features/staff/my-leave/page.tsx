@@ -66,7 +66,7 @@ export default function MyLeavePage() {
       <PageHeader
         title="My Leave Requests"
         actions={
-          <Link href="/dashboard/my-leave/apply">
+          <Link href="/features/my-leave/apply">
             <Button className="bg-blue-600 text-white hover:bg-blue-700">
               Apply New Leave
             </Button>

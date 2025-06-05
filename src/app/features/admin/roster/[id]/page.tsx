@@ -64,7 +64,7 @@ export default function ViewGeneratedRosterPage() {
       <PageHeader
         title="Generated Roster"
         actions={
-          <Link href="/dashboard/staffing-requests">
+          <Link href="/features/staffing-requests">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

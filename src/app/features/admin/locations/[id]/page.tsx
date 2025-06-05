@@ -49,7 +49,7 @@ export default function EditLocationPage() {
             description: location.description,
           });
         } else {
-          router.push("/dashboard/locations");
+          router.push("/features/locations");
         }
       } finally {
         setLoading(false);
@@ -65,7 +65,7 @@ export default function EditLocationPage() {
       "PUT",
       data,
       "Location",
-      () => router.push("/dashboard/locations")
+      () => router.push("/features/locations")
     );
   };
 
@@ -77,7 +77,7 @@ export default function EditLocationPage() {
       <PageHeader
         title="Edit Location"
         actions={
-          <Link href="/dashboard/locations">
+          <Link href="/features/locations">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

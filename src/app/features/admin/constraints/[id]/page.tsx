@@ -51,7 +51,7 @@ export default function EditConstraintProfilePage() {
             allowedDays: profile.allowedDays || [],
           });
         } else {
-          router.push("/dashboard/constraints");
+          router.push("/features/constraints");
         }
       } finally {
         setLoading(false);
@@ -67,7 +67,7 @@ export default function EditConstraintProfilePage() {
       "PUT",
       data,
       "Constraint Profile",
-      () => router.push("/dashboard/constraints")
+      () => router.push("/features/constraints")
     );
   };
 
@@ -85,7 +85,7 @@ export default function EditConstraintProfilePage() {
     <div className={uiTheme.layout.container}>
       {/* Back Button + Heading */}
       <div className="flex items-center gap-3">
-        <Link href="/dashboard/constraints">
+        <Link href="/features/constraints">
           <Button size="sm" className={uiTheme.buttons.card}>
             <ArrowLeft className="h-4 w-4 mr-1" />
             Back

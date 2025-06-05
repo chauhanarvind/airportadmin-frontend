@@ -23,7 +23,7 @@ export default function CreateLocationPage() {
       "/api/locations/create",
       data,
       "Location",
-      () => router.push("/dashboard/locations")
+      () => router.push("/features/locations")
     );
   };
 
@@ -32,7 +32,7 @@ export default function CreateLocationPage() {
       <PageHeader
         title="Create New Location"
         actions={
-          <Link href="/dashboard/locations">
+          <Link href="/features/locations">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

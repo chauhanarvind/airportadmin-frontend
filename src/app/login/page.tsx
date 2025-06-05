@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import api from "../lib/api";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 type LoginFormInputs = {
   email: string;
@@ -16,6 +17,7 @@ type LoginFormInputs = {
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter(); // ✅ Use this instead of window.location.href
 
   const {
     register,
@@ -25,7 +27,6 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     setLoading(true);
-    console.log(data);
 
     try {
       const res = await api.post("/api/auth/login", data);
@@ -34,7 +35,8 @@ export default function LoginPage() {
       if (token) {
         Cookies.set("token", token, { expires: 7 }); // JWT in cookie, valid 7 days
         toast.success("Login successful");
-        window.location.href = "/dashboard"; // redirect after login
+
+        router.push("/features");
       } else {
         toast.error("Token not found in response");
       }

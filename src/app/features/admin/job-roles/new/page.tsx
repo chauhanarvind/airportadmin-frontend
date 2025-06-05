@@ -23,7 +23,7 @@ export default function CreateJobRolePage() {
       "/api/job-roles/create",
       data,
       "Job Role",
-      () => router.push("/dashboard/job-roles")
+      () => router.push("/features/job-roles")
     );
   };
 
@@ -32,7 +32,7 @@ export default function CreateJobRolePage() {
       <PageHeader
         title="Create New Job Role"
         actions={
-          <Link href="/dashboard/job-roles">
+          <Link href="/features/job-roles">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

@@ -94,7 +94,7 @@ export default function AdminStaffingRequestPage() {
                 </Button>
               </Link>
             )}
-            <Link href="/dashboard/staffing-requests">
+            <Link href="/features/staffing-requests">
               <Button size="sm" className={uiTheme.buttons.back}>
                 <ArrowLeft className="h-4 w-4 mr-1" />
                 Back
