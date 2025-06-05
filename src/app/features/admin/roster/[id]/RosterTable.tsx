@@ -9,13 +9,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { uiTheme } from "@/app/lib/uiConfig";
-import { GroupedDay } from "../../common/Assignment/Types";
+import { GroupedDay } from "../../../common/Assignment/Types";
 
 interface Props {
   days: GroupedDay[];
 }
 
-export default function GenerateRosterTable({ days }: Props) {
+export default function RosterTable({ days }: Props) {
   return (
     <div className="space-y-6">
       {days.map((day) => (

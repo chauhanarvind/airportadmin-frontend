@@ -13,7 +13,7 @@ import { uiTheme } from "@/app/lib/uiConfig";
 
 import { handleGetById } from "@/app/lib/crudService";
 import { Assignment, GroupedDay } from "@/app/features/common/Assignment/Types";
-import GenerateRosterTable from "../../GenerateRosterTable";
+import RosterTable from "./RosterTable";
 
 export default function ViewGeneratedRosterPage() {
   const { id } = useParams();
@@ -28,20 +28,25 @@ export default function ViewGeneratedRosterPage() {
         `/api/roster/view/${requestId}`,
         "Roster"
       );
-      console.log(response);
 
-      if (!response) return;
+      if (!response || response.length === 0) {
+        setRosterDays([]);
+        setLoading(false);
+        return;
+      }
 
-      const grouped: GroupedDay[] = Object.entries(
-        response.reduce((acc, assignment) => {
-          if (!acc[assignment.date]) acc[assignment.date] = [];
-          acc[assignment.date].push(assignment);
-          return acc;
-        }, {} as Record<string, Assignment[]>)
-      ).map(([date, assignments]) => ({
-        date,
-        assignments,
-      }));
+      const groupedMap = response.reduce((acc, assignment) => {
+        if (!acc[assignment.date]) acc[assignment.date] = [];
+        acc[assignment.date].push(assignment);
+        return acc;
+      }, {} as Record<string, Assignment[]>);
+
+      const grouped: GroupedDay[] = Object.entries(groupedMap).map(
+        ([date, assignments]) => ({
+          date,
+          assignments,
+        })
+      );
 
       setRosterDays(grouped);
       setLoading(false);
@@ -51,27 +56,6 @@ export default function ViewGeneratedRosterPage() {
   }, [requestId]);
 
   if (loading) return <PageLoader />;
-
-  if (!rosterDays || rosterDays.length === 0) {
-    return (
-      <PageContainer>
-        <PageHeader
-          title="Generated Roster"
-          actions={
-            <Link href="/dashboard/staffing-requests">
-              <Button size="sm" className={uiTheme.buttons.back}>
-                <ArrowLeft className="h-4 w-4 mr-1" />
-                Back
-              </Button>
-            </Link>
-          }
-        />
-        <p className="text-muted-foreground mt-4">
-          No roster found for this request.
-        </p>
-      </PageContainer>
-    );
-  }
 
   return (
     <PageContainer>
@@ -86,9 +70,16 @@ export default function ViewGeneratedRosterPage() {
           </Link>
         }
       />
-      <div className="mt-4">
-        <GenerateRosterTable days={rosterDays} />
-      </div>
+
+      {!rosterDays || rosterDays.length === 0 ? (
+        <p className="text-muted-foreground mt-4">
+          No roster found for this request.
+        </p>
+      ) : (
+        <div className="mt-4">
+          <RosterTable days={rosterDays} />
+        </div>
+      )}
     </PageContainer>
   );
 }
