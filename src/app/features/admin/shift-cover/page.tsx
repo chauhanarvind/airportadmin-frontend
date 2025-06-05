@@ -4,22 +4,18 @@ import { useEffect, useState } from "react";
 import PageContainer from "@/app/components/layout/PageContainer";
 import PageHeader from "@/app/components/ui/PageHeader";
 import PageLoader from "@/app/components/ui/PageLoader";
-import { useAuth } from "@/app/components/AuthProvider";
 import { handleFetchList } from "@/app/lib/crudService";
-import MyShiftCoverTable from "./MyShiftCoverTable";
-import { ShiftCoverResponseDto } from "../../common/shift-cover/ShiftCoverTypes";
+import { ShiftCoverResponseDto } from "@/app/features/common/shift-cover/ShiftCoverTypes";
+import ShiftCoverTable from "./ShiftCoverTable";
 
-export default function MyShiftCoverPage() {
-  const { user } = useAuth();
+export default function ShiftCoverAdminPage() {
   const [requests, setRequests] = useState<ShiftCoverResponseDto[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user?.id) return;
-
     const fetchRequests = async () => {
       const res = await handleFetchList<ShiftCoverResponseDto[]>(
-        `/api/shift-cover/user/${user.id}`,
+        "/api/shift-cover",
         "Shift Cover Requests"
       );
       if (res) setRequests(res);
@@ -27,19 +23,19 @@ export default function MyShiftCoverPage() {
     };
 
     fetchRequests();
-  }, [user?.id]);
+  }, []);
 
   if (loading) return <PageLoader />;
 
   return (
     <PageContainer>
-      <PageHeader title="My Shift Cover Requests" />
+      <PageHeader title="All Shift Cover Requests" />
       {requests.length === 0 ? (
         <p className="text-muted-foreground mt-4">
-          You haven’t submitted any shift cover requests.
+          No shift cover requests have been submitted.
         </p>
       ) : (
-        <MyShiftCoverTable requests={requests} />
+        <ShiftCoverTable requests={requests} />
       )}
     </PageContainer>
   );
