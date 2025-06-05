@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Table,
@@ -11,66 +10,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-
-import { handleFetchPaged } from "@/app/lib/crudService";
 import { LeaveRequestResponse } from "./LeaveTypes";
-import LeaveStatusBadge from "./LeaveStatusBadge";
+import StatusBadge from "../StatusBadge";
 
 interface LeaveTableProps {
-  filters?: {
-    userId?: string;
-    status?: string;
-  };
-  basePath?: string; // optional, defaults to "leave"
-}
-
-interface PaginatedResponse<T> {
-  content: T[];
+  data: LeaveRequestResponse[];
+  loading: boolean;
+  page: number;
   totalPages: number;
-  totalElements: number;
-  size: number;
-  number: number;
+  onPageChange: (page: number) => void;
+  basePath?: string;
 }
 
-export default function LeaveTable({ filters, basePath }: LeaveTableProps) {
-  const [leaves, setLeaves] = useState<LeaveRequestResponse[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+export default function LeaveTable({
+  data,
+  loading,
+  page,
+  totalPages,
+  onPageChange,
+  basePath = "leave",
+}: LeaveTableProps) {
   const router = useRouter();
-
-  const fetchLeaves = async () => {
-    setLoading(true);
-    try {
-      const query = new URLSearchParams();
-      if (filters?.userId) query.append("userId", filters.userId);
-      if (filters?.status && filters.status !== "ALL") {
-        query.append("status", filters.status);
-      }
-
-      query.append("page", page.toString());
-      query.append("size", "10");
-
-      const data = await handleFetchPaged<
-        PaginatedResponse<LeaveRequestResponse>
-      >(`/api/leaves/?${query.toString()}`, "Leave Requests");
-
-      if (data) {
-        setLeaves(data.content);
-        setTotalPages(data.totalPages);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    setPage(0); // Reset to first page when filters change
-  }, [filters?.userId, filters?.status]);
-
-  useEffect(() => {
-    fetchLeaves();
-  }, [filters?.userId, filters?.status, page]);
 
   return (
     <div className="overflow-x-auto">
@@ -85,21 +45,18 @@ export default function LeaveTable({ filters, basePath }: LeaveTableProps) {
             <TableHead>Created At</TableHead>
           </TableRow>
         </TableHeader>
-
         <TableBody>
-          {leaves.map((leave) => (
+          {data.map((leave) => (
             <TableRow
               key={leave.id}
               className="hover:bg-blue-100 transition cursor-pointer"
-              onClick={() =>
-                router.push(`/dashboard/${basePath ?? "leave"}/${leave.id}`)
-              }
+              onClick={() => router.push(`/dashboard/${basePath}/${leave.id}`)}
             >
               <TableCell>{leave.userName ?? `User ${leave.userId}`}</TableCell>
               <TableCell>{leave.startDate}</TableCell>
               <TableCell>{leave.endDate}</TableCell>
               <TableCell>
-                <LeaveStatusBadge status={leave.status} />
+                <StatusBadge status={leave.status} />
               </TableCell>
               <TableCell>{leave.reason}</TableCell>
               <TableCell>
@@ -108,7 +65,7 @@ export default function LeaveTable({ filters, basePath }: LeaveTableProps) {
             </TableRow>
           ))}
 
-          {!loading && leaves.length === 0 && (
+          {!loading && data.length === 0 && (
             <TableRow>
               <TableCell
                 colSpan={6}
@@ -129,19 +86,18 @@ export default function LeaveTable({ filters, basePath }: LeaveTableProps) {
         </TableBody>
       </Table>
 
-      {/* Pagination Controls */}
       <div className="flex justify-end gap-2 mt-4">
         <Button
           variant="outline"
           disabled={page === 0}
-          onClick={() => setPage((p) => p - 1)}
+          onClick={() => onPageChange(page - 1)}
         >
           Previous
         </Button>
         <Button
           variant="outline"
           disabled={page + 1 >= totalPages}
-          onClick={() => setPage((p) => p + 1)}
+          onClick={() => onPageChange(page + 1)}
         >
           Next
         </Button>
