@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { StaffingRequestCreate } from "../../common/staffing-requests/StaffingRequestTypes";
 import { uiTheme } from "@/app/lib/uiConfig";
-import RoleSelector from "@/app/components/RoleSelector";
+import RoleSelector from "@/app/components/ApiSelectDropdown";
 
 interface Props {
   day: { id: string; date: string };

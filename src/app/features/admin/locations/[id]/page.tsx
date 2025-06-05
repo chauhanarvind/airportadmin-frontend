@@ -23,7 +23,7 @@ import { uiTheme } from "@/app/lib/uiConfig";
 type LocationFormData = Partial<UpdateLocation> & CreateLocation;
 
 export default function EditLocationPage() {
-  useRequireRoles(["Admin", "Manager"]);
+  useRequireRoles(["Admin"]);
 
   const { id } = useParams();
   const router = useRouter();

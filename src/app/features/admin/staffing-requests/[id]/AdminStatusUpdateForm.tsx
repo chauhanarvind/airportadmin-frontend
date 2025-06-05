@@ -19,12 +19,14 @@ import {
   StaffingRequestDetail,
   StaffingRequestUpdate,
 } from "@/app/features/common/staffing-requests/StaffingRequestTypes";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 interface Props {
   onStatusUpdated?: () => void;
 }
 
 export default function AdminStatusUpdateForm({ onStatusUpdated }: Props) {
+  useRequireRoles(["Admin"]);
   const { id } = useParams();
   const requestId = id as string;
 

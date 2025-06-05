@@ -7,7 +7,6 @@ import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import StaffingRequestTable from "../../common/staffing-requests/StaffingRequestTable";
 
 export default function StaffingRequestsPage() {
-  // Restrict access to Admin, Supervisor, or Manager
   useRequireRoles(["Admin", "Supervisor", "Manager"]);
 
   return (

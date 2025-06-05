@@ -19,8 +19,10 @@ import PageLoader from "@/app/components/ui/PageLoader";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function LeaveRequestByIdPage() {
+  useRequireRoles(["Admin"]);
   const { id } = useParams();
   const router = useRouter();
   const methods = useForm<LeaveRequestResponse>();

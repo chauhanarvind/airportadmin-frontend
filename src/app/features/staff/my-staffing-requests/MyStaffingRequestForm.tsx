@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { StaffingRequestCreate } from "../../common/staffing-requests/StaffingRequestTypes";
 import WeekPicker from "../../common/staffing-requests/WeekPicker";
-import RoleSelector from "@/app/components/RoleSelector";
+import RoleSelector from "@/app/components/ApiSelectDropdown";
 
 interface Props {
   onSubmit: (data: StaffingRequestCreate) => void;

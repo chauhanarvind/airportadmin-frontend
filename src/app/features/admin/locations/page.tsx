@@ -11,7 +11,7 @@ import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { uiTheme } from "@/app/lib/uiConfig";
 
 export default function LocationsPage() {
-  useRequireRoles(["Admin", "Manager"]);
+  useRequireRoles(["Admin"]);
 
   return (
     <PageContainer>

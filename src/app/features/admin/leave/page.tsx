@@ -12,7 +12,7 @@ import FilterBar from "./FilterBar";
 import LeaveTable from "../../common/leave/LeaveTable";
 
 export default function LeaveRequestsPage() {
-  useRequireRoles(["Admin", "Supervisor", "Manager"]);
+  useRequireRoles(["Admin"]);
 
   const methods = useForm({
     defaultValues: {

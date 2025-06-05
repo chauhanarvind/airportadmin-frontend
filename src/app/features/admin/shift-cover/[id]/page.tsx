@@ -8,8 +8,10 @@ import PageLoader from "@/app/components/ui/PageLoader";
 import { handleGetById } from "@/app/lib/crudService";
 import { ShiftCoverResponseDto } from "@/app/features/common/shift-cover/ShiftCoverTypes";
 import ShiftCoverForm from "./ShiftCoverForm";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function ShiftCoverDetailPage() {
+  useRequireRoles(["Admin"]);
   const { id } = useParams();
   const [request, setRequest] = useState<ShiftCoverResponseDto | null>(null);
   const [loading, setLoading] = useState(true);

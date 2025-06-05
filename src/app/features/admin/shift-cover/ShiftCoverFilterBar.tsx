@@ -4,20 +4,25 @@ import { useFormContext } from "react-hook-form";
 import TextInput from "@/app/components/form/TextInput";
 import StaticSelectDropdown from "@/app/components/StaticSelectorDropDown";
 
-export default function FilterBar() {
-  useFormContext(); // ensures the component is inside a form context
+export default function ShiftCoverFilterBar() {
+  useFormContext(); // ensure context is active
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <TextInput
-        name="userId"
-        label="Filter by User ID"
-        placeholder="Enter user ID"
+        name="originalUserId"
+        label="Original User ID"
+        placeholder="Enter original user ID"
       />
-
+      <TextInput
+        name="coveringUserId"
+        label="Covering User ID"
+        placeholder="Enter covering user ID"
+      />
       <StaticSelectDropdown
         name="status"
-        label="Filter by Status"
+        label="Status"
+        required={false}
         staticOptions={[
           "ALL",
           "PENDING",
@@ -26,7 +31,6 @@ export default function FilterBar() {
           "CANCELLED",
           "RESUBMITTED",
         ]}
-        required={false}
       />
     </div>
   );

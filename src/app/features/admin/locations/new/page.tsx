@@ -15,7 +15,7 @@ import { CreateLocation, LocationResponse } from "../LocationTypes";
 import { uiTheme } from "@/app/lib/uiConfig";
 
 export default function CreateLocationPage() {
-  useRequireRoles(["Admin", "Manager"]);
+  useRequireRoles(["Admin"]);
   const router = useRouter();
 
   const handleSubmit = async (data: CreateLocation) => {

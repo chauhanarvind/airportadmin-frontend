@@ -8,7 +8,7 @@ import { uiTheme } from "@/app/lib/uiConfig";
 
 import TextInput from "@/app/components/form/TextInput";
 import DateInput from "@/app/components/form/DateInput";
-import SelectInput from "@/app/components/form/SelectInput";
+import StaticSelectDropdown from "@/app/components/StaticSelectorDropDown";
 
 interface Props {
   onSubmit: (data: LeaveRequestResponse) => void;
@@ -31,8 +31,8 @@ export default function LeaveForm({ onSubmit }: Props) {
       {/* Reason */}
       <TextInput name="reason" label="Reason" disabled />
 
-      {/* Status */}
-      <SelectInput
+      {/* Status Dropdown */}
+      <StaticSelectDropdown
         name="status"
         label="Update Status"
         required

@@ -14,8 +14,10 @@ import { uiTheme } from "@/app/lib/uiConfig";
 import { handleGetById } from "@/app/lib/crudService";
 import { Assignment, GroupedDay } from "@/app/features/common/Assignment/Types";
 import RosterTable from "./RosterTable";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function ViewGeneratedRosterPage() {
+  useRequireRoles(["Admin"]);
   const { id } = useParams();
   const requestId = id as string;
 
