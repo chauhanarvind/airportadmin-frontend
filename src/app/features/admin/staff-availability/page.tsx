@@ -8,10 +8,19 @@ import PageHeader from "@/app/components/ui/PageHeader";
 import PageLoader from "@/app/components/ui/PageLoader";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { uiTheme } from "@/app/lib/uiConfig";
-import { handleFetchList } from "@/app/lib/crudService";
+import { handleFetchPaged } from "@/app/lib/crudService";
+
 import StaffAvailabilityTable from "../../common/staff-availability/StaffAvailabilityTable";
 import StaffAvailabilityFilterBar from "./StaffAvailabilityFilterBar";
 import { StaffAvailabilityResponse } from "../../common/staff-availability/StaffAvailabilityTypes";
+
+interface PaginatedResponse<T> {
+  content: T[];
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+}
 
 export default function StaffAvailabilityPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor"]);
@@ -28,26 +37,37 @@ export default function StaffAvailabilityPage() {
 
   const [data, setData] = useState<StaffAvailabilityResponse[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const fetchData = async () => {
+    setLoading(true);
+
+    const query = new URLSearchParams();
+    if (filters.userId) query.append("userId", filters.userId);
+    if (filters.date) query.append("date", filters.date);
+    query.append("page", page.toString());
+    query.append("size", "10");
+
+    const result = await handleFetchPaged<
+      PaginatedResponse<StaffAvailabilityResponse>
+    >(`/api/staff-availability?${query.toString()}`, "Staff Availability");
+
+    if (result) {
+      setData(result.content);
+      setTotalPages(result.totalPages);
+    }
+
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const query = new URLSearchParams();
+    setPage(0); // reset page on filter change
+  }, [filters.userId, filters.date]);
 
-      if (filters.userId) query.append("userId", filters.userId);
-      if (filters.date) query.append("date", filters.date);
-
-      const url = `/api/staff-availability?${query.toString()}`;
-      const res = await handleFetchList<StaffAvailabilityResponse[]>(
-        url,
-        "Staff Availability"
-      );
-
-      if (res) setData(res);
-      setLoading(false);
-    };
-
+  useEffect(() => {
     fetchData();
-  }, [filters]);
+  }, [filters.userId, filters.date, page]);
 
   if (loading) return <PageLoader />;
 
@@ -63,13 +83,14 @@ export default function StaffAvailabilityPage() {
         <div
           className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding}`}
         >
-          {data.length === 0 ? (
-            <p className="text-muted-foreground">
-              No records found for the selected filters.
-            </p>
-          ) : (
-            <StaffAvailabilityTable data={data} clickableRows={false} />
-          )}
+          <StaffAvailabilityTable
+            data={data}
+            loading={loading}
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            clickableRows={false}
+          />
         </div>
       </FormProvider>
     </PageContainer>

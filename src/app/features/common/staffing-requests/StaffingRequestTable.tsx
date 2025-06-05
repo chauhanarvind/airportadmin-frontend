@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Table,
@@ -10,54 +9,34 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
-import { handleFetchList } from "@/app/lib/crudService";
 import {
-  RequestTypeLabels,
   StaffingRequestResponse,
+  RequestTypeLabels,
 } from "./StaffingRequestTypes";
-import RosterStatusBadge from "./RosterStatusBadge";
+import StatusBadge from "../StatusBadge";
 
 interface StaffingRequestTableProps {
-  filters?: {
-    userId?: string;
-  };
-  basePath?: string; // e.g. "my-staffing-requests" or "staffing-requests"
-  clickableRows?: boolean; // allow row click navigation (default: true)
+  data: StaffingRequestResponse[];
+  loading: boolean;
+  page: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  basePath?: string;
+  clickableRows?: boolean; //clickable to update status for admin
 }
 
-// to view on landing
 export default function StaffingRequestTable({
-  filters,
+  data,
+  loading,
+  page,
+  totalPages,
+  onPageChange,
   basePath = "staffing-requests",
   clickableRows = true,
 }: StaffingRequestTableProps) {
-  const [requests, setRequests] = useState<StaffingRequestResponse[]>([]);
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const fetchRequests = async () => {
-    setLoading(true);
-
-    let url = "/api/staffing-requests/";
-    if (filters?.userId) {
-      url = `/api/staffing-requests/user/${filters.userId}`;
-    }
-
-    const data = await handleFetchList<any>(url, "Staffing requests");
-    console.log(data);
-
-    const normalized: StaffingRequestResponse[] = Array.isArray(data)
-      ? data
-      : data?.content ?? [];
-
-    setRequests(normalized);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchRequests();
-  }, [filters?.userId]);
 
   return (
     <div className="overflow-x-auto">
@@ -71,9 +50,8 @@ export default function StaffingRequestTable({
             <TableHead>Created At</TableHead>
           </TableRow>
         </TableHeader>
-
         <TableBody>
-          {requests.map((req) => (
+          {data.map((req) => (
             <TableRow
               key={req.id}
               className={
@@ -88,16 +66,18 @@ export default function StaffingRequestTable({
               }
             >
               <TableCell>{req.locationName}</TableCell>
-              <TableCell>{`${req.managerFirstName} ${req.managerLastName}`}</TableCell>
+              <TableCell>
+                {req.managerFirstName} {req.managerLastName}
+              </TableCell>
               <TableCell>{RequestTypeLabels[req.requestType]}</TableCell>
               <TableCell>
-                <RosterStatusBadge status={req.status} />
+                <StatusBadge status={req.status} />
               </TableCell>
               <TableCell>{new Date(req.createdAt).toLocaleString()}</TableCell>
             </TableRow>
           ))}
 
-          {!loading && requests.length === 0 && (
+          {!loading && data.length === 0 && (
             <TableRow>
               <TableCell
                 colSpan={5}
@@ -117,6 +97,23 @@ export default function StaffingRequestTable({
           )}
         </TableBody>
       </Table>
+
+      <div className="flex justify-end gap-2 mt-4">
+        <Button
+          variant="outline"
+          disabled={page === 0}
+          onClick={() => onPageChange(page - 1)}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          disabled={page + 1 >= totalPages}
+          onClick={() => onPageChange(page + 1)}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,24 +1,65 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuth } from "@/app/components/AuthProvider";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-import StaffingRequestTable from "../../common/staffing-requests/StaffingRequestTable";
-
+import { useAuth } from "@/app/components/AuthProvider";
 import PageContainer from "@/app/components/layout/PageContainer";
 import PageHeader from "@/app/components/ui/PageHeader";
 import PageLoader from "@/app/components/ui/PageLoader";
+import { Button } from "@/components/ui/button";
 import { uiTheme } from "@/app/lib/uiConfig";
+
+import StaffingRequestTable from "../../common/staffing-requests/StaffingRequestTable";
+import { StaffingRequestResponse } from "../../common/staffing-requests/StaffingRequestTypes";
+import { handleFetchPaged } from "@/app/lib/crudService";
+
+interface PaginatedResponse<T> {
+  content: T[];
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+}
 
 export default function MyStaffingRequestsPage() {
   const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);
 
+  const [data, setData] = useState<StaffingRequestResponse[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
   useEffect(() => {
     if (user?.id) setUserId(user.id);
   }, [user]);
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      if (!userId) return;
+
+      setLoading(true);
+      const query = new URLSearchParams({
+        userId: userId.toString(),
+        page: page.toString(),
+        size: "10",
+      });
+
+      const result = await handleFetchPaged<
+        PaginatedResponse<StaffingRequestResponse>
+      >(`/api/staffing-requests/?${query.toString()}`, "My Staffing Requests");
+
+      if (result) {
+        setData(result.content);
+        setTotalPages(result.totalPages);
+      }
+
+      setLoading(false);
+    };
+
+    fetchRequests();
+  }, [userId, page]);
 
   if (!userId) return <PageLoader />;
 
@@ -35,9 +76,15 @@ export default function MyStaffingRequestsPage() {
         }
       />
 
-      <div className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding}`}>
+      <div
+        className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} mt-4`}
+      >
         <StaffingRequestTable
-          filters={{ userId: String(userId) }}
+          data={data}
+          loading={loading}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
           basePath="my-staffing-requests"
         />
       </div>

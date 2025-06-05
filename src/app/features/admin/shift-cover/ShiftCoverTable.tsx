@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -10,14 +9,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { ShiftCoverResponseDto } from "@/app/features/common/shift-cover/ShiftCoverTypes";
+import StatusBadge from "../../common/StatusBadge";
 
 interface Props {
-  requests: ShiftCoverResponseDto[];
+  data: ShiftCoverResponseDto[];
+  loading: boolean;
+  page: number;
+  totalPages: number;
+  onPageChange: (newPage: number) => void;
 }
 
-export default function ShiftCoverTable({ requests }: Props) {
-  const [data] = useState<ShiftCoverResponseDto[]>(requests);
+export default function ShiftCoverTable({
+  data,
+  loading,
+  page,
+  totalPages,
+  onPageChange,
+}: Props) {
   const router = useRouter();
 
   const goToDetail = (id: number) => {
@@ -53,11 +63,50 @@ export default function ShiftCoverTable({ requests }: Props) {
               <TableCell>
                 {req.coveringUser.firstName} {req.coveringUser.lastName}
               </TableCell>
-              <TableCell>{req.status}</TableCell>
+              <TableCell>
+                <StatusBadge status={req.status} />
+              </TableCell>
             </TableRow>
           ))}
+
+          {!loading && data.length === 0 && (
+            <TableRow>
+              <TableCell
+                colSpan={5}
+                className="text-center py-6 text-muted-foreground"
+              >
+                No shift cover requests found.
+              </TableCell>
+            </TableRow>
+          )}
+
+          {loading && (
+            <TableRow>
+              <TableCell colSpan={5} className="text-center py-6">
+                Loading...
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-end gap-2 mt-4">
+        <Button
+          variant="outline"
+          disabled={page === 0}
+          onClick={() => onPageChange(page - 1)}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          disabled={page + 1 >= totalPages}
+          onClick={() => onPageChange(page + 1)}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }

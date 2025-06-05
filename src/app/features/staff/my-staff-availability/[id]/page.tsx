@@ -16,7 +16,7 @@ import MyStaffAvailabilityForm from "../MyStaffAvailabilityForm";
 import {
   StaffAvailabilityRequest,
   StaffAvailabilityResponse,
-} from "../../common/staff-availability/StaffAvailabilityTypes";
+} from "@/app/features/common/staff-availability/StaffAvailabilityTypes";
 
 export default function EditStaffAvailabilityPage() {
   const { id } = useParams();

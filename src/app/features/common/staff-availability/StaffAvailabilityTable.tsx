@@ -9,21 +9,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+
 import { StaffAvailabilityResponse } from "./StaffAvailabilityTypes";
 import AvailabilityStatusBadge from "./AvailabilityStatusBadge";
 
 interface StaffAvailabilityTableProps {
-  basePath?: string; // e.g., "staff-availability" or "my-staff-availability"
-  clickableRows?: boolean;
   data: StaffAvailabilityResponse[];
+  loading: boolean;
+  page: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  clickableRows?: boolean;
+  basePath?: string;
 }
 
 export default function StaffAvailabilityTable({
-  basePath,
-  clickableRows,
   data,
+  loading,
+  page,
+  totalPages,
+  onPageChange,
+  clickableRows = false,
+  basePath = "staff-availability",
 }: StaffAvailabilityTableProps) {
   const router = useRouter();
+
+  const handleRowClick = (id: number) => {
+    if (clickableRows) router.push(`/dashboard/${basePath}/${id}`);
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -39,45 +53,64 @@ export default function StaffAvailabilityTable({
         </TableHeader>
 
         <TableBody>
-          {data.length === 0 ? (
+          {!loading && data.length === 0 && (
             <TableRow>
               <TableCell
                 colSpan={5}
-                className="text-center text-muted-foreground"
+                className="text-center py-6 text-muted-foreground"
               >
                 No availability records found.
               </TableCell>
             </TableRow>
-          ) : (
-            data.map((entry) => (
-              <TableRow
-                key={entry.id}
-                className={
-                  clickableRows
-                    ? "hover:bg-blue-100 transition cursor-pointer"
-                    : ""
-                }
-                onClick={
-                  clickableRows
-                    ? () => router.push(`/dashboard/${basePath}/${entry.id}`)
-                    : undefined
-                }
-              >
-                <TableCell>
-                  {entry.userName ?? `User ${entry.userId}`}
-                </TableCell>
-                <TableCell>{entry.date}</TableCell>
-                <TableCell>
-                  <AvailabilityStatusBadge available={entry.isAvailable} />
-                </TableCell>
-
-                <TableCell>{entry.unavailableFrom ?? "-"}</TableCell>
-                <TableCell>{entry.unavailableTo ?? "-"}</TableCell>
-              </TableRow>
-            ))
           )}
+
+          {loading && (
+            <TableRow>
+              <TableCell colSpan={5} className="text-center py-6">
+                Loading...
+              </TableCell>
+            </TableRow>
+          )}
+
+          {data.map((entry) => (
+            <TableRow
+              key={entry.id}
+              className={
+                clickableRows
+                  ? "hover:bg-blue-100 transition cursor-pointer"
+                  : ""
+              }
+              onClick={() => handleRowClick(entry.id)}
+            >
+              <TableCell>{entry.userName ?? `User ${entry.userId}`}</TableCell>
+              <TableCell>{entry.date}</TableCell>
+              <TableCell>
+                <AvailabilityStatusBadge available={entry.isAvailable} />
+              </TableCell>
+              <TableCell>{entry.unavailableFrom ?? "-"}</TableCell>
+              <TableCell>{entry.unavailableTo ?? "-"}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-end gap-2 mt-4">
+        <Button
+          variant="outline"
+          disabled={page === 0}
+          onClick={() => onPageChange(page - 1)}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          disabled={page + 1 >= totalPages}
+          onClick={() => onPageChange(page + 1)}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }

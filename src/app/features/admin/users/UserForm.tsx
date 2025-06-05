@@ -6,9 +6,9 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 
 import TextInput from "@/app/components/form/TextInput";
-import SelectInput from "@/app/components/form/SelectInput";
-import { CreateUser, UpdateUser } from "@/app/features/users/UserTypes";
 import { uiTheme } from "@/app/lib/uiConfig";
+import { CreateUser, UpdateUser } from "./UserTypes";
+import ApiSelectDropdown from "@/app/components/ApiSelectDropdown";
 
 type UserFormData = Partial<UpdateUser> & CreateUser;
 
@@ -70,29 +70,29 @@ export default function UserForm({
 
           {/* Role & Job Info */}
           <div className={uiTheme.layout.formGrid}>
-            <SelectInput
+            <ApiSelectDropdown
               label="User Role"
               name="roleId"
               apiUrl="/api/roles/"
               optionKey="name"
               required
             />
-            <SelectInput
+            <ApiSelectDropdown
               label="Job Role"
               name="jobRoleId"
               apiUrl="/api/job-roles/"
               optionKey="roleName"
               required
             />
-            <SelectInput
+            <ApiSelectDropdown
               label="Job Level"
               name="jobLevelId"
               apiUrl="/api/job-levels/"
               optionKey="levelName"
               required
             />
-            <SelectInput
-              label="Constraint Profiles"
+            <ApiSelectDropdown
+              label="Constraint Profile"
               name="constraintProfileId"
               apiUrl="/api/constraint-profiles/"
               optionKey="name"

@@ -9,16 +9,57 @@ import { Button } from "@/components/ui/button";
 import PageContainer from "@/app/components/layout/PageContainer";
 import PageHeader from "@/app/components/ui/PageHeader";
 import PageLoader from "@/app/components/ui/PageLoader";
+import { handleFetchPaged } from "@/app/lib/crudService";
 
-import StaffAvailabilityTable from "../common/staff-availability/StaffAvailabilityTable";
+import StaffAvailabilityTable from "../../common/staff-availability/StaffAvailabilityTable";
+import { StaffAvailabilityResponse } from "../../common/staff-availability/StaffAvailabilityTypes";
+
+interface PaginatedResponse<T> {
+  content: T[];
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+}
 
 export default function MyStaffAvailabilityPage() {
   const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);
 
+  const [data, setData] = useState<StaffAvailabilityResponse[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
   useEffect(() => {
     if (user?.id) setUserId(user.id);
   }, [user]);
+
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      if (!userId) return;
+
+      setLoading(true);
+      const query = new URLSearchParams({
+        userId: userId.toString(),
+        page: page.toString(),
+        size: "10",
+      });
+
+      const res = await handleFetchPaged<
+        PaginatedResponse<StaffAvailabilityResponse>
+      >(`/api/staff-availability?${query.toString()}`, "My Availability");
+
+      if (res) {
+        setData(res.content);
+        setTotalPages(res.totalPages);
+      }
+
+      setLoading(false);
+    };
+
+    fetchAvailability();
+  }, [userId, page]);
 
   if (!userId) return <PageLoader />;
 
@@ -37,7 +78,11 @@ export default function MyStaffAvailabilityPage() {
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} mt-4`}
       >
         <StaffAvailabilityTable
-          filters={{ userId: String(userId) }}
+          data={data}
+          loading={loading}
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
           basePath="my-staff-availability"
           clickableRows={true}
         />

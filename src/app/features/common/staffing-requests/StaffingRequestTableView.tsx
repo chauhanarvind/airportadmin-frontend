@@ -15,7 +15,7 @@ interface Props {
   days: StaffingRequestDayDetail[];
 }
 
-// to view the detail
+// to view the detail of staffing request
 export default function StaffingRequestTableView({ days }: Props) {
   return (
     <div className="space-y-6">

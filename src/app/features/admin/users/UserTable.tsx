@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import {
   Table,
   TableBody,
@@ -11,40 +9,29 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import { UserResponse } from "./UserTypes";
-import { handleFetchList } from "@/app/lib/crudService";
-import { useRequireRoles } from "@/app/lib/useRequireRoles";
-import EmptyState from "@/app/components/ui/EmptyState";
+import { Button } from "@/components/ui/button";
 import PageLoader from "@/app/components/ui/PageLoader";
+import EmptyState from "@/app/components/ui/EmptyState";
+import { UserResponse } from "./UserTypes";
 
-export default function UserTable() {
-  const [users, setUsers] = useState<UserResponse[]>([]);
-  const [loading, setLoading] = useState(false);
+interface Props {
+  data: UserResponse[];
+  loading: boolean;
+  page: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
+
+export default function UserTable({
+  data,
+  loading,
+  page,
+  totalPages,
+  onPageChange,
+}: Props) {
   const router = useRouter();
 
-  useRequireRoles(["Admin", "Manager"]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true);
-      try {
-        const data = await handleFetchList<UserResponse[]>(
-          "/api/users/",
-          "Users"
-        );
-        if (data) setUsers(data);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-  if (loading) {
-    return <PageLoader />;
-  }
+  if (loading) return <PageLoader />;
 
   return (
     <div className="overflow-x-auto">
@@ -61,7 +48,7 @@ export default function UserTable() {
         </TableHeader>
 
         <TableBody>
-          {users.map((u) => (
+          {data.map((u) => (
             <TableRow
               key={u.id}
               className="hover:bg-blue-50 transition cursor-pointer"
@@ -76,7 +63,7 @@ export default function UserTable() {
             </TableRow>
           ))}
 
-          {users.length === 0 && !loading && (
+          {!loading && data.length === 0 && (
             <TableRow>
               <TableCell colSpan={6}>
                 <EmptyState message="No users found." />
@@ -85,6 +72,23 @@ export default function UserTable() {
           )}
         </TableBody>
       </Table>
+
+      <div className="flex justify-end gap-2 mt-4">
+        <Button
+          variant="outline"
+          disabled={page === 0}
+          onClick={() => onPageChange(page - 1)}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          disabled={page + 1 >= totalPages}
+          onClick={() => onPageChange(page + 1)}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }
