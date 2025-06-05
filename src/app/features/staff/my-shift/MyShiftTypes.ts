@@ -8,3 +8,9 @@ export interface MyShift {
   userFullName?: string;
   unassigned?: boolean;
 }
+
+export interface CoveringUserOption {
+  id: number;
+  firstName: string;
+  lastName: string;
+}
