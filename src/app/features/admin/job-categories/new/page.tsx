@@ -24,7 +24,7 @@ export default function CreateJobCategoryPage() {
       "/api/job-categories/create",
       data,
       "Job Category",
-      () => router.push("/features/job-categories")
+      () => router.push("/dashboard/job-categories")
     );
   };
 
@@ -33,7 +33,7 @@ export default function CreateJobCategoryPage() {
       <PageHeader
         title="Create New Job Category"
         actions={
-          <Link href="/features/job-categories">
+          <Link href="/dashboard/job-categories">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

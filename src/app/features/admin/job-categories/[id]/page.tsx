@@ -48,7 +48,7 @@ export default function EditJobCategoryPage() {
             categoryName: category.categoryName,
           });
         } else {
-          router.push("/features/job-categories");
+          router.push("/dashboard/job-categories");
         }
       } finally {
         setLoading(false);
@@ -64,7 +64,7 @@ export default function EditJobCategoryPage() {
       "PUT",
       data,
       "Job Category",
-      () => router.push("/features/job-categories")
+      () => router.push("/dashboard/job-categories")
     );
   };
 
@@ -76,7 +76,7 @@ export default function EditJobCategoryPage() {
       <PageHeader
         title="Edit Job Category"
         actions={
-          <Link href="/features/job-categories">
+          <Link href="/dashboard/job-categories">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

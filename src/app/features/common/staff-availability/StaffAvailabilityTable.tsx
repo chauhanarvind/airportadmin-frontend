@@ -36,7 +36,7 @@ export default function StaffAvailabilityTable({
   const router = useRouter();
 
   const handleRowClick = (id: number) => {
-    if (clickableRows) router.push(`/features/${basePath}/${id}`);
+    if (clickableRows) router.push(`/dashboard/${basePath}/${id}`);
   };
 
   return (

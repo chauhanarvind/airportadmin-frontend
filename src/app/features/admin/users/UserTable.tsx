@@ -52,7 +52,7 @@ export default function UserTable({
             <TableRow
               key={u.id}
               className="hover:bg-blue-50 transition cursor-pointer"
-              onClick={() => router.push(`/features/users/${u.id}`)}
+              onClick={() => router.push(`/dashboard/users/${u.id}`)}
             >
               <TableCell>{u.firstName + " " + u.lastName}</TableCell>
               <TableCell>{u.email}</TableCell>

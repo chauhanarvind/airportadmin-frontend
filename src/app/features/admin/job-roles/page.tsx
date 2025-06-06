@@ -18,7 +18,7 @@ export default function JobRolesPage() {
       <PageHeader
         title="Job Role Management"
         actions={
-          <Link href="/features/job-roles/new">
+          <Link href="/dashboard/job-roles/new">
             <Button className={uiTheme.colors.primary}>Add New Job Role</Button>
           </Link>
         }

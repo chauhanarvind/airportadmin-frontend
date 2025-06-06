@@ -40,7 +40,7 @@ export default function MyStaffingRequestDetailPage() {
       <PageHeader
         title="Staffing Request Detail"
         actions={
-          <Link href="/features/my-staffing-requests">
+          <Link href="/dashboard/my-staffing-requests">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

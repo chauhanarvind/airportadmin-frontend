@@ -23,7 +23,7 @@ export default function CreateConstraintProfilePage() {
       "/api/constraint-profiles/create",
       data,
       "Constraint Profile",
-      () => router.push("/features/constraints")
+      () => router.push("/dashboard/constraints")
     );
   };
 
@@ -31,7 +31,7 @@ export default function CreateConstraintProfilePage() {
     <div className={uiTheme.layout.container}>
       {/* Back Button + Heading */}
       <div className="flex items-center gap-3">
-        <Link href="/features/constraints">
+        <Link href="/dashboard/constraints">
           <Button size="sm" className={uiTheme.buttons.card}>
             <ArrowLeft className="h-4 w-4 mr-1" />
             Back

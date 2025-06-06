@@ -1,4 +1,4 @@
-// app/features/layout.tsx
+// app/dashboard/layout.tsx
 import MainLayout from "../MainLayout";
 
 export default function DashboardLayout({

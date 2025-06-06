@@ -48,7 +48,7 @@ export default function LeaveRequestByIdPage() {
       LeaveRequestResponse,
       LeaveRequestUpdate
     >(`/api/leaves/${id}/status`, "PUT", payload, "Leave request");
-    if (updated) router.push("/features/leave");
+    if (updated) router.push("/dashboard/leave");
   };
 
   return (
@@ -56,7 +56,7 @@ export default function LeaveRequestByIdPage() {
       <PageHeader
         title="Leave Request Details"
         actions={
-          <Link href="/features/leave">
+          <Link href="/dashboard/leave">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

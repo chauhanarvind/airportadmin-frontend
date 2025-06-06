@@ -57,7 +57,7 @@ export default function JobRoleTable() {
             <TableRow
               key={role.id}
               className="hover:bg-blue-50 transition cursor-pointer"
-              onClick={() => router.push(`/features/job-roles/${role.id}`)}
+              onClick={() => router.push(`/dashboard/job-roles/${role.id}`)}
             >
               <TableCell>{role.roleName}</TableCell>
               <TableCell>{role.categoryName}</TableCell>

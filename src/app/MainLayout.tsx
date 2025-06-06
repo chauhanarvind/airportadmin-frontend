@@ -1,12 +1,26 @@
-// app/layout.tsx or app/page.tsx
+"use client";
 
-import ProtectedLayout from "./components/ProtectedLayout";
-import MainLayout from "./MainLayout";
+import Sidebar from "./features/nav-bar/SideBar";
+import { uiTheme } from "@/app/lib/uiConfig";
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+// src/app/MainLayout.tsx
+
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <ProtectedLayout>
-      <MainLayout>{children}</MainLayout>
-    </ProtectedLayout>
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <Sidebar />
+
+      {/* Main content */}
+      <main
+        className={`${uiTheme.colors.contentBg} flex-1 p-6 overflow-y-auto`}
+      >
+        {children}
+      </main>
+    </div>
   );
 }

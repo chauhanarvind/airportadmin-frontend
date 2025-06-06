@@ -18,7 +18,7 @@ export default function LocationsPage() {
       <PageHeader
         title="Location Management"
         actions={
-          <Link href="/features/locations/new">
+          <Link href="/dashboard/locations/new">
             <Button className={uiTheme.colors.primary}>Add New Location</Button>
           </Link>
         }

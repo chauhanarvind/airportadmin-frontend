@@ -13,7 +13,7 @@ export default function ConstraintProfilesPage() {
     <div className={uiTheme.layout.container}>
       <div className="flex justify-between items-center">
         <h1 className={uiTheme.text.heading}>Constraint Profiles</h1>
-        <Link href="/features/constraints/new">
+        <Link href="/dashboard/constraints/new">
           <Button className={uiTheme.colors.primary}>Add New Profile</Button>
         </Link>
       </div>

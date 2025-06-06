@@ -49,7 +49,7 @@ export default function EditJobLevelPage() {
             levelName: level.levelName,
           });
         } else {
-          router.push("/features/job-levels");
+          router.push("/dashboard/job-levels");
         }
       } finally {
         setLoading(false);
@@ -65,7 +65,7 @@ export default function EditJobLevelPage() {
       "PUT",
       data,
       "Job Level",
-      () => router.push("/features/job-levels")
+      () => router.push("/dashboard/job-levels")
     );
   };
 
@@ -77,7 +77,7 @@ export default function EditJobLevelPage() {
       <PageHeader
         title="Edit Job Level"
         actions={
-          <Link href="/features/job-levels">
+          <Link href="/dashboard/job-levels">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back
