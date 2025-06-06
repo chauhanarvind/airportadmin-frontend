@@ -22,7 +22,7 @@ interface PaginatedResponse<T> {
 }
 
 export default function LeaveRequestsPage() {
-  useRequireRoles(["Admin"]);
+  useRequireRoles(["Admin", "Manager", "Supervisor"]);
 
   const methods = useForm({
     defaultValues: {
@@ -92,7 +92,7 @@ export default function LeaveRequestsPage() {
             page={page}
             totalPages={totalPages}
             onPageChange={setPage}
-            clickable={true}
+            clickable={false}
           />
         </div>
       </FormProvider>

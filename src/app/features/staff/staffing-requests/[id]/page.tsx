@@ -23,6 +23,7 @@ export default function StaffingRequestDetailPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { id } = useParams();
   const [request, setRequest] = useState<StaffingRequestDetail | null>(null);
+  const [rosterExists, setRosterExists] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +31,17 @@ export default function StaffingRequestDetailPage() {
         `/api/staffing-requests/${id}`,
         "Staffing request"
       );
-      if (data) setRequest(data);
+      if (data) {
+        setRequest(data);
+
+        if (data.status !== "PENDING") {
+          const exists = await handleGetById<boolean>(
+            `/api/roster/check/${id}`,
+            "Roster check"
+          );
+          setRosterExists(!!exists);
+        }
+      }
     };
     fetchData();
   }, [id]);
@@ -42,12 +53,21 @@ export default function StaffingRequestDetailPage() {
       <PageHeader
         title="Staffing Request Detail"
         actions={
-          <Link href="/features/staff/my-staffing-requests">
-            <Button size="sm" className={uiTheme.buttons.back}>
-              <ArrowLeft className="h-4 w-4 mr-1" />
-              Back
-            </Button>
-          </Link>
+          <div className="flex gap-2">
+            {rosterExists && (
+              <Link href={`/features/roster/${id}`}>
+                <Button className={uiTheme.colors.primary} variant="outline">
+                  View Roster
+                </Button>
+              </Link>
+            )}
+            <Link href="/features/staff/my-staffing-requests">
+              <Button size="sm" className={uiTheme.buttons.back}>
+                <ArrowLeft className="h-4 w-4 mr-1" />
+                Back
+              </Button>
+            </Link>
+          </div>
         }
       />
 

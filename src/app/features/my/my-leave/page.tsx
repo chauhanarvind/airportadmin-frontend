@@ -40,15 +40,10 @@ export default function MyLeavePage() {
       if (!userId) return;
 
       setLoading(true);
-      const query = new URLSearchParams({
-        userId: userId.toString(),
-        page: page.toString(),
-        size: "10",
-      });
 
       const res = await handleFetchPaged<
         PaginatedResponse<LeaveRequestResponse>
-      >(`/api/leaves?${query.toString()}`, "My Leave Requests");
+      >(`/api/leaves/user/${userId}`, "My Leave Requests");
 
       if (res) {
         setLeaves(res.content);
@@ -84,6 +79,7 @@ export default function MyLeavePage() {
           totalPages={totalPages}
           onPageChange={setPage}
           basePath="my-leave"
+          clickable={false}
         />
       </div>
     </PageContainer>

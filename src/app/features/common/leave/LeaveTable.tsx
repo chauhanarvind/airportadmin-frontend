@@ -20,6 +20,7 @@ interface LeaveTableProps {
   totalPages: number;
   onPageChange: (page: number) => void;
   basePath?: string;
+  clickable?: boolean; // <-- add this
 }
 
 export default function LeaveTable({
@@ -29,6 +30,7 @@ export default function LeaveTable({
   totalPages,
   onPageChange,
   basePath = "leave",
+  clickable,
 }: LeaveTableProps) {
   const router = useRouter();
 
@@ -49,9 +51,13 @@ export default function LeaveTable({
           {data.map((leave) => (
             <TableRow
               key={leave.id}
-              className="hover:bg-blue-100 transition cursor-pointer"
-              onClick={() =>
-                router.push(`/features/admin/${basePath}/${leave.id}`)
+              className={
+                clickable ? "hover:bg-blue-100 transition cursor-pointer" : ""
+              }
+              onClick={
+                clickable
+                  ? () => router.push(`/features/${basePath}/${leave.id}`)
+                  : undefined
               }
             >
               <TableCell>{leave.userName ?? `User ${leave.userId}`}</TableCell>
