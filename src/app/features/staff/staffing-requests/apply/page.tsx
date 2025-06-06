@@ -8,7 +8,7 @@ import { uiTheme } from "@/app/lib/uiConfig";
 import { handleCreate } from "@/app/lib/crudService";
 import { StaffingRequestCreate } from "../../../common/staffing-requests/StaffingRequestTypes";
 import { useAuth } from "@/app/components/AuthProvider";
-import MyStaffingRequestForm from "../MyStaffingRequestForm";
+import MyStaffingRequestForm from "../StaffingRequestForm";
 
 import PageHeader from "@/app/components/ui/PageHeader";
 import PageContainer from "@/app/components/layout/PageContainer";

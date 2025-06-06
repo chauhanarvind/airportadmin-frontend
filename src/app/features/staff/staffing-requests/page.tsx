@@ -23,7 +23,7 @@ interface PaginatedResponse<T> {
   number: number;
 }
 
-export default function MyStaffingRequestsPage() {
+export default function StaffingRequestsPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);

@@ -3,7 +3,7 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { uiTheme } from "@/app/lib/uiConfig";
-import MyStaffingRosterTable from "./MyStaffingRosterTable";
+import MyStaffingRosterTable from "./StaffingRosterTable";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
@@ -21,7 +21,7 @@ interface Props {
   onSubmit: (data: StaffingRequestCreate) => void;
 }
 
-export default function MyStaffingRequestForm({ onSubmit }: Props) {
+export default function StaffingRequestForm({ onSubmit }: Props) {
   const methods = useForm<StaffingRequestCreate>({
     defaultValues: {
       locationId: undefined,
