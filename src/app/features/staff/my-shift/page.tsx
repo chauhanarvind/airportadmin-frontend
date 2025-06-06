@@ -8,6 +8,7 @@ import PageLoader from "@/app/components/ui/PageLoader";
 import { handleFetchList } from "@/app/lib/crudService";
 import { useAuth } from "@/app/components/AuthProvider";
 import MyShiftTable from "./MyShiftTable";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 interface MyShift {
   id: number;
@@ -31,6 +32,7 @@ function getWeekStart(dateStr: string): string {
 }
 
 export default function MyShiftsPage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const [shiftGroups, setShiftGroups] = useState<Record<string, MyShift[]>>({});
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();

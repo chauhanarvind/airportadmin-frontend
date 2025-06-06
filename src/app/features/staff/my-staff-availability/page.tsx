@@ -13,6 +13,7 @@ import { handleFetchPaged } from "@/app/lib/crudService";
 
 import StaffAvailabilityTable from "../../common/staff-availability/StaffAvailabilityTable";
 import { StaffAvailabilityResponse } from "../../common/staff-availability/StaffAvailabilityTypes";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 interface PaginatedResponse<T> {
   content: T[];
@@ -23,6 +24,7 @@ interface PaginatedResponse<T> {
 }
 
 export default function MyStaffAvailabilityPage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);
 

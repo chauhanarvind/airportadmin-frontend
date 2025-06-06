@@ -14,8 +14,10 @@ import PageHeader from "@/app/components/ui/PageHeader";
 import PageContainer from "@/app/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { cleanStaffingRequestPayload } from "../cleanStaffingRequestPayload";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function ApplyStaffingRequestPage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -24,7 +26,6 @@ export default function ApplyStaffingRequestPage() {
 
     const payload: StaffingRequestCreate = {
       ...data,
-      managerId: user.id,
     };
 
     const cleanedPayload = cleanStaffingRequestPayload(payload);

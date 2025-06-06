@@ -17,8 +17,10 @@ import {
   StaffAvailabilityRequest,
   StaffAvailabilityResponse,
 } from "@/app/features/common/staff-availability/StaffAvailabilityTypes";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function EditStaffAvailabilityPage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { id } = useParams();
   const router = useRouter();
   const [entry, setEntry] = useState<StaffAvailabilityResponse | null>(null);

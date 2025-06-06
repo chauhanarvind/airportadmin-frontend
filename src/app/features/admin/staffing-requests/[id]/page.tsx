@@ -18,8 +18,10 @@ import { uiTheme } from "@/app/lib/uiConfig";
 import { StaffingRequestDetail } from "@/app/features/common/staffing-requests/StaffingRequestTypes";
 import StaffingRequestDetailsCard from "@/app/features/common/staffing-requests/StaffingRequestDetailsCard";
 import StaffingRequestTableView from "@/app/features/common/staffing-requests/StaffingRequestTableView";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function AdminStaffingRequestPage() {
+  useRequireRoles(["Admin"]);
   const { id } = useParams();
   const requestId = id as string;
 

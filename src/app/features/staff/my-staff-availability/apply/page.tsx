@@ -12,9 +12,11 @@ import PageHeader from "@/app/components/ui/PageHeader";
 import { Button } from "@/components/ui/button";
 
 import MyStaffAvailabilityForm from "../MyStaffAvailabilityForm";
-import { StaffAvailabilityRequest } from "../../common/staff-availability/StaffAvailabilityTypes";
+import { StaffAvailabilityRequest } from "@/app/features/common/staff-availability/StaffAvailabilityTypes";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function ApplyStaffAvailabilityPage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const router = useRouter();
 

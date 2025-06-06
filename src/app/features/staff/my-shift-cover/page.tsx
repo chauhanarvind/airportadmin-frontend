@@ -8,8 +8,10 @@ import { useAuth } from "@/app/components/AuthProvider";
 import { handleFetchList } from "@/app/lib/crudService";
 import MyShiftCoverTable from "./MyShiftCoverTable";
 import { ShiftCoverResponseDto } from "../../common/shift-cover/ShiftCoverTypes";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function MyShiftCoverPage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const [requests, setRequests] = useState<ShiftCoverResponseDto[]>([]);
   const [loading, setLoading] = useState(true);

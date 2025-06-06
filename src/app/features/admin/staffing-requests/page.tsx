@@ -11,7 +11,7 @@ import { uiTheme } from "@/app/lib/uiConfig";
 import StaffingRequestTable from "../../common/staffing-requests/StaffingRequestTable";
 
 export default function StaffingRequestsPage() {
-  useRequireRoles(["Admin", "Supervisor", "Manager"]);
+  useRequireRoles(["Admin"]);
 
   const methods = useForm({
     defaultValues: {

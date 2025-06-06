@@ -19,8 +19,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { uiTheme } from "@/app/lib/uiConfig";
 import StatusBadge from "@/app/features/common/StatusBadge";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function MyLeaveDetailPage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { id } = useParams();
   const router = useRouter();
   const [leave, setLeave] = useState<LeaveRequestResponse | null>(null);

@@ -17,7 +17,7 @@ import RosterTable from "./RosterTable";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function ViewGeneratedRosterPage() {
-  useRequireRoles(["Admin"]);
+  useRequireRoles(["Admin", "Manager", "Supervisor"]);
   const { id } = useParams();
   const requestId = id as string;
 

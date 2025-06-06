@@ -11,6 +11,7 @@ import PageLoader from "@/app/components/ui/PageLoader";
 import { useAuth } from "@/app/components/AuthProvider";
 import { LeaveRequestResponse } from "@/app/features/common/leave/LeaveTypes";
 import { handleFetchPaged } from "@/app/lib/crudService";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 interface PaginatedResponse<T> {
   content: T[];
@@ -21,6 +22,7 @@ interface PaginatedResponse<T> {
 }
 
 export default function MyLeavePage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);
 

@@ -9,15 +9,21 @@ import PageLoader from "@/app/components/ui/PageLoader";
 import { handleGetById } from "@/app/lib/crudService";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
+import { UserResponse } from "../../admin/users/UserTypes";
 
 export default function ProfilePage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
-  const [userData, setUserData] = useState<any>(null); // Replace with UserDetail type if available
+  const [userData, setUserData] = useState<UserResponse | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!user?.id) return;
-      const data = await handleGetById(`/api/users/${user.id}`, "User");
+      const data = await handleGetById<UserResponse>(
+        `/api/users/${user.id}`,
+        "User"
+      );
       if (data) setUserData(data);
     };
 

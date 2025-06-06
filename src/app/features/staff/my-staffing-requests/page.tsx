@@ -13,6 +13,7 @@ import { uiTheme } from "@/app/lib/uiConfig";
 import StaffingRequestTable from "../../common/staffing-requests/StaffingRequestTable";
 import { StaffingRequestResponse } from "../../common/staffing-requests/StaffingRequestTypes";
 import { handleFetchPaged } from "@/app/lib/crudService";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 interface PaginatedResponse<T> {
   content: T[];
@@ -23,6 +24,7 @@ interface PaginatedResponse<T> {
 }
 
 export default function MyStaffingRequestsPage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);
 
