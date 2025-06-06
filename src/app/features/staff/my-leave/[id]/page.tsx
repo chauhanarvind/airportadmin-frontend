@@ -49,7 +49,7 @@ export default function MyLeaveDetailPage() {
       data,
       "Leave request"
     );
-    if (res) router.push("/dashboard/my-leave");
+    if (res) router.push("/features/staff/my-leave");
   };
 
   const handleCancel = async () => {
@@ -59,7 +59,7 @@ export default function MyLeaveDetailPage() {
       undefined,
       "Leave request"
     );
-    if (res) router.push("/dashboard/my-leave");
+    if (res) router.push("/features/staff/my-leave");
   };
 
   if (!leave) return <PageLoader />;
@@ -69,7 +69,7 @@ export default function MyLeaveDetailPage() {
       <PageHeader
         title="Leave Request"
         actions={
-          <Link href="/dashboard/my-leave">
+          <Link href="/features/staff/my-leave">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

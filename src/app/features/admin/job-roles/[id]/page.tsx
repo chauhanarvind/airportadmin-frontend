@@ -45,7 +45,7 @@ export default function EditJobRolePage() {
             categoryId: role.categoryId,
           });
         } else {
-          router.push("/dashboard/job-roles");
+          router.push("/features/admin/job-roles");
         }
       } finally {
         setLoading(false);
@@ -61,7 +61,7 @@ export default function EditJobRolePage() {
       "PUT",
       data,
       "Job Role",
-      () => router.push("/dashboard/job-roles")
+      () => router.push("/features/admin/job-roles")
     );
   };
 
@@ -73,7 +73,7 @@ export default function EditJobRolePage() {
       <PageHeader
         title="Edit Job Role"
         actions={
-          <Link href="/dashboard/job-roles">
+          <Link href="/features/admin/job-roles">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

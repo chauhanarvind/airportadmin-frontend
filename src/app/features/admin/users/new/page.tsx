@@ -26,7 +26,7 @@ export default function CreateUserPage() {
       "/api/users/create",
       data,
       "User",
-      () => router.push("/dashboard/users")
+      () => router.push("/features/admin/users")
     );
   };
 
@@ -35,7 +35,7 @@ export default function CreateUserPage() {
       <PageHeader
         title="Create New User"
         actions={
-          <Link href="/dashboard/users">
+          <Link href="/features/admin/users">
             <Button
               size="sm"
               className="bg-white text-gray-800 hover:bg-gray-100 shadow-sm rounded-md"

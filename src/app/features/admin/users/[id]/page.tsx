@@ -13,12 +13,9 @@ import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import { handleGetById, handleUpdate } from "@/app/lib/crudService";
 
 import UserForm from "../UserForm";
-import {
-  CreateUser,
-  UpdateUser,
-  UserResponse,
-} from "@/app/features/users/UserTypes";
+
 import PageLoader from "@/app/components/ui/PageLoader";
+import { CreateUser, UpdateUser, UserResponse } from "../UserTypes";
 
 type UserFormData = Partial<UpdateUser> & CreateUser;
 
@@ -56,7 +53,7 @@ export default function EditUserPage() {
             constraintProfileId: user.constraintProfileId ?? undefined,
           });
         } else {
-          router.push("/dashboard/users");
+          router.push("/features/admin/users");
         }
       } finally {
         setLoading(false);
@@ -72,7 +69,7 @@ export default function EditUserPage() {
       "PUT",
       data,
       "User",
-      () => router.push("/dashboard/users")
+      () => router.push("/features/admin/users")
     );
   };
 
@@ -87,7 +84,7 @@ export default function EditUserPage() {
       <PageHeader
         title="Edit User"
         actions={
-          <Link href="/dashboard/users">
+          <Link href="/features/admin/users">
             <Button
               size="sm"
               className="bg-white text-gray-800 hover:bg-gray-100 shadow-sm rounded-md"

@@ -22,9 +22,10 @@ export default function ApplyLeavePage() {
     if (!user?.id) return;
 
     const payload = { ...data, userId: user.id };
+    console.log(payload);
 
     await handleCreate("/api/leaves/apply", payload, "Leave request", () =>
-      router.push("/dashboard/my-leave")
+      router.push("/features/staff/my-leave")
     );
   };
 
@@ -33,7 +34,7 @@ export default function ApplyLeavePage() {
       <PageHeader
         title="Apply for Leave"
         actions={
-          <Link href="/dashboard/my-leave">
+          <Link href="/features/staff/my-leave">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

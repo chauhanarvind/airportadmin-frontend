@@ -68,7 +68,7 @@ export default function MyStaffingRequestsPage() {
       <PageHeader
         title="My Staffing Requests"
         actions={
-          <Link href="/dashboard/my-staffing-requests/apply">
+          <Link href="/features/staff/my-staffing-requests/apply">
             <Button className={uiTheme.colors.primary}>
               Create New Staffing Request
             </Button>

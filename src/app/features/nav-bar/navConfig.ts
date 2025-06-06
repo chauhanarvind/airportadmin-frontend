@@ -5,12 +5,12 @@ export const navItems = [
     label: "My Profile",
     icon: User,
     roles: ["Admin", "Crew"],
-    href: "/dashboard/my-profile",
+    href: "/features/staff/my-profile",
   },
   {
     label: "Users",
     icon: Users,
-    href: "/dashboard/users",
+    href: "/features/admin/users",
     roles: ["Admin"],
   },
   {
@@ -19,24 +19,24 @@ export const navItems = [
     children: [
       {
         label: "My Leave",
-        href: "/dashboard'/my-leave",
+        href: "/features/staff/my-leave",
         roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
       {
         label: "My Availability",
-        href: "/dashboard/my-staff-availability",
+        href: "/features/staff/my-staff-availability",
 
         roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
       {
         label: "My Staffing Requests",
-        href: "/dashboard/my-staffing-requests",
+        href: "/features/staff/my-staffing-requests",
 
         roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
       {
         label: "My Shifts",
-        href: "/dashboard/my-shift",
+        href: "/features/staff/my-shift",
 
         roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
@@ -48,25 +48,25 @@ export const navItems = [
     children: [
       {
         label: "Job Roles",
-        href: "/dashboard/job-roles",
+        href: "/features/admin/job-roles",
 
         roles: ["Admin", "Manager", "Supervisor"],
       },
       {
         label: "Job Categories",
-        href: "/dashboard/job-categories",
+        href: "/features/admin/job-categories",
 
         roles: ["Admin", "Manager", "Supervisor"],
       },
       {
         label: "Job Levels",
-        href: "/dashboard/job-levels",
+        href: "/features/admin/job-levels",
 
         roles: ["Admin", "Manager", "Supervisor"],
       },
       {
         label: "Constraint Profiles",
-        href: "/dashboard/constraints",
+        href: "/features/admin/constraints",
 
         roles: ["Admin", "Manager", "Supervisor"],
       },
@@ -78,25 +78,25 @@ export const navItems = [
     children: [
       {
         label: "Locations",
-        href: "/dashboard/locations",
+        href: "/features/locations",
 
         roles: ["Admin", "Manager", "Supervisor"],
       },
       {
         label: "Leave Requests",
-        href: "/dashboard/leave",
+        href: "/features/leave",
 
         roles: ["Admin", "Manager", "Supervisor"],
       },
       {
         label: "Staff Availability",
-        href: "/dashboard/staff-availability",
+        href: "/features/staff-availability",
 
         roles: ["Admin", "Manager", "Supervisor"],
       },
       {
         label: "Staffing Requests",
-        href: "/dashboard/staffing-requests",
+        href: "/features/staffing-requests",
 
         roles: ["Admin", "Manager", "Supervisor"],
       },

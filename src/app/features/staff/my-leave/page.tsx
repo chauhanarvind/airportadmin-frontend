@@ -46,7 +46,7 @@ export default function MyLeavePage() {
 
       const res = await handleFetchPaged<
         PaginatedResponse<LeaveRequestResponse>
-      >(`/api/leave?${query.toString()}`, "My Leave Requests");
+      >(`/api/leaves?${query.toString()}`, "My Leave Requests");
 
       if (res) {
         setLeaves(res.content);
@@ -66,7 +66,7 @@ export default function MyLeavePage() {
       <PageHeader
         title="My Leave Requests"
         actions={
-          <Link href="/dashboard/my-leave/apply">
+          <Link href="/features/staff/my-leave/apply">
             <Button className="bg-blue-600 text-white hover:bg-blue-700">
               Apply New Leave
             </Button>

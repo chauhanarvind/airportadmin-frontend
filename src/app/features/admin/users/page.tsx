@@ -71,7 +71,7 @@ export default function UsersPage() {
       <PageHeader
         title="User Management"
         actions={
-          <Link href="/dashboard/users/new">
+          <Link href="/features/admin/users/new">
             <Button className="bg-blue-600 text-white hover:bg-blue-700">
               Add New User
             </Button>

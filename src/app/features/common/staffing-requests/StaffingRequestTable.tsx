@@ -61,7 +61,7 @@ export default function StaffingRequestTable({
               }
               onClick={
                 clickableRows
-                  ? () => router.push(`/dashboard/${basePath}/${req.id}`)
+                  ? () => router.push(`/features/admin/${basePath}/${req.id}`)
                   : undefined
               }
             >

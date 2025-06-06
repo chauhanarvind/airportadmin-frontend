@@ -34,7 +34,7 @@ export default function LoginPage() {
       if (token) {
         Cookies.set("token", token, { expires: 7 }); // JWT in cookie, valid 7 days
         toast.success("Login successful");
-        window.location.href = "/dashboard"; // redirect after login
+        window.location.href = "/features"; // redirect after login
       } else {
         toast.error("Token not found in response");
       }

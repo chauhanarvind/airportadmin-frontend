@@ -50,7 +50,9 @@ export default function LeaveTable({
             <TableRow
               key={leave.id}
               className="hover:bg-blue-100 transition cursor-pointer"
-              onClick={() => router.push(`/dashboard/${basePath}/${leave.id}`)}
+              onClick={() =>
+                router.push(`/features/admin/${basePath}/${leave.id}`)
+              }
             >
               <TableCell>{leave.userName ?? `User ${leave.userId}`}</TableCell>
               <TableCell>{leave.startDate}</TableCell>

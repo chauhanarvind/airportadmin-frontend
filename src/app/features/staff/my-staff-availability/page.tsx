@@ -68,7 +68,7 @@ export default function MyStaffAvailabilityPage() {
       <PageHeader
         title="My Availability"
         actions={
-          <Link href="/dashboard/my-staff-availability/apply">
+          <Link href="/features/staff/my-staff-availability/apply">
             <Button className={uiTheme.colors.primary}>Add Availability</Button>
           </Link>
         }

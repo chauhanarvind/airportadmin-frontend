@@ -57,7 +57,7 @@ export default function ApiSelectDropdown({
               <SelectTrigger id={id} className="w-[250px]">
                 <SelectValue placeholder={`Select ${label.toLowerCase()}`} />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white border rounded-md shadow-lg">
                 {options.map((item) => (
                   <SelectItem key={item.id} value={String(item.id)}>
                     {item[optionKey] ?? `Item ${item.id}`}

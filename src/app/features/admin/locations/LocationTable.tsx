@@ -57,7 +57,7 @@ export default function LocationTable() {
             <TableRow
               key={loc.id}
               className="hover:bg-blue-50 transition cursor-pointer"
-              onClick={() => router.push(`/dashboard/locations/${loc.id}`)}
+              onClick={() => router.push(`/features/admin/locations/${loc.id}`)}
             >
               <TableCell>{loc.locationName}</TableCell>
               <TableCell>{loc.description || "-"}</TableCell>
