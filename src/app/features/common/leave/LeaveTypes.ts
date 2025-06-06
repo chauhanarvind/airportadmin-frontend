@@ -2,7 +2,7 @@
 export interface LeaveRequestCreate {
   startDate: string; // "YYYY-MM-DD"
   endDate: string; // "YYYY-MM-DD"
-  userId: number;
+  // userId: number;
   reason: string;
 }
 

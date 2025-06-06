@@ -1,7 +1,7 @@
 import { useForm, FormProvider } from "react-hook-form";
 import StaffingRequestFilterBar from "./StaffingRequestFilterBar"; // import the filter bar
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { StaffingRequestResponse } from "../../common/staffing-requests/StaffingRequestTypes";
 import { handleFetchPaged } from "@/app/lib/crudService";
 import PaginatedResponse from "../../common/interface";
@@ -28,7 +28,7 @@ export default function StaffingRequestsPage() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     const query = new URLSearchParams();
     if (filters.managerId) query.append("managerId", filters.managerId);
@@ -47,7 +47,7 @@ export default function StaffingRequestsPage() {
       setTotalPages(result.totalPages);
     }
     setLoading(false);
-  };
+  }, [filters.managerId, filters.locationId, filters.status, page]);
 
   useEffect(() => {
     setPage(0); // Reset to first page on filter change
@@ -55,7 +55,7 @@ export default function StaffingRequestsPage() {
 
   useEffect(() => {
     fetchData();
-  }, [page, filters.managerId, filters.locationId, filters.status]);
+  }, [fetchData]);
 
   return (
     <PageContainer>

@@ -17,6 +17,7 @@ export interface ShiftCoverRequestDto {
 }
 
 export interface UserSummaryDto {
+  id: number;
   firstName: string;
   lastName: string;
   email: string;

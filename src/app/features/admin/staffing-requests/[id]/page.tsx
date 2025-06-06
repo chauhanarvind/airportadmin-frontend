@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -27,14 +27,12 @@ export default function AdminStaffingRequestPage() {
   const [rosterExists, setRosterExists] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const fetchRequest = async () => {
+  const fetchRequest = useCallback(async () => {
     const req = await handleGetById<StaffingRequestDetail>(
       `/api/staffing-requests/${requestId}`,
       "Staffing request"
     );
-    if (req) {
-      setRequest(req);
-    }
+    if (req) setRequest(req);
 
     const exists = await handleGetById<boolean>(
       `/api/roster/check/${requestId}`,
@@ -42,11 +40,11 @@ export default function AdminStaffingRequestPage() {
     );
     setRosterExists(!!exists);
     setLoading(false);
-  };
+  }, [requestId]);
 
   useEffect(() => {
     fetchRequest();
-  }, [requestId]);
+  }, [fetchRequest]);
 
   const handleGenerateRoster = async () => {
     try {

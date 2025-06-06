@@ -11,7 +11,6 @@ import {
 } from "@/app/features/common/leave/LeaveTypes";
 import { handleGetById, handleUpdate } from "@/app/lib/crudService";
 import { MyLeaveForm } from "../MyLeaveForm";
-import LeaveStatusBadge from "@/app/features/common/leave/LeaveStatusBadge";
 import PageContainer from "@/app/components/layout/PageContainer";
 import PageHeader from "@/app/components/ui/PageHeader";
 import PageLoader from "@/app/components/ui/PageLoader";
@@ -19,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { uiTheme } from "@/app/lib/uiConfig";
+import StatusBadge from "@/app/features/common/StatusBadge";
 
 export default function MyLeaveDetailPage() {
   const { id } = useParams();
@@ -44,7 +44,7 @@ export default function MyLeaveDetailPage() {
 
   const handleResubmit = async (data: LeaveRequestCreate) => {
     const res = await handleUpdate<LeaveRequestResponse, LeaveRequestCreate>(
-      `/api/leaves/${id}/resubmit?userId=${data.userId}`,
+      `/api/leaves/${id}/resubmit`,
       "PUT",
       data,
       "Leave request"
@@ -85,7 +85,7 @@ export default function MyLeaveDetailPage() {
           <p className={uiTheme.text.label}>
             Submitted On {new Date(leave.createdAt).toLocaleString()}
           </p>
-          <LeaveStatusBadge status={leave.status} />
+          <StatusBadge status={leave.status} />
         </div>
 
         {mode === "resubmit" ? (
@@ -95,7 +95,6 @@ export default function MyLeaveDetailPage() {
               startDate: leave.startDate,
               endDate: leave.endDate,
               reason: leave.reason,
-              userId: leave.userId,
             }}
             onSubmit={handleResubmit}
           />

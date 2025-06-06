@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 
 import PageContainer from "@/app/components/layout/PageContainer";
@@ -40,7 +40,7 @@ export default function StaffAvailabilityPage() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
 
     const query = new URLSearchParams();
@@ -59,7 +59,7 @@ export default function StaffAvailabilityPage() {
     }
 
     setLoading(false);
-  };
+  }, [filters.userId, filters.date, page]);
 
   useEffect(() => {
     setPage(0); // reset page on filter change
@@ -67,7 +67,7 @@ export default function StaffAvailabilityPage() {
 
   useEffect(() => {
     fetchData();
-  }, [filters.userId, filters.date, page]);
+  }, [fetchData]);
 
   if (loading) return <PageLoader />;
 

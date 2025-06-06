@@ -1,6 +1,11 @@
-// -------------- Enums (match your Java enums) --------------
+// -------------- Enums (match Java enums) --------------
 export type RequestType = "REGULAR" | "EMERGENCY";
-export type RosterStatus = "PENDING" | "APPROVED" | "REJECTED";
+export type RosterStatus =
+  | "PENDING"
+  | "APPROVED"
+  | "REJECTED"
+  | "CANCELLED"
+  | "RESUBMITTED";
 
 // -------------- Create DTOs --------------
 
@@ -18,7 +23,6 @@ export interface StaffingRequestDayCreate {
 }
 
 export interface StaffingRequestCreate {
-  managerId: number;
   locationId: number;
   requestType?: RequestType;
   reason?: string;

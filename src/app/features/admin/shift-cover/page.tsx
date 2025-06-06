@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 
 import PageContainer from "@/app/components/layout/PageContainer";
@@ -40,7 +40,7 @@ export default function ShiftCoverAdminPage() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
 
     const query = new URLSearchParams();
@@ -65,7 +65,7 @@ export default function ShiftCoverAdminPage() {
     }
 
     setLoading(false);
-  };
+  }, [filters.originalUserId, filters.coveringUserId, filters.status, page]);
 
   useEffect(() => {
     setPage(0); // Reset to page 0 when filters change
@@ -73,7 +73,7 @@ export default function ShiftCoverAdminPage() {
 
   useEffect(() => {
     fetchData();
-  }, [filters.originalUserId, filters.coveringUserId, filters.status, page]);
+  }, [fetchData]);
 
   return (
     <PageContainer>
