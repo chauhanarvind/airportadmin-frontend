@@ -34,7 +34,7 @@ export default function ApplyLeavePage() {
       <PageHeader
         title="Apply for Leave"
         actions={
-          <Link href="/features/staff/my-leave">
+          <Link href="/features/my/my-leave">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

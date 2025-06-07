@@ -1,13 +1,15 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import api from "../lib/api";
 import Cookies from "js-cookie";
+import { useAuth } from "../components/AuthProvider";
+import { useRouter } from "next/navigation";
 
 type LoginFormInputs = {
   email: string;
@@ -16,6 +18,14 @@ type LoginFormInputs = {
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/features"); // or wherever you want to redirect
+    }
+  }, [user]);
 
   const {
     register,

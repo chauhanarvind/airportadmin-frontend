@@ -41,7 +41,7 @@ export default function MyShiftsPage() {
 
     const fetchShifts = async () => {
       const res = await handleFetchList<MyShift[]>(
-        `/api/roster/my/${user.id}`,
+        `/api/roster/my`,
         "My Shifts"
       );
       if (!res) return;

@@ -51,7 +51,7 @@ export default function MyLeaveDetailPage() {
       data,
       "Leave request"
     );
-    if (res) router.push("/features/staff/my-leave");
+    if (res) router.push("/features/my/my-leave");
   };
 
   const handleCancel = async () => {
@@ -61,7 +61,7 @@ export default function MyLeaveDetailPage() {
       undefined,
       "Leave request"
     );
-    if (res) router.push("/features/staff/my-leave");
+    if (res) router.push("/features/my/my-leave");
   };
 
   if (!leave) return <PageLoader />;

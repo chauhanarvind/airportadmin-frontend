@@ -9,19 +9,11 @@ import { Button } from "@/components/ui/button";
 import PageContainer from "@/app/components/layout/PageContainer";
 import PageHeader from "@/app/components/ui/PageHeader";
 import PageLoader from "@/app/components/ui/PageLoader";
-import { handleFetchPaged } from "@/app/lib/crudService";
+import { handleFetchList } from "@/app/lib/crudService";
 
 import StaffAvailabilityTable from "../../common/staff-availability/StaffAvailabilityTable";
 import { StaffAvailabilityResponse } from "../../common/staff-availability/StaffAvailabilityTypes";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
-
-interface PaginatedResponse<T> {
-  content: T[];
-  totalPages: number;
-  totalElements: number;
-  size: number;
-  number: number;
-}
 
 export default function MyStaffAvailabilityPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
@@ -30,8 +22,6 @@ export default function MyStaffAvailabilityPage() {
 
   const [data, setData] = useState<StaffAvailabilityResponse[]>([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     if (user?.id) setUserId(user.id);
@@ -42,26 +32,21 @@ export default function MyStaffAvailabilityPage() {
       if (!userId) return;
 
       setLoading(true);
-      const query = new URLSearchParams({
-        userId: userId.toString(),
-        page: page.toString(),
-        size: "10",
-      });
 
-      const res = await handleFetchPaged<
-        PaginatedResponse<StaffAvailabilityResponse>
-      >(`/api/staff-availability?${query.toString()}`, "My Availability");
+      const res = await handleFetchList<StaffAvailabilityResponse[]>(
+        `/api/staff-availability/user/${userId}`,
+        "My Availability"
+      );
 
       if (res) {
-        setData(res.content);
-        setTotalPages(res.totalPages);
+        setData(res);
       }
 
       setLoading(false);
     };
 
     fetchAvailability();
-  }, [userId, page]);
+  }, [userId]);
 
   if (!userId) return <PageLoader />;
 
@@ -82,9 +67,6 @@ export default function MyStaffAvailabilityPage() {
         <StaffAvailabilityTable
           data={data}
           loading={loading}
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
           basePath="my-staff-availability"
           clickableRows={true}
         />

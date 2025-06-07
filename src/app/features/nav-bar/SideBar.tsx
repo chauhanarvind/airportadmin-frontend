@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { navItems } from "./navConfig";
 import { Menu, ChevronLeft } from "lucide-react";
 import { useAuth } from "@/app/components/AuthProvider";
 import { uiTheme } from "@/app/lib/uiConfig";
+import { navItems } from "./navConfig";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -56,7 +56,7 @@ export default function Sidebar() {
                 key={href}
                 href={href}
                 className={`flex items-center gap-3 p-2 rounded-md transition-colors ${
-                  isActive ? uiTheme.navActive : uiTheme.navInactive
+                  isActive ? uiTheme.nav.active : uiTheme.nav.inactive
                 }`}
               >
                 <Icon size={20} />
@@ -81,7 +81,7 @@ export default function Sidebar() {
                         key={child.href}
                         href={child.href}
                         className={`block text-sm rounded-md px-2 py-1 transition-colors ${
-                          isActive ? uiTheme.navActive : uiTheme.navInactive
+                          isActive ? uiTheme.nav.active : uiTheme.nav.inactive
                         }`}
                       >
                         {child.label}

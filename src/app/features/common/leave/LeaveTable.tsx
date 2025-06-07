@@ -16,11 +16,11 @@ import StatusBadge from "../StatusBadge";
 interface LeaveTableProps {
   data: LeaveRequestResponse[];
   loading: boolean;
-  page: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
+  page?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
   basePath?: string;
-  clickable?: boolean; // <-- add this
+  clickable?: boolean;
 }
 
 export default function LeaveTable({
@@ -94,22 +94,26 @@ export default function LeaveTable({
         </TableBody>
       </Table>
 
-      <div className="flex justify-end gap-2 mt-4">
-        <Button
-          variant="outline"
-          disabled={page === 0}
-          onClick={() => onPageChange(page - 1)}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          disabled={page + 1 >= totalPages}
-          onClick={() => onPageChange(page + 1)}
-        >
-          Next
-        </Button>
-      </div>
+      {typeof page === "number" &&
+        typeof totalPages === "number" &&
+        typeof onPageChange === "function" && (
+          <div className="flex justify-end gap-2 mt-4">
+            <Button
+              variant="outline"
+              disabled={page === 0}
+              onClick={() => onPageChange(page - 1)}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              disabled={page + 1 >= totalPages}
+              onClick={() => onPageChange(page + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
     </div>
   );
 }
