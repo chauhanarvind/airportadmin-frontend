@@ -96,6 +96,7 @@ export default function UserForm({
               name="constraintProfileId"
               apiUrl="/api/constraint-profiles/"
               optionKey="name"
+              required={false}
             />
           </div>
 

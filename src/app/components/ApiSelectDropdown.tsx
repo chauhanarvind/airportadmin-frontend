@@ -27,7 +27,7 @@ export default function ApiSelectDropdown({
   name,
   apiUrl,
   optionKey = "name",
-  required = true,
+  required = false,
 }: ApiSelectDropdownProps) {
   const { control } = useFormContext();
   const [options, setOptions] = useState<ApiItem[]>([]);
