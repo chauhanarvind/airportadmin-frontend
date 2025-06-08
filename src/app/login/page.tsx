@@ -39,16 +39,10 @@ export default function LoginPage() {
     console.log(api.defaults.baseURL);
 
     try {
-      const res = await api.post("/api/auth/login", data);
-      const token = res.data.token;
+      await api.post("/api/auth/login", data);
 
-      if (token) {
-        Cookies.set("token", token, { expires: 7 }); // JWT in cookie, valid 7 days
-        toast.success("Login successful");
-        window.location.href = "/features"; // redirect after login
-      } else {
-        toast.error("Token not found in response");
-      }
+      toast.success("Login successful");
+      window.location.href = "/features"; // redirect after login
     } catch (err: unknown) {
       toast.error("Invalid email or password");
       console.error("Login error:", err);
