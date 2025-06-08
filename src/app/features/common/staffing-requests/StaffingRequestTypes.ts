@@ -1,11 +1,6 @@
 // -------------- Enums (match Java enums) --------------
 export type RequestType = "REGULAR" | "EMERGENCY";
-export type RosterStatus =
-  | "PENDING"
-  | "APPROVED"
-  | "REJECTED"
-  | "CANCELLED"
-  | "RESUBMITTED";
+export type RosterStatus = "PENDING" | "APPROVED" | "REJECTED";
 
 // -------------- Create DTOs --------------
 

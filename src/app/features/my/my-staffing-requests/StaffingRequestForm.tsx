@@ -17,6 +17,7 @@ import { StaffingRequestCreate } from "../../common/staffing-requests/StaffingRe
 import WeekPicker from "../../common/staffing-requests/WeekPicker";
 
 import ApiSelectDropdown from "@/app/components/ApiSelectDropdown";
+import StaticSelectDropdown from "@/app/components/StaticSelectorDropDown";
 
 interface Props {
   onSubmit: (data: StaffingRequestCreate) => void;
@@ -56,24 +57,11 @@ export default function StaffingRequestForm({ onSubmit }: Props) {
           />
 
           {/* Request Type */}
-          <div className="space-y-2">
-            <Label className={uiTheme.text.label}>Request Type</Label>
-
-            <Select
-              defaultValue="REGULAR"
-              onValueChange={(val) =>
-                setValue("requestType", val as "REGULAR" | "EMERGENCY")
-              }
-            >
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="REGULAR">Regular</SelectItem>
-                <SelectItem value="EMERGENCY">Emergency</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <StaticSelectDropdown
+            label="Request Type"
+            name="requestType"
+            staticOptions={["REGULAR", "EMERGENCY"]}
+          />
         </div>
 
         {/* Reason */}

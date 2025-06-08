@@ -23,7 +23,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (user) {
-      router.push("/features"); // or wherever you want to redirect
+      router.push("/features");
     }
   }, [user]);
 

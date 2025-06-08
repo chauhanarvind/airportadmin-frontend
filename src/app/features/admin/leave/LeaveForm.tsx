@@ -45,14 +45,15 @@ export default function LeaveForm({ onSubmit }: Props) {
         ]}
         disabledOptions={["CANCELLED", "RESUBMITTED"]}
       />
-
-      <Button
-        type="submit"
-        className={uiTheme.buttons.submit}
-        disabled={isSubmitting}
-      >
-        Update Status
-      </Button>
+      <div className={uiTheme.layout.formGrid}>
+        <Button
+          type="submit"
+          className={uiTheme.buttons.submit}
+          disabled={isSubmitting}
+        >
+          Update Status
+        </Button>
+      </div>
     </form>
   );
 }

@@ -51,7 +51,7 @@ export default function MyStaffingRequestDetailPage() {
   return (
     <PageContainer>
       <PageHeader
-        title="Staffing Request Detail"
+        title="My Staffing Request Detail"
         actions={
           <div className="flex gap-2">
             {rosterExists && (

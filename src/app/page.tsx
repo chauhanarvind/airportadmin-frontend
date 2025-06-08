@@ -12,10 +12,13 @@ export default function Home() {
   useEffect(() => {
     if (loading) return;
 
-    if (user) {
-      router.replace("/features"); // or /admin etc. based on role
-    } else {
-      router.replace("/login");
+    // Explicit null check
+    if (user !== undefined) {
+      if (user) {
+        router.replace("/features");
+      } else {
+        router.replace("/login");
+      }
     }
   }, [user, loading]);
 

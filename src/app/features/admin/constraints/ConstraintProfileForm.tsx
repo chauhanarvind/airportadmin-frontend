@@ -21,7 +21,6 @@ interface ConstraintProfileFormProps {
   onSubmit: (data: ConstraintProfileFormData) => void;
   isEditMode?: boolean;
   submitText?: string;
-  onDelete: () => void;
 }
 
 const allDays = [
@@ -175,7 +174,7 @@ export default function ConstraintProfileForm({
           </div>
         </div>
 
-        <div className="flex gap-4 pt-4 border-t">
+        <div className={uiTheme.layout.formGrid}>
           <Button
             type="submit"
             className={uiTheme.buttons.submit}

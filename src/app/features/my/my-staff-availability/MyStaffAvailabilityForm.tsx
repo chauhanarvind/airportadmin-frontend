@@ -13,12 +13,14 @@ import { StaffAvailabilityRequest } from "../../common/staff-availability/StaffA
 
 interface Props {
   onSubmit: (data: StaffAvailabilityRequest) => void;
+  onDelete?: () => void;
   defaultValues?: Partial<StaffAvailabilityRequest>;
 }
 
 export default function MyStaffAvailabilityForm({
   onSubmit,
   defaultValues,
+  onDelete,
 }: Props) {
   const methods = useForm<StaffAvailabilityRequest>({
     defaultValues: {
@@ -71,7 +73,6 @@ export default function MyStaffAvailabilityForm({
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
         <DateInput name="date" label="Date" required />
-
         {/* Availability Toggle */}
         <div className="flex items-center space-x-2">
           <Checkbox
@@ -83,7 +84,6 @@ export default function MyStaffAvailabilityForm({
             I am <strong>not available</strong> on this date
           </Label>
         </div>
-
         {/* Time Range (if partially unavailable) */}
         {isAvailable && (
           <div className={uiTheme.layout.formGrid}>
@@ -101,14 +101,24 @@ export default function MyStaffAvailabilityForm({
             />
           </div>
         )}
-
-        <Button
-          type="submit"
-          className={uiTheme.buttons.submit}
-          disabled={isSubmitting || !isDirty}
-        >
-          Submit Availability
-        </Button>
+        <div className={uiTheme.layout.formGrid}>
+          <Button
+            type="submit"
+            className={uiTheme.buttons.submit}
+            disabled={isSubmitting || !isDirty}
+          >
+            Submit Availability
+          </Button>
+          {onDelete && (
+            <Button
+              type="button"
+              className={uiTheme.buttons.delete}
+              onClick={onDelete}
+            >
+              Delete
+            </Button>
+          )}
+        </div>
       </form>
     </FormProvider>
   );

@@ -142,10 +142,11 @@ export default function ShiftCoverRequestForm({
           </SelectContent>
         </Select>
       </div>
-
-      <Button onClick={checkWarnings} className={uiTheme.buttons.submit}>
-        {isResubmitting ? "Resubmit Request" : "Request Cover"}
-      </Button>
+      <div className={uiTheme.layout.formGrid}>
+        <Button onClick={checkWarnings} className={uiTheme.buttons.submit}>
+          {isResubmitting ? "Resubmit Request" : "Request Cover"}
+        </Button>
+      </div>
     </div>
   );
 }

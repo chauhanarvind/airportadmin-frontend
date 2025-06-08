@@ -39,13 +39,15 @@ export function MyLeaveForm({ mode, defaultValues, onSubmit }: Props) {
 
         <TextInput name="reason" label="Reason" required />
 
-        <Button
-          type="submit"
-          className={uiTheme.buttons.submit}
-          disabled={isSubmitting}
-        >
-          {mode === "resubmit" ? "Resubmit Leave" : "Apply for Leave"}
-        </Button>
+        <div className={uiTheme.layout.formGrid}>
+          <Button
+            type="submit"
+            className={uiTheme.buttons.submit}
+            disabled={isSubmitting}
+          >
+            {mode === "resubmit" ? "Resubmit Leave" : "Apply for Leave"}
+          </Button>
+        </div>
       </form>
     </FormProvider>
   );

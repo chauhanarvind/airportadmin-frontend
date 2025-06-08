@@ -69,10 +69,10 @@ export default function JobRoleForm({
           />
         </div>
 
-        <div>
+        <div className={uiTheme.layout.formGrid}>
           <Button
             type="submit"
-            className={`w-full ${uiTheme.buttons.submit}`}
+            className={uiTheme.buttons.submit}
             disabled={isEditMode && !isDirty}
           >
             {submitText || (isEditMode ? "Update Job Role" : "Create Job Role")}

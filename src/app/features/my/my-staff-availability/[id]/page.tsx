@@ -6,7 +6,11 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 import { uiTheme } from "@/app/lib/uiConfig";
-import { handleGetById, handleUpdate } from "@/app/lib/crudService";
+import {
+  handleDeleteCRUD,
+  handleGetById,
+  handleUpdate,
+} from "@/app/lib/crudService";
 import PageContainer from "@/app/components/layout/PageContainer";
 import PageHeader from "@/app/components/ui/PageHeader";
 import PageLoader from "@/app/components/ui/PageLoader";
@@ -50,6 +54,14 @@ export default function EditStaffAvailabilityPage() {
     );
   };
 
+  const handleDelete = async () => {
+    await handleDeleteCRUD(
+      `/api/staff-availability/${availabilityId}`,
+      "Staff availability",
+      () => router.push("/features/my/my-staff-availability")
+    );
+  };
+
   if (!entry) return <PageLoader />;
 
   return (
@@ -71,6 +83,7 @@ export default function EditStaffAvailabilityPage() {
       >
         <MyStaffAvailabilityForm
           onSubmit={handleSubmit}
+          onDelete={handleDelete}
           defaultValues={{
             date: entry.date,
             isAvailable: entry.isAvailable,

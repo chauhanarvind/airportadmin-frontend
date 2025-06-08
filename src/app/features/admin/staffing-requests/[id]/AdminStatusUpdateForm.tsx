@@ -89,14 +89,15 @@ export default function AdminStatusUpdateForm({ onStatusUpdated }: Props) {
             </SelectContent>
           </Select>
         </div>
-
-        <Button
-          onClick={handleSubmit}
-          disabled={selectedStatus === currentStatus}
-          className={uiTheme.buttons.action}
-        >
-          Update Status
-        </Button>
+        <div className={uiTheme.layout.formGrid}>
+          <Button
+            onClick={handleSubmit}
+            disabled={selectedStatus === currentStatus}
+            className={uiTheme.buttons.action}
+          >
+            Update Status
+          </Button>
+        </div>
       </div>
     </div>
   );

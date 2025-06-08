@@ -79,7 +79,7 @@ export default function ShiftCoverForm({ request }: Props) {
       </div>
 
       {canUpdate && (
-        <div className="flex gap-3">
+        <div className={uiTheme.layout.formGrid}>
           <Button
             onClick={() => handleStatusUpdate("approve")}
             disabled={loading}
