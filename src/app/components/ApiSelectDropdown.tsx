@@ -40,7 +40,7 @@ export default function ApiSelectDropdown({
         setOptions(res.data);
       })
       .catch((err) => console.error(`Failed to fetch ${label}`, err));
-  }, [apiUrl]);
+  }, [apiUrl, label]);
 
   const id = label.toLowerCase().replace(/\s+/g, "-");
 
