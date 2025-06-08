@@ -36,7 +36,6 @@ export default function ApiSelectDropdown({
     api
       .get(apiUrl)
       .then((res) => {
-        console.log(res);
         setOptions(res.data);
       })
       .catch((err) => console.error(`Failed to fetch ${label}`, err));

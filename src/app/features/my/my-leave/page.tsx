@@ -35,7 +35,7 @@ export default function MyLeavePage() {
         `/api/leaves/user/${userId}`,
         "My Leave Requests"
       );
-      console.log(res);
+
       if (res) {
         setLeaves(res);
       }

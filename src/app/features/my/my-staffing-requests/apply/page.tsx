@@ -30,7 +30,6 @@ export default function ApplyMyStaffingRequestPage() {
 
     const cleanedPayload = cleanStaffingRequestPayload(payload);
 
-    console.log(cleanedPayload);
     await handleCreate(
       "/api/staffing-requests/submit",
       cleanedPayload,

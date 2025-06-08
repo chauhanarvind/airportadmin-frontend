@@ -35,7 +35,6 @@ export default function MyShiftsPage() {
         "My Shifts"
       );
       if (!res) return;
-      console.log(res);
 
       const assignedShifts = res.filter((shift) => !shift.unassigned);
 

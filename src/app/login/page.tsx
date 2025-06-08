@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import api from "../lib/api";
-import Cookies from "js-cookie";
 import { useAuth } from "../components/AuthProvider";
 import { useRouter } from "next/navigation";
 
@@ -35,8 +34,6 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     setLoading(true);
-    console.log(data);
-    console.log(api.defaults.baseURL);
 
     try {
       await api.post("/api/auth/login", data);
