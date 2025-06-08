@@ -9,8 +9,9 @@ type DecodedToken = {
   userId: number;
 };
 
-export default function Home() {
-  const token = cookies().get("token")?.value;
+export default async function Home() {
+  const cookieStore = await cookies(); // ⬅️ await is required in Next.js 15+
+  const token = cookieStore.get("token")?.value;
 
   if (token) {
     try {
@@ -20,10 +21,23 @@ export default function Home() {
       if (decoded.exp > now) {
         redirect("/features");
       }
-    } catch (err) {
-      // Invalid token, fall through to login
+    } catch {
+      // Ignore decode errors and fall through to login prompt
     }
   }
 
-  redirect("/login");
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      <h1 className="text-2xl font-bold text-blue-700 mb-2">
+        Welcome to Airport Admin
+      </h1>
+      <p className="text-gray-600">
+        Please{" "}
+        <a href="/login" className="text-blue-500 underline">
+          log in
+        </a>{" "}
+        to continue.
+      </p>
+    </div>
+  );
 }
