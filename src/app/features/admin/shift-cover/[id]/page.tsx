@@ -9,6 +9,10 @@ import { handleGetById } from "@/app/lib/crudService";
 import { ShiftCoverResponseDto } from "@/app/features/common/shift-cover/ShiftCoverTypes";
 import ShiftCoverForm from "./ShiftCoverForm";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { uiTheme } from "@/app/lib/uiConfig";
 
 export default function ShiftCoverDetailPage() {
   useRequireRoles(["Admin"]);
@@ -21,7 +25,7 @@ export default function ShiftCoverDetailPage() {
 
     const fetchRequest = async () => {
       const res = await handleGetById<ShiftCoverResponseDto>(
-        `/api/shift-cover/${id}`,
+        `/api/cover-requests/${id}`,
         "Shift cover request"
       );
       if (res) setRequest(res);
@@ -37,7 +41,17 @@ export default function ShiftCoverDetailPage() {
 
   return (
     <PageContainer>
-      <PageHeader title="Review Shift Cover Request" />
+      <PageHeader
+        title="Review Shift Cover Request"
+        actions={
+          <Link href="/features/admin/shift-cover">
+            <Button size="sm" className={uiTheme.buttons.back}>
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        }
+      />
       <ShiftCoverForm request={request} />
     </PageContainer>
   );

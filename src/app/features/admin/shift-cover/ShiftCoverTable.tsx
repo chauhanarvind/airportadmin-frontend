@@ -31,7 +31,7 @@ export default function ShiftCoverTable({
   const router = useRouter();
 
   const goToDetail = (id: number) => {
-    router.push(`/admin/shift-cover/${id}`);
+    router.push(`/features/admin/shift-cover/${id}`);
   };
 
   return (

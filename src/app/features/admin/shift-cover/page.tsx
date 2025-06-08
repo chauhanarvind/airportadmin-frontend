@@ -57,7 +57,7 @@ export default function ShiftCoverAdminPage() {
 
     const res = await handleFetchPaged<
       PaginatedResponse<ShiftCoverResponseDto>
-    >(`/api/shift-cover?${query.toString()}`, "Shift Cover Requests");
+    >(`/api/cover-requests?${query.toString()}`, "Shift Cover Requests");
 
     if (res) {
       setData(res.content);

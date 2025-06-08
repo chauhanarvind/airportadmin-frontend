@@ -43,7 +43,7 @@ export default function LeaveTable({
             <TableHead>Start Date</TableHead>
             <TableHead>End Date</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Reason</TableHead>
+
             <TableHead>Created At</TableHead>
           </TableRow>
         </TableHeader>
@@ -66,7 +66,7 @@ export default function LeaveTable({
               <TableCell>
                 <StatusBadge status={leave.status} />
               </TableCell>
-              <TableCell>{leave.reason}</TableCell>
+
               <TableCell>
                 {new Date(leave.createdAt).toLocaleString()}
               </TableCell>

@@ -4,7 +4,8 @@ export type CoverRequestStatus =
   | "PENDING"
   | "APPROVED"
   | "REJECTED"
-  | "CANCELLED";
+  | "CANCELLED"
+  | "RESUBMITTED";
 
 export interface ShiftCoverRequestDto {
   id?: number; // optional for creation

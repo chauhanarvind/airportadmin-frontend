@@ -65,7 +65,7 @@ export default function ShiftCoverDetailPage() {
       "Cover request",
       () => {
         toast.success("Request cancelled");
-        router.refresh();
+        router.push("/features/my/my-shift");
       }
     );
   };
@@ -141,14 +141,36 @@ export default function ShiftCoverDetailPage() {
                 </Button>
               )}
 
-              {["CANCELLED", "RESUBMITTED"].includes(coverRequest.status) && (
+              {coverRequest.status === "RESUBMITTED" && (
+                <>
+                  <ShiftCoverRequestForm
+                    shift={shift}
+                    users={coveringUsers || []}
+                    requestId={coverRequest.id}
+                    isResubmitting
+                    initialCoveringUserId={
+                      coverRequest.coveringUser?.id || null
+                    }
+                    onSuccess={() => router.push("/features/my/my-shift")}
+                  />
+                  <Button
+                    variant="ghost"
+                    onClick={handleCancelRequest}
+                    className={uiTheme.buttons.delete}
+                  >
+                    Cancel Request
+                  </Button>
+                </>
+              )}
+
+              {coverRequest.status === "CANCELLED" && (
                 <ShiftCoverRequestForm
                   shift={shift}
                   users={coveringUsers || []}
                   requestId={coverRequest.id}
                   isResubmitting
                   initialCoveringUserId={coverRequest.coveringUser?.id || null}
-                  onSuccess={() => router.refresh()}
+                  onSuccess={() => router.push("/features/my/my-shift")}
                 />
               )}
 
@@ -164,7 +186,7 @@ export default function ShiftCoverDetailPage() {
             <ShiftCoverRequestForm
               shift={shift}
               users={coveringUsers || []}
-              onSuccess={() => router.refresh()}
+              onSuccess={() => router.push("/features/my/my-shift")}
             />
           )}
         </div>
