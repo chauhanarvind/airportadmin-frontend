@@ -54,9 +54,9 @@ export const navItems = [
         roles: ["Admin", "Manager", "Supervisor"],
       },
       {
-        label: "My Staffing Requests",
-        href: "/features/my/my-staffing-requests",
-        roles: ["Admin", "Manager", "Supervisor", "Crew"],
+        label: "Staff Leave Applications",
+        href: "/features/staff/leave",
+        roles: ["Admin", "Manager", "Supervisor"],
       },
     ],
   },

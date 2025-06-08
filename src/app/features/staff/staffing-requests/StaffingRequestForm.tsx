@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/select";
 import { StaffingRequestCreate } from "../../common/staffing-requests/StaffingRequestTypes";
 import WeekPicker from "../../common/staffing-requests/WeekPicker";
-import RoleSelector from "@/app/components/ApiSelectDropdown";
+
+import ApiSelectDropdown from "@/app/components/ApiSelectDropdown";
 
 interface Props {
   onSubmit: (data: StaffingRequestCreate) => void;
@@ -46,7 +47,7 @@ export default function StaffingRequestForm({ onSubmit }: Props) {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className={uiTheme.layout.formGrid}>
           {/* Location */}
-          <RoleSelector
+          <ApiSelectDropdown
             label="Location"
             name="locationId"
             apiUrl="/api/locations/"
@@ -57,6 +58,7 @@ export default function StaffingRequestForm({ onSubmit }: Props) {
           {/* Request Type */}
           <div className="space-y-2">
             <Label className={uiTheme.text.label}>Request Type</Label>
+
             <Select
               defaultValue="REGULAR"
               onValueChange={(val) =>

@@ -65,8 +65,8 @@ export default function MyLeavePage() {
         <LeaveTable
           data={leaves}
           loading={loading}
-          basePath="my-leave"
-          clickable={false}
+          basePath="my/my-leave"
+          clickable={true}
         />
       </div>
     </PageContainer>

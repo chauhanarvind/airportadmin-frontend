@@ -55,13 +55,13 @@ export default function StaffingRequestDetailPage() {
         actions={
           <div className="flex gap-2">
             {rosterExists && (
-              <Link href={`/features/roster/${id}`}>
+              <Link href={`/features/staff/roster/${id}`}>
                 <Button className={uiTheme.colors.primary} variant="outline">
                   View Roster
                 </Button>
               </Link>
             )}
-            <Link href="/features/staff/my-staffing-requests">
+            <Link href="/features/staff/staffing-requests">
               <Button size="sm" className={uiTheme.buttons.back}>
                 <ArrowLeft className="h-4 w-4 mr-1" />
                 Back

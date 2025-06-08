@@ -71,7 +71,7 @@ export default function MyLeaveDetailPage() {
       <PageHeader
         title="Leave Request"
         actions={
-          <Link href="/features/staff/my-leave">
+          <Link href="/features/my/my-leave">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back
@@ -120,9 +120,10 @@ export default function MyLeaveDetailPage() {
 
             {(leave.status === "PENDING" || leave.status === "RESUBMITTED") && (
               <Button
+                type="submit"
                 variant="ghost"
                 onClick={handleCancel}
-                className="text-red-600 text-sm underline px-0"
+                className={uiTheme.buttons.delete}
               >
                 Cancel Request
               </Button>

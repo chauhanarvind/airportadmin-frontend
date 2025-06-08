@@ -38,12 +38,23 @@ export default function LeaveRequestsPage() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [debouncedUserId, setDebouncedUserId] = useState(filters.userId);
 
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedUserId(filters.userId);
+    }, 1000); // 500ms delay
+
+    return () => clearTimeout(handler); // Cancel on change
+  }, [filters.userId]);
   const fetchLeaves = useCallback(async () => {
     setLoading(true);
     try {
       const query = new URLSearchParams();
-      if (filters.userId) query.append("userId", filters.userId);
+      if (debouncedUserId && !isNaN(Number(debouncedUserId))) {
+        query.append("userId", debouncedUserId);
+      }
+
       if (filters.status && filters.status !== "ALL") {
         query.append("status", filters.status);
       }
@@ -62,7 +73,7 @@ export default function LeaveRequestsPage() {
     } finally {
       setLoading(false);
     }
-  }, [filters.userId, filters.status, page]);
+  }, [debouncedUserId, filters.status, page]);
 
   useEffect(() => {
     setPage(0); // Reset to first page when filters change

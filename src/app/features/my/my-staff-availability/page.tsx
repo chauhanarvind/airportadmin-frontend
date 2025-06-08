@@ -55,7 +55,7 @@ export default function MyStaffAvailabilityPage() {
       <PageHeader
         title="My Availability"
         actions={
-          <Link href="/features/staff/my-staff-availability/apply">
+          <Link href="/features/my/my-staff-availability/apply">
             <Button className={uiTheme.colors.primary}>Add Availability</Button>
           </Link>
         }
@@ -67,7 +67,7 @@ export default function MyStaffAvailabilityPage() {
         <StaffAvailabilityTable
           data={data}
           loading={loading}
-          basePath="my-staff-availability"
+          basePath="my/my-staff-availability"
           clickableRows={true}
         />
       </div>

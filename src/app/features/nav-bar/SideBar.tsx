@@ -31,7 +31,7 @@ export default function Sidebar() {
     <aside
       className={`h-screen ${uiTheme.sidebar} transition-all duration-300 ${
         collapsed ? "w-16" : "w-64"
-      }`}
+      } overflow-y-auto`}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">

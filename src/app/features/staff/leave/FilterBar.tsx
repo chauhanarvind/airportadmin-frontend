@@ -5,7 +5,7 @@ import TextInput from "@/app/components/form/TextInput";
 import StaticSelectDropdown from "@/app/components/StaticSelectorDropDown";
 
 export default function FilterBar() {
-  useFormContext(); // ensures the component is inside a form context
+  useFormContext();
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -8,8 +8,8 @@ import { toast } from "sonner";
 
 import DateInput from "@/app/components/form/DateInput";
 import TextInput from "@/app/components/form/TextInput";
-import { StaffAvailabilityRequest } from "../common/staff-availability/StaffAvailabilityTypes";
 import { uiTheme } from "@/app/lib/uiConfig";
+import { StaffAvailabilityRequest } from "../../common/staff-availability/StaffAvailabilityTypes";
 
 interface Props {
   onSubmit: (data: StaffAvailabilityRequest) => void;
@@ -22,7 +22,6 @@ export default function MyStaffAvailabilityForm({
 }: Props) {
   const methods = useForm<StaffAvailabilityRequest>({
     defaultValues: {
-      userId: defaultValues?.userId ?? 0,
       date: defaultValues?.date ?? "",
       isAvailable: defaultValues?.isAvailable ?? true,
       unavailableFrom: defaultValues?.unavailableFrom ?? "",
@@ -34,7 +33,7 @@ export default function MyStaffAvailabilityForm({
     handleSubmit,
     watch,
     setValue,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isDirty },
   } = methods;
 
   const isAvailable = watch("isAvailable");
@@ -106,7 +105,7 @@ export default function MyStaffAvailabilityForm({
         <Button
           type="submit"
           className={uiTheme.buttons.submit}
-          disabled={isSubmitting}
+          disabled={isSubmitting || !isDirty}
         >
           Submit Availability
         </Button>

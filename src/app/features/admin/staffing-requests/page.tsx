@@ -1,3 +1,4 @@
+"use client";
 import { useForm, FormProvider } from "react-hook-form";
 import StaffingRequestFilterBar from "./StaffingRequestFilterBar"; // import the filter bar
 import { useRequireRoles } from "@/app/lib/useRequireRoles";

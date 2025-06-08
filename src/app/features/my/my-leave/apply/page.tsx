@@ -25,7 +25,7 @@ export default function ApplyLeavePage() {
     console.log(payload);
 
     await handleCreate("/api/leaves/apply", payload, "Leave request", () =>
-      router.push("/features/staff/my-leave")
+      router.push("/features/my/my-leave")
     );
   };
 

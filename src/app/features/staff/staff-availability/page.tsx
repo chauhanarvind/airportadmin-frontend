@@ -40,11 +40,24 @@ export default function StaffAvailabilityPage() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
+  const [debouncedUserId, setDebouncedUserId] = useState(filters.userId);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedUserId(filters.userId);
+    }, 1000); // 500ms delay
+
+    return () => clearTimeout(handler); // Cancel on change
+  }, [filters.userId]);
+
   const fetchData = useCallback(async () => {
     setLoading(true);
 
     const query = new URLSearchParams();
-    if (filters.userId) query.append("userId", filters.userId);
+    if (debouncedUserId && !isNaN(Number(debouncedUserId))) {
+      query.append("userId", debouncedUserId);
+    }
+
     if (filters.date) query.append("date", filters.date);
     query.append("page", page.toString());
     query.append("size", "10");
@@ -59,7 +72,7 @@ export default function StaffAvailabilityPage() {
     }
 
     setLoading(false);
-  }, [filters.userId, filters.date, page]);
+  }, [debouncedUserId, filters.date, page]);
 
   useEffect(() => {
     setPage(0); // reset page on filter change

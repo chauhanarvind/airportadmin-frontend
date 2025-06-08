@@ -12,16 +12,8 @@ import { uiTheme } from "@/app/lib/uiConfig";
 
 import StaffingRequestTable from "../../common/staffing-requests/StaffingRequestTable";
 import { StaffingRequestResponse } from "../../common/staffing-requests/StaffingRequestTypes";
-import { handleFetchPaged } from "@/app/lib/crudService";
+import { handleFetchList } from "@/app/lib/crudService";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
-
-interface PaginatedResponse<T> {
-  content: T[];
-  totalPages: number;
-  totalElements: number;
-  size: number;
-  number: number;
-}
 
 export default function StaffingRequestsPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
@@ -30,8 +22,6 @@ export default function StaffingRequestsPage() {
 
   const [data, setData] = useState<StaffingRequestResponse[]>([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     if (user?.id) setUserId(user.id);
@@ -42,26 +32,21 @@ export default function StaffingRequestsPage() {
       if (!userId) return;
 
       setLoading(true);
-      const query = new URLSearchParams({
-        userId: userId.toString(),
-        page: page.toString(),
-        size: "10",
-      });
 
-      const result = await handleFetchPaged<
-        PaginatedResponse<StaffingRequestResponse>
-      >(`/api/staffing-requests/?${query.toString()}`, "My Staffing Requests");
+      const result = await handleFetchList<StaffingRequestResponse[]>(
+        `/api/staffing-requests/user/${userId}`,
+        "My Staffing Requests"
+      );
 
       if (result) {
-        setData(result.content);
-        setTotalPages(result.totalPages);
+        setData(result);
       }
 
       setLoading(false);
     };
 
     fetchRequests();
-  }, [userId, page]);
+  }, [userId]);
 
   if (!userId) return <PageLoader />;
 
@@ -70,7 +55,7 @@ export default function StaffingRequestsPage() {
       <PageHeader
         title="My Staffing Requests"
         actions={
-          <Link href="/features/staff/my-staffing-requests/apply">
+          <Link href="/features/staff/staffing-requests/apply">
             <Button className={uiTheme.colors.primary}>
               Create New Staffing Request
             </Button>
@@ -84,10 +69,7 @@ export default function StaffingRequestsPage() {
         <StaffingRequestTable
           data={data}
           loading={loading}
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-          basePath="my-staffing-requests"
+          basePath="staff/staffing-requests"
         />
       </div>
     </PageContainer>

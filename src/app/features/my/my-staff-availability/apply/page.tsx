@@ -29,7 +29,7 @@ export default function ApplyStaffAvailabilityPage() {
       "/api/staff-availability",
       payload,
       "Staff availability",
-      () => router.push("/features/staff/my-staff-availability")
+      () => router.push("/features/my/my-staff-availability")
     );
   };
 
@@ -38,7 +38,7 @@ export default function ApplyStaffAvailabilityPage() {
       <PageHeader
         title="Submit Availability"
         actions={
-          <Link href="/features/staff/my-staff-availability">
+          <Link href="/features/my/my-staff-availability">
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back
