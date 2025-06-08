@@ -36,6 +36,7 @@ export default function LoginPage() {
   const onSubmit = async (data: LoginFormInputs) => {
     setLoading(true);
     console.log(data);
+    console.log(api.defaults.baseURL);
 
     try {
       const res = await api.post("/api/auth/login", data);
