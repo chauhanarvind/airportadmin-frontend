@@ -15,7 +15,7 @@ import { StaffingRequestResponse } from "../../common/staffing-requests/Staffing
 import { handleFetchList } from "@/app/lib/crudService";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
-export default function StaffingRequestsPage() {
+export default function MyStaffingRequestsPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);

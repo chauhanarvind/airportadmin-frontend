@@ -19,7 +19,7 @@ import RosterStatusBadge from "../../../common/staffing-requests/RosterStatusBad
 import StaffingRequestTableView from "../../../common/staffing-requests/StaffingRequestTableView";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
-export default function StaffingRequestDetailPage() {
+export default function MyStaffingRequestDetailPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { id } = useParams();
   const [request, setRequest] = useState<StaffingRequestDetail | null>(null);

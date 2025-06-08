@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { cleanStaffingRequestPayload } from "../cleanStaffingRequestPayload";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
-export default function ApplyStaffingRequestPage() {
+export default function ApplyMyStaffingRequestPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const router = useRouter();
