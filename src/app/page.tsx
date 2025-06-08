@@ -1,26 +1,29 @@
-"use client";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { jwtDecode } from "jwt-decode";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "./components/AuthProvider";
-import PageLoader from "./components/ui/PageLoader";
+type DecodedToken = {
+  sub: string;
+  role: string;
+  exp: number;
+  userId: number;
+};
 
 export default function Home() {
-  const { user, loading } = useAuth();
-  const router = useRouter();
+  const token = cookies().get("token")?.value;
 
-  useEffect(() => {
-    if (loading) return;
+  if (token) {
+    try {
+      const decoded = jwtDecode<DecodedToken>(token);
+      const now = Date.now() / 1000;
 
-    // Explicit null check
-    if (user !== undefined) {
-      if (user) {
-        router.replace("/features");
-      } else {
-        router.replace("/login");
+      if (decoded.exp > now) {
+        redirect("/features");
       }
+    } catch (err) {
+      // Invalid token, fall through to login
     }
-  }, [user, loading]);
+  }
 
-  return <PageLoader />;
+  redirect("/login");
 }

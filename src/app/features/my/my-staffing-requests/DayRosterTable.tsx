@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { StaffingRequestCreate } from "../../common/staffing-requests/StaffingRequestTypes";
 import { uiTheme } from "@/app/lib/uiConfig";
-import RoleSelector from "@/app/components/ApiSelectDropdown";
+import ApiSelectDropdown from "@/app/components/ApiSelectDropdown";
 
 interface Props {
   day: { id: string; date: string };
@@ -40,20 +40,20 @@ export default function DayRosterTable({ day, dayIndex }: Props) {
 
       {itemFields.map((item, itemIndex) => (
         <div key={item.id} className={`${uiTheme.layout.formGrid} items-end`}>
-          <RoleSelector
+          <ApiSelectDropdown
             label="Job Role"
             name={`days.${dayIndex}.items.${itemIndex}.jobRoleId`}
             apiUrl="/api/job-roles/"
             optionKey="roleName"
-            required
+            required={true}
           />
 
-          <RoleSelector
+          <ApiSelectDropdown
             label="Job Level"
             name={`days.${dayIndex}.items.${itemIndex}.jobLevelId`}
             apiUrl="/api/job-levels/"
             optionKey="levelName"
-            required
+            required={true}
           />
 
           <div className="space-y-1">

@@ -54,7 +54,7 @@ export default function ApiSelectDropdown({
         render={({ field, fieldState }) => (
           <>
             <Select
-              value={field.value ? String(field.value) : ""}
+              value={field.value !== undefined ? String(field.value) : ""}
               onValueChange={(val) =>
                 field.onChange(val ? parseInt(val) : undefined)
               }

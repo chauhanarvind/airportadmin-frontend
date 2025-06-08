@@ -1,15 +1,16 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { ShiftCoverResponseDto } from "@/app/features/common/shift-cover/ShiftCoverTypes";
 import { handleUpdate } from "@/app/lib/crudService";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import StatusBadge from "@/app/features/common/StatusBadge";
 import { uiTheme } from "@/app/lib/uiConfig";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import api from "@/app/lib/api";
 
 interface Props {
   request: ShiftCoverResponseDto;
@@ -18,9 +19,23 @@ interface Props {
 export default function ShiftCoverForm({ request }: Props) {
   const [status, setStatus] = useState(request.status);
   const [loading, setLoading] = useState(false);
+  const [warnings, setWarnings] = useState<string[]>([]);
+  const [showConfirm, setShowConfirm] = useState(false);
   const router = useRouter();
 
   const canUpdate = status === "PENDING" || status === "RESUBMITTED";
+
+  const checkWarnings = async () => {
+    try {
+      const res = await api.get<string[]>(
+        `/api/cover-requests/${request.id}/warnings`
+      );
+      setWarnings(res.data || []);
+      setShowConfirm(true);
+    } catch {
+      toast.error("Failed to fetch warnings");
+    }
+  };
 
   const handleStatusUpdate = async (action: "approve" | "reject") => {
     setLoading(true);
@@ -37,6 +52,11 @@ export default function ShiftCoverForm({ request }: Props) {
       }
     );
     setLoading(false);
+  };
+
+  const confirmAndApprove = async () => {
+    setShowConfirm(false);
+    await handleStatusUpdate("approve");
   };
 
   return (
@@ -78,10 +98,32 @@ export default function ShiftCoverForm({ request }: Props) {
         </div>
       </div>
 
-      {canUpdate && (
+      {showConfirm && warnings.length > 0 && (
+        <div className="p-4 border border-yellow-400 bg-yellow-100 rounded">
+          <p className="font-semibold mb-2">Warnings:</p>
+          <ul className="list-disc list-inside text-sm text-yellow-800">
+            {warnings.map((w, idx) => (
+              <li key={idx}>{w}</li>
+            ))}
+          </ul>
+          <div className="mt-4 space-x-2">
+            <Button
+              onClick={confirmAndApprove}
+              className={uiTheme.buttons.outline}
+            >
+              Approve Anyway
+            </Button>
+            <Button variant="ghost" onClick={() => setShowConfirm(false)}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {canUpdate && !showConfirm && (
         <div className={uiTheme.layout.formGrid}>
           <Button
-            onClick={() => handleStatusUpdate("approve")}
+            onClick={checkWarnings}
             disabled={loading}
             className={uiTheme.buttons.submit}
           >

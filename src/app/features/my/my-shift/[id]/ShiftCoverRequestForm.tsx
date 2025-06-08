@@ -130,12 +130,16 @@ export default function ShiftCoverRequestForm({
           onValueChange={(val) => setSelectedUserId(parseInt(val))}
           value={selectedUserId?.toString()}
         >
-          <SelectTrigger className="w-64">
+          <SelectTrigger className={uiTheme.components.select.trigger}>
             <SelectValue placeholder="Select user" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className={uiTheme.components.select.content}>
             {users.map((user) => (
-              <SelectItem key={user.id} value={user.id.toString()}>
+              <SelectItem
+                key={user.id}
+                value={user.id.toString()}
+                className={uiTheme.components.select.item}
+              >
                 {user.firstName} {user.lastName}
               </SelectItem>
             ))}
