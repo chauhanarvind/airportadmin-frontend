@@ -83,11 +83,21 @@ export default function MyLeaveDetailPage() {
       <div
         className={`${uiTheme.colors.card} ${uiTheme.spacing.cardPadding} mt-4 space-y-6`}
       >
-        <div className="flex items-center justify-between">
-          <p className={uiTheme.text.label}>
-            Submitted On {new Date(leave.createdAt).toLocaleString()}
-          </p>
-          <StatusBadge status={leave.status} />
+        <div className={uiTheme.layout.formGrid}>
+          <div className="space-y-2">
+            <Label>Status</Label>
+            <div className="pt-2">
+              <StatusBadge status={leave.status} />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Submitted</Label>
+            <Input
+              value={new Date(leave.createdAt).toLocaleString()}
+              disabled
+            />
+          </div>
         </div>
 
         {mode === "resubmit" ? (

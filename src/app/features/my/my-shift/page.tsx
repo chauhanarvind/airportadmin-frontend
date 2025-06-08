@@ -9,17 +9,7 @@ import { handleFetchList } from "@/app/lib/crudService";
 import { useAuth } from "@/app/components/AuthProvider";
 import MyShiftTable from "./MyShiftTable";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
-
-interface MyShift {
-  id: number;
-  date: string;
-  roleName: string;
-  startTime: string;
-  endTime: string;
-  locationName: string;
-  userFullName?: string;
-  unassigned?: boolean;
-}
+import { MyShift } from "./MyShiftTypes";
 
 // Helper to get Monday of the week
 function getWeekStart(dateStr: string): string {
@@ -45,6 +35,7 @@ export default function MyShiftsPage() {
         "My Shifts"
       );
       if (!res) return;
+      console.log(res);
 
       const assignedShifts = res.filter((shift) => !shift.unassigned);
 

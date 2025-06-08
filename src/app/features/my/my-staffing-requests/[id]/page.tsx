@@ -15,9 +15,9 @@ import { Label } from "@/components/ui/label";
 import { handleGetById } from "@/app/lib/crudService";
 import { uiTheme } from "@/app/lib/uiConfig";
 import { StaffingRequestDetail } from "../../../common/staffing-requests/StaffingRequestTypes";
-import RosterStatusBadge from "../../../common/staffing-requests/RosterStatusBadge";
 import StaffingRequestTableView from "../../../common/staffing-requests/StaffingRequestTableView";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
+import StatusBadge from "@/app/features/common/StatusBadge";
 
 export default function MyStaffingRequestDetailPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
@@ -89,7 +89,7 @@ export default function MyStaffingRequestDetailPage() {
           <div className="space-y-2">
             <Label>Status</Label>
             <div className="pt-2">
-              <RosterStatusBadge status={request.status} />
+              <StatusBadge status={request.status} />
             </div>
           </div>
 

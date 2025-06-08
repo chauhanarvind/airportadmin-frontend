@@ -30,11 +30,6 @@ export const navItems = [
         roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
       {
-        label: "My Shift Cover",
-        href: "/features/my/my-shift-cover",
-        roles: ["Admin", "Manager", "Supervisor", "Crew"],
-      },
-      {
         label: "My Staffing Requests",
         href: "/features/my/my-staffing-requests",
         roles: ["Admin", "Manager", "Supervisor"],
