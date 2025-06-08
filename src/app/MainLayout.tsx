@@ -1,23 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import Sidebar from "./features/nav-bar/SideBar";
 import { uiTheme } from "@/app/lib/uiConfig";
-
-// src/app/MainLayout.tsx
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <Sidebar />
+  const [collapsed, setCollapsed] = useState(false);
 
-      {/* Main content */}
+  return (
+    <div>
+      {/* Sidebar is fixed, so it's not inside the flex container anymore */}
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+
+      {/* Main content area, with dynamic margin-left */}
       <main
-        className={`${uiTheme.colors.contentBg} flex-1 p-6 overflow-y-auto`}
+        className={`${uiTheme.colors.contentBg} min-h-screen p-6 transition-all duration-300`}
+        style={{ marginLeft: collapsed ? "4rem" : "16rem" }} // 4rem = w-16, 16rem = w-64
       >
         {children}
       </main>

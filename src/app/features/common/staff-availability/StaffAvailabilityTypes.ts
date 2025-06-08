@@ -1,6 +1,6 @@
 // Matches StaffAvailabilityRequestDto
 export interface StaffAvailabilityRequest {
-  userId: number;
+  id: number;
   date: string; // "YYYY-MM-DD"
   unavailableFrom?: string; // "HH:mm"
   unavailableTo?: string; // "HH:mm"

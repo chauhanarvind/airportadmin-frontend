@@ -16,10 +16,11 @@ import StatusBadge from "../StatusBadge";
 interface LeaveTableProps {
   data: LeaveRequestResponse[];
   loading: boolean;
-  page: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
+  page?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
   basePath?: string;
+  clickable?: boolean;
 }
 
 export default function LeaveTable({
@@ -28,7 +29,8 @@ export default function LeaveTable({
   page,
   totalPages,
   onPageChange,
-  basePath = "leave",
+  basePath,
+  clickable,
 }: LeaveTableProps) {
   const router = useRouter();
 
@@ -41,7 +43,7 @@ export default function LeaveTable({
             <TableHead>Start Date</TableHead>
             <TableHead>End Date</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Reason</TableHead>
+
             <TableHead>Created At</TableHead>
           </TableRow>
         </TableHeader>
@@ -49,8 +51,14 @@ export default function LeaveTable({
           {data.map((leave) => (
             <TableRow
               key={leave.id}
-              className="hover:bg-blue-100 transition cursor-pointer"
-              onClick={() => router.push(`/dashboard/${basePath}/${leave.id}`)}
+              className={
+                clickable ? "hover:bg-blue-100 transition cursor-pointer" : ""
+              }
+              onClick={
+                clickable
+                  ? () => router.push(`/features/${basePath}/${leave.id}`)
+                  : undefined
+              }
             >
               <TableCell>{leave.userName ?? `User ${leave.userId}`}</TableCell>
               <TableCell>{leave.startDate}</TableCell>
@@ -58,7 +66,7 @@ export default function LeaveTable({
               <TableCell>
                 <StatusBadge status={leave.status} />
               </TableCell>
-              <TableCell>{leave.reason}</TableCell>
+
               <TableCell>
                 {new Date(leave.createdAt).toLocaleString()}
               </TableCell>
@@ -86,22 +94,26 @@ export default function LeaveTable({
         </TableBody>
       </Table>
 
-      <div className="flex justify-end gap-2 mt-4">
-        <Button
-          variant="outline"
-          disabled={page === 0}
-          onClick={() => onPageChange(page - 1)}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          disabled={page + 1 >= totalPages}
-          onClick={() => onPageChange(page + 1)}
-        >
-          Next
-        </Button>
-      </div>
+      {typeof page === "number" &&
+        typeof totalPages === "number" &&
+        typeof onPageChange === "function" && (
+          <div className="flex justify-end gap-2 mt-4">
+            <Button
+              variant="outline"
+              disabled={page === 0}
+              onClick={() => onPageChange(page - 1)}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              disabled={page + 1 >= totalPages}
+              onClick={() => onPageChange(page + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
     </div>
   );
 }

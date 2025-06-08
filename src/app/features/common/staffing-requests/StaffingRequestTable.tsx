@@ -20,9 +20,9 @@ import StatusBadge from "../StatusBadge";
 interface StaffingRequestTableProps {
   data: StaffingRequestResponse[];
   loading: boolean;
-  page: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
+  page?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
   basePath?: string;
   clickableRows?: boolean; //clickable to update status for admin
 }
@@ -61,7 +61,7 @@ export default function StaffingRequestTable({
               }
               onClick={
                 clickableRows
-                  ? () => router.push(`/dashboard/${basePath}/${req.id}`)
+                  ? () => router.push(`/features/${basePath}/${req.id}`)
                   : undefined
               }
             >
@@ -97,23 +97,26 @@ export default function StaffingRequestTable({
           )}
         </TableBody>
       </Table>
-
-      <div className="flex justify-end gap-2 mt-4">
-        <Button
-          variant="outline"
-          disabled={page === 0}
-          onClick={() => onPageChange(page - 1)}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          disabled={page + 1 >= totalPages}
-          onClick={() => onPageChange(page + 1)}
-        >
-          Next
-        </Button>
-      </div>
+      {typeof page === "number" &&
+        typeof totalPages === "number" &&
+        typeof onPageChange === "function" && (
+          <div className="flex justify-end gap-2 mt-4">
+            <Button
+              variant="outline"
+              disabled={page === 0}
+              onClick={() => onPageChange(page - 1)}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              disabled={page + 1 >= totalPages}
+              onClick={() => onPageChange(page + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
     </div>
   );
 }

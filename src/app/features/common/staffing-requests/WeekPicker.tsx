@@ -24,7 +24,7 @@ export default function WeekPicker({ onWeekChange }: Props) {
 
     onWeekChange(weekDays);
   };
-
+  const today = new Date().toISOString().split("T")[0];
   return (
     <div className="space-y-2">
       <Label htmlFor="weekStart" className="font-medium">
@@ -35,6 +35,7 @@ export default function WeekPicker({ onWeekChange }: Props) {
         type="date"
         value={selectedDate}
         onChange={handleChange}
+        min={today}
       />
     </div>
   );

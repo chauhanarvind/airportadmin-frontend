@@ -1,104 +1,120 @@
-import { Briefcase, Settings, Users, User } from "lucide-react";
+import { Briefcase, Settings, Users, User, ClipboardList } from "lucide-react";
 
 export const navItems = [
+  // UNIVERSAL ACCESS: My Profile + My Dashboard
   {
     label: "My Profile",
     icon: User,
-    roles: ["Admin", "Crew"],
-    href: "/dashboard/my-profile",
+    href: "/features/my/my-profile",
+    roles: ["Admin", "Manager", "Supervisor", "Crew"],
   },
   {
-    label: "Users",
-    icon: Users,
-    href: "/dashboard/users",
-    roles: ["Admin"],
-  },
-  {
-    label: "My Profile",
-    icon: Briefcase,
+    label: "My Dashboard",
+    icon: ClipboardList,
+    roles: ["Admin", "Manager", "Supervisor", "Crew"],
     children: [
       {
         label: "My Leave",
-        href: "/dashboard'/my-leave",
+        href: "/features/my/my-leave",
         roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
       {
         label: "My Availability",
-        href: "/dashboard/my-staff-availability",
+        href: "/features/my/my-staff-availability",
+        roles: ["Admin", "Manager", "Supervisor", "Crew"],
+      },
 
+      {
+        label: "My Shifts",
+        href: "/features/my/my-shift",
         roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
       {
         label: "My Staffing Requests",
-        href: "/dashboard/my-staffing-requests",
-
-        roles: ["Admin", "Manager", "Supervisor", "Crew"],
-      },
-      {
-        label: "My Shifts",
-        href: "/dashboard/my-shift",
-
-        roles: ["Admin", "Manager", "Supervisor", "Crew"],
+        href: "/features/my/my-staffing-requests",
+        roles: ["Admin", "Manager", "Supervisor"],
       },
     ],
+  },
+
+  // STAFF SECTION (NO Crew)
+  {
+    label: "Team Tools",
+    icon: Settings,
+    roles: ["Admin", "Manager", "Supervisor"],
+    children: [
+      {
+        label: "Staff Availability",
+        href: "/features/staff/staff-availability",
+        roles: ["Admin", "Manager", "Supervisor"],
+      },
+
+      {
+        label: "Staff Leave Applications",
+        href: "/features/staff/leave",
+        roles: ["Admin", "Manager", "Supervisor"],
+      },
+    ],
+  },
+
+  //ADMIN SECTION
+  {
+    label: "Users",
+    icon: Users,
+    href: "/features/admin/users",
+    roles: ["Admin"],
   },
   {
     label: "Job Settings",
     icon: Briefcase,
+    roles: ["Admin"],
     children: [
       {
         label: "Job Roles",
-        href: "/dashboard/job-roles",
-
-        roles: ["Admin", "Manager", "Supervisor"],
+        href: "/features/admin/job-roles",
+        roles: ["Admin"],
       },
       {
         label: "Job Categories",
-        href: "/dashboard/job-categories",
-
-        roles: ["Admin", "Manager", "Supervisor"],
+        href: "/features/admin/job-categories",
+        roles: ["Admin"],
       },
       {
         label: "Job Levels",
-        href: "/dashboard/job-levels",
-
-        roles: ["Admin", "Manager", "Supervisor"],
+        href: "/features/admin/job-levels",
+        roles: ["Admin"],
       },
       {
         label: "Constraint Profiles",
-        href: "/dashboard/constraints",
-
-        roles: ["Admin", "Manager", "Supervisor"],
+        href: "/features/admin/constraints",
+        roles: ["Admin"],
       },
     ],
   },
   {
-    label: "Admin Settings",
+    label: "Admin Tools",
     icon: Settings,
+    roles: ["Admin"],
     children: [
       {
+        label: "Staffing Requests",
+        href: "/features/admin/staffing-requests",
+        roles: ["Admin"],
+      },
+      {
         label: "Locations",
-        href: "/dashboard/locations",
-
-        roles: ["Admin", "Manager", "Supervisor"],
+        href: "/features/admin/locations",
+        roles: ["Admin"],
       },
       {
         label: "Leave Requests",
-        href: "/dashboard/leave",
-
-        roles: ["Admin", "Manager", "Supervisor"],
+        href: "/features/admin/leave",
+        roles: ["Admin"],
       },
       {
-        label: "Staff Availability",
-        href: "/dashboard/staff-availability",
-
-        roles: ["Admin", "Manager", "Supervisor"],
-      },
-      {
-        label: "Staffing Requests",
-        href: "/dashboard/staffing-requests",
-
-        roles: ["Admin", "Manager", "Supervisor"],
+        label: "Shift Cover",
+        href: "/features/admin/shift-cover",
+        roles: ["Admin"],
       },
     ],
   },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
@@ -39,7 +39,7 @@ export default function LeaveRequestsPage() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  const fetchLeaves = async () => {
+  const fetchLeaves = useCallback(async () => {
     setLoading(true);
     try {
       const query = new URLSearchParams();
@@ -62,7 +62,7 @@ export default function LeaveRequestsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters.userId, filters.status, page]);
 
   useEffect(() => {
     setPage(0); // Reset to first page when filters change
@@ -70,7 +70,7 @@ export default function LeaveRequestsPage() {
 
   useEffect(() => {
     fetchLeaves();
-  }, [filters.userId, filters.status, page]);
+  }, [fetchLeaves]);
 
   return (
     <PageContainer>
@@ -92,6 +92,8 @@ export default function LeaveRequestsPage() {
             page={page}
             totalPages={totalPages}
             onPageChange={setPage}
+            clickable={true}
+            basePath="admin/leave"
           />
         </div>
       </FormProvider>

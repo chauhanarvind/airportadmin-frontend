@@ -35,7 +35,10 @@ export default function ApiSelectDropdown({
   useEffect(() => {
     api
       .get(apiUrl)
-      .then((res) => setOptions(res.data))
+      .then((res) => {
+        console.log(res);
+        setOptions(res.data);
+      })
       .catch((err) => console.error(`Failed to fetch ${label}`, err));
   }, [apiUrl]);
 
@@ -51,13 +54,15 @@ export default function ApiSelectDropdown({
         render={({ field, fieldState }) => (
           <>
             <Select
-              value={field.value != null ? String(field.value) : ""}
-              onValueChange={(val) => field.onChange(parseInt(val))}
+              value={field.value !== undefined ? String(field.value) : ""}
+              onValueChange={(val) =>
+                field.onChange(val ? parseInt(val) : undefined)
+              }
             >
               <SelectTrigger id={id} className="w-[250px]">
                 <SelectValue placeholder={`Select ${label.toLowerCase()}`} />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white border rounded-md shadow-lg">
                 {options.map((item) => (
                   <SelectItem key={item.id} value={String(item.id)}>
                     {item[optionKey] ?? `Item ${item.id}`}

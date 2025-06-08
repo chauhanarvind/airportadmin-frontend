@@ -59,10 +59,10 @@ export default function JobLevelForm({
           <TextInput name="levelName" label="Level Name" required />
         </div>
 
-        <div>
+        <div className={uiTheme.layout.formGrid}>
           <Button
             type="submit"
-            className={`w-full ${uiTheme.buttons.submit}`}
+            className={uiTheme.buttons.submit}
             disabled={isEditMode && !isDirty}
           >
             {submitText || (isEditMode ? "Update Level" : "Create Level")}

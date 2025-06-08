@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 import TextInput from "@/app/components/form/TextInput";
-import SelectInput from "@/app/components/form/SelectInput";
 import { uiTheme } from "@/app/lib/uiConfig";
 
 import { CreateJobRole, UpdateJobRole } from "./JobRoleTypes";
+import ApiSelectDropdown from "@/app/components/ApiSelectDropdown";
 
 type JobRoleFormData = Partial<UpdateJobRole> & CreateJobRole;
 
@@ -60,7 +60,7 @@ export default function JobRoleForm({
       <form className="space-y-8" onSubmit={handleSubmit(handleFormSubmit)}>
         <div className={uiTheme.layout.formGrid}>
           <TextInput name="roleName" label="Job Role Name" required />
-          <SelectInput
+          <ApiSelectDropdown
             name="categoryId"
             label="Job Category"
             apiUrl="/api/job-categories/"
@@ -69,10 +69,10 @@ export default function JobRoleForm({
           />
         </div>
 
-        <div>
+        <div className={uiTheme.layout.formGrid}>
           <Button
             type="submit"
-            className={`w-full ${uiTheme.buttons.submit}`}
+            className={uiTheme.buttons.submit}
             disabled={isEditMode && !isDirty}
           >
             {submitText || (isEditMode ? "Update Job Role" : "Create Job Role")}

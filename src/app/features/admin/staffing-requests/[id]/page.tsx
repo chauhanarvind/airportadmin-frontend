@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -18,8 +18,10 @@ import { uiTheme } from "@/app/lib/uiConfig";
 import { StaffingRequestDetail } from "@/app/features/common/staffing-requests/StaffingRequestTypes";
 import StaffingRequestDetailsCard from "@/app/features/common/staffing-requests/StaffingRequestDetailsCard";
 import StaffingRequestTableView from "@/app/features/common/staffing-requests/StaffingRequestTableView";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function AdminStaffingRequestPage() {
+  useRequireRoles(["Admin"]);
   const { id } = useParams();
   const requestId = id as string;
 
@@ -27,14 +29,12 @@ export default function AdminStaffingRequestPage() {
   const [rosterExists, setRosterExists] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const fetchRequest = async () => {
+  const fetchRequest = useCallback(async () => {
     const req = await handleGetById<StaffingRequestDetail>(
       `/api/staffing-requests/${requestId}`,
       "Staffing request"
     );
-    if (req) {
-      setRequest(req);
-    }
+    if (req) setRequest(req);
 
     const exists = await handleGetById<boolean>(
       `/api/roster/check/${requestId}`,
@@ -42,11 +42,11 @@ export default function AdminStaffingRequestPage() {
     );
     setRosterExists(!!exists);
     setLoading(false);
-  };
+  }, [requestId]);
 
   useEffect(() => {
     fetchRequest();
-  }, [requestId]);
+  }, [fetchRequest]);
 
   const handleGenerateRoster = async () => {
     try {
@@ -88,13 +88,13 @@ export default function AdminStaffingRequestPage() {
               </Button>
             )}
             {rosterExists && (
-              <Link href={`/features/roster/${requestId}`}>
+              <Link href={`/features/staff/roster/${requestId}`}>
                 <Button className={uiTheme.colors.primary} variant="outline">
                   View Roster
                 </Button>
               </Link>
             )}
-            <Link href="/dashboard/staffing-requests">
+            <Link href="/features/admin/staffing-requests">
               <Button size="sm" className={uiTheme.buttons.back}>
                 <ArrowLeft className="h-4 w-4 mr-1" />
                 Back

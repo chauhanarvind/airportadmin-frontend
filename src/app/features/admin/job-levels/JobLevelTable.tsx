@@ -56,7 +56,9 @@ export default function JobLevelTable() {
             <TableRow
               key={level.id}
               className="hover:bg-blue-50 transition cursor-pointer"
-              onClick={() => router.push(`/dashboard/job-levels/${level.id}`)}
+              onClick={() =>
+                router.push(`/features/admin/job-levels/${level.id}`)
+              }
             >
               <TableCell>{level.levelName}</TableCell>
             </TableRow>

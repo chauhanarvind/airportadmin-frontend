@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { navItems } from "./navConfig";
 import { Menu, ChevronLeft } from "lucide-react";
 import { useAuth } from "@/app/components/AuthProvider";
 import { uiTheme } from "@/app/lib/uiConfig";
+import { navItems } from "./navConfig";
 
-export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+interface SidebarProps {
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
+}
+
+export default function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
   const { user, logout } = useAuth();
   const pathname = usePathname();
 
@@ -29,9 +32,9 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`h-screen ${uiTheme.sidebar} transition-all duration-300 ${
+      className={`fixed top-0 left-0 h-screen overflow-y-auto z-30 transition-all duration-300 ${
         collapsed ? "w-16" : "w-64"
-      }`}
+      } ${uiTheme.sidebar}`}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">
@@ -56,7 +59,7 @@ export default function Sidebar() {
                 key={href}
                 href={href}
                 className={`flex items-center gap-3 p-2 rounded-md transition-colors ${
-                  isActive ? uiTheme.navActive : uiTheme.navInactive
+                  isActive ? uiTheme.nav.active : uiTheme.nav.inactive
                 }`}
               >
                 <Icon size={20} />
@@ -81,7 +84,7 @@ export default function Sidebar() {
                         key={child.href}
                         href={child.href}
                         className={`block text-sm rounded-md px-2 py-1 transition-colors ${
-                          isActive ? uiTheme.navActive : uiTheme.navInactive
+                          isActive ? uiTheme.nav.active : uiTheme.nav.inactive
                         }`}
                       >
                         {child.label}

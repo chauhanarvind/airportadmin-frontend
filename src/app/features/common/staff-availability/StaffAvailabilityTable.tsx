@@ -17,11 +17,11 @@ import AvailabilityStatusBadge from "./AvailabilityStatusBadge";
 interface StaffAvailabilityTableProps {
   data: StaffAvailabilityResponse[];
   loading: boolean;
-  page: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-  clickableRows?: boolean;
+  page?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
   basePath?: string;
+  clickableRows?: boolean;
 }
 
 export default function StaffAvailabilityTable({
@@ -36,7 +36,7 @@ export default function StaffAvailabilityTable({
   const router = useRouter();
 
   const handleRowClick = (id: number) => {
-    if (clickableRows) router.push(`/dashboard/${basePath}/${id}`);
+    if (clickableRows) router.push(`/features/${basePath}/${id}`);
   };
 
   return (
@@ -95,22 +95,26 @@ export default function StaffAvailabilityTable({
       </Table>
 
       {/* Pagination Controls */}
-      <div className="flex justify-end gap-2 mt-4">
-        <Button
-          variant="outline"
-          disabled={page === 0}
-          onClick={() => onPageChange(page - 1)}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          disabled={page + 1 >= totalPages}
-          onClick={() => onPageChange(page + 1)}
-        >
-          Next
-        </Button>
-      </div>
+      {typeof page === "number" &&
+        typeof totalPages === "number" &&
+        typeof onPageChange === "function" && (
+          <div className="flex justify-end gap-2 mt-4">
+            <Button
+              variant="outline"
+              disabled={page === 0}
+              onClick={() => onPageChange(page - 1)}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              disabled={page + 1 >= totalPages}
+              onClick={() => onPageChange(page + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
     </div>
   );
 }

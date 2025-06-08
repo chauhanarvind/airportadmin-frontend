@@ -174,10 +174,10 @@ export default function ConstraintProfileForm({
           </div>
         </div>
 
-        <div>
+        <div className={uiTheme.layout.formGrid}>
           <Button
             type="submit"
-            className="w-full"
+            className={uiTheme.buttons.submit}
             disabled={isEditMode && !isDirty}
           >
             {submitText || (isEditMode ? "Update Profile" : "Create Profile")}

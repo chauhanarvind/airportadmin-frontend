@@ -58,7 +58,7 @@ export async function handleUpdate<TResponse, TData>(
   }
 }
 
-export async function handleDelete(
+export async function handleDeleteCRUD(
   url: string,
   label: string,
   callback: () => void

@@ -18,7 +18,7 @@ export default function JobCategoriesPage() {
       <PageHeader
         title="Job Category Management"
         actions={
-          <Link href="/dashboard/job-categories/new">
+          <Link href="/features/admin/job-categories/new">
             <Button className={uiTheme.colors.primary}>Add New Category</Button>
           </Link>
         }

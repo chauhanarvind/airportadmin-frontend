@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useForm, FormProvider } from "react-hook-form";
 
@@ -35,7 +35,7 @@ export default function UsersPage() {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     const query = new URLSearchParams();
 
@@ -56,7 +56,7 @@ export default function UsersPage() {
     }
 
     setLoading(false);
-  };
+  }, [filters.userId, filters.name, filters.email, page]);
 
   useEffect(() => {
     setPage(0); // reset page when filters change
@@ -64,14 +64,14 @@ export default function UsersPage() {
 
   useEffect(() => {
     fetchData();
-  }, [page, filters.userId, filters.name, filters.email]);
+  }, [fetchData]);
 
   return (
     <PageContainer>
       <PageHeader
         title="User Management"
         actions={
-          <Link href="/dashboard/users/new">
+          <Link href="/features/admin/users/new">
             <Button className="bg-blue-600 text-white hover:bg-blue-700">
               Add New User
             </Button>

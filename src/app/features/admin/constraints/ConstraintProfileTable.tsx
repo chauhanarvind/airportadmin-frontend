@@ -54,7 +54,7 @@ export default function ConstraintProfileTable() {
             <TableRow
               key={p.id}
               className="hover:bg-blue-100 transition cursor-pointer"
-              onClick={() => router.push(`/dashboard/constraints/${p.id}`)}
+              onClick={() => router.push(`/features/admin/constraints/${p.id}`)}
             >
               <TableCell>{p.name}</TableCell>
               <TableCell>{p.maxHoursPerDay ?? "-"}</TableCell>
