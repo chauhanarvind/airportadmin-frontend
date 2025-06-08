@@ -61,7 +61,7 @@ export default function MyStaffingRequestDetailPage() {
                 </Button>
               </Link>
             )}
-            <Link href="/features/staff/staffing-requests">
+            <Link href="/features/my/my-staffing-requests">
               <Button size="sm" className={uiTheme.buttons.back}>
                 <ArrowLeft className="h-4 w-4 mr-1" />
                 Back

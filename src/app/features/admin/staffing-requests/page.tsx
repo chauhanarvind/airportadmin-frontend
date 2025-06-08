@@ -76,7 +76,7 @@ export default function StaffingRequestsPage() {
             page={page}
             totalPages={totalPages}
             onPageChange={setPage}
-            basePath="staffing-requests"
+            basePath="admin/staffing-requests"
           />
         </div>
       </FormProvider>

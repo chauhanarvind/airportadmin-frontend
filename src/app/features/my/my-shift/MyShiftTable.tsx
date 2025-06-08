@@ -41,7 +41,7 @@ export default function MyShiftTable({ weekStart, shifts }: Props) {
   const [warnings, setWarnings] = useState<Record<number, string[]>>({});
 
   useEffect(() => {
-    handleFetchList<UserResponse[]>("/api/users/all", "Users", (data) => {
+    handleFetchList<UserResponse[]>("/api/users/summaries", "Users", (data) => {
       const minimal = data.map((u) => ({
         id: u.id,
         firstName: u.firstName,
@@ -72,6 +72,8 @@ export default function MyShiftTable({ weekStart, shifts }: Props) {
         checkDto,
         "Cover eligibility"
       );
+
+      console.log(warningList);
 
       if (warningList && warningList.length > 0) {
         setWarnings((prev) => ({

@@ -43,6 +43,7 @@ export default function LeaveForm({ onSubmit }: Props) {
           "CANCELLED",
           "RESUBMITTED",
         ]}
+        disabledOptions={["CANCELLED", "RESUBMITTED"]}
       />
 
       <Button

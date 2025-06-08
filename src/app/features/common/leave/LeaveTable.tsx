@@ -29,7 +29,7 @@ export default function LeaveTable({
   page,
   totalPages,
   onPageChange,
-  basePath = "leave",
+  basePath,
   clickable,
 }: LeaveTableProps) {
   const router = useRouter();

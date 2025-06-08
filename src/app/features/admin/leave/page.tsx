@@ -93,6 +93,7 @@ export default function LeaveRequestsPage() {
             totalPages={totalPages}
             onPageChange={setPage}
             clickable={true}
+            basePath="admin/leave"
           />
         </div>
       </FormProvider>

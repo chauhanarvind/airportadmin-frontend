@@ -35,7 +35,7 @@ export default function ApplyMyStaffingRequestPage() {
       "/api/staffing-requests/submit",
       cleanedPayload,
       "Staffing request",
-      () => router.push("/features/staff/staffing-requests")
+      () => router.push("/features/my/my-staffing-requests")
     );
   };
 
@@ -44,7 +44,7 @@ export default function ApplyMyStaffingRequestPage() {
       <PageHeader
         title="Apply for Staffing Request"
         actions={
-          <Link href="/features/staff/staffing-requests">
+          <Link href="/features/my/my-staffing-requests">
             <Button size="sm" className={uiTheme.buttons.card}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

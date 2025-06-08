@@ -55,7 +55,7 @@ export default function MyStaffingRequestsPage() {
       <PageHeader
         title="My Staffing Requests"
         actions={
-          <Link href="/features/staff/staffing-requests/apply">
+          <Link href="/features/my/my-staffing-requests/apply">
             <Button className={uiTheme.colors.primary}>
               Create New Staffing Request
             </Button>
@@ -69,7 +69,7 @@ export default function MyStaffingRequestsPage() {
         <StaffingRequestTable
           data={data}
           loading={loading}
-          basePath="staff/staffing-requests"
+          basePath="my/my-staffing-requests"
         />
       </div>
     </PageContainer>

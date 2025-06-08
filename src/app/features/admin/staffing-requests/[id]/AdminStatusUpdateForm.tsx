@@ -52,7 +52,7 @@ export default function AdminStatusUpdateForm({ onStatusUpdated }: Props) {
     const payload: StaffingRequestUpdate = { status: selectedStatus };
 
     await handleUpdate(
-      `/api/staffing-requests/${requestId}/status`,
+      `/api/staffing-requests/status/${requestId}`,
       "PUT",
       payload,
       "Staffing request",

@@ -34,6 +34,11 @@ export const navItems = [
         href: "/features/my/my-shift-cover",
         roles: ["Admin", "Manager", "Supervisor", "Crew"],
       },
+      {
+        label: "My Staffing Requests",
+        href: "/features/my/my-staffing-requests",
+        roles: ["Admin", "Manager", "Supervisor"],
+      },
     ],
   },
 
@@ -48,11 +53,7 @@ export const navItems = [
         href: "/features/staff/staff-availability",
         roles: ["Admin", "Manager", "Supervisor"],
       },
-      {
-        label: "Staffing Requests",
-        href: "/features/staff/staffing-requests",
-        roles: ["Admin", "Manager", "Supervisor"],
-      },
+
       {
         label: "Staff Leave Applications",
         href: "/features/staff/leave",
@@ -101,6 +102,11 @@ export const navItems = [
     roles: ["Admin"],
     children: [
       {
+        label: "Staffing Requests",
+        href: "/features/admin/staffing-requests",
+        roles: ["Admin"],
+      },
+      {
         label: "Locations",
         href: "/features/admin/locations",
         roles: ["Admin"],
@@ -108,11 +114,6 @@ export const navItems = [
       {
         label: "Leave Requests",
         href: "/features/admin/leave",
-        roles: ["Admin"],
-      },
-      {
-        label: "Approved Leaves",
-        href: "/features/admin/leave/approved",
         roles: ["Admin"],
       },
       {

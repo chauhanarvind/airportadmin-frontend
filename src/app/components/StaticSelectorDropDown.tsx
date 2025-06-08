@@ -9,12 +9,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { uiTheme } from "../lib/uiConfig";
 
 interface StaticSelectDropdownProps {
   label: string;
   name: string;
   staticOptions: string[];
   required?: boolean;
+  disabledOptions?: string[];
 }
 
 export default function StaticSelectDropdown({
@@ -22,6 +24,7 @@ export default function StaticSelectDropdown({
   name,
   staticOptions,
   required = true,
+  disabledOptions = [],
 }: StaticSelectDropdownProps) {
   const { control } = useFormContext();
   const id = label.toLowerCase().replace(/\s+/g, "-");
@@ -36,12 +39,21 @@ export default function StaticSelectDropdown({
         render={({ field, fieldState }) => (
           <>
             <Select value={field.value || ""} onValueChange={field.onChange}>
-              <SelectTrigger id={id} className="w-[250px]">
+              <SelectTrigger className={uiTheme.components.select.trigger}>
                 <SelectValue placeholder={`Select ${label.toLowerCase()}`} />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className={uiTheme.components.select.content}>
                 {staticOptions.map((opt) => (
-                  <SelectItem key={opt} value={opt}>
+                  <SelectItem
+                    key={opt}
+                    value={opt}
+                    disabled={disabledOptions.includes(opt)}
+                    className={
+                      disabledOptions.includes(opt)
+                        ? uiTheme.components.select.itemDisabled
+                        : uiTheme.components.select.item
+                    }
+                  >
                     {opt}
                   </SelectItem>
                 ))}
