@@ -13,8 +13,10 @@ import PageContainer from "@/app/components/layout/PageContainer";
 import PageHeader from "@/app/components/ui/PageHeader";
 import { Button } from "@/components/ui/button";
 import { MyLeaveForm } from "../MyLeaveForm";
+import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function ApplyLeavePage() {
+  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
   const { user } = useAuth();
   const router = useRouter();
 

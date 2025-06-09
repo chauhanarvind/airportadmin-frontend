@@ -16,7 +16,7 @@ import { handleFetchList } from "@/app/lib/crudService";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function MyStaffingRequestsPage() {
-  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
+  useRequireRoles(["Admin", "Manager", "Supervisor"]);
   const { user } = useAuth();
   const [userId, setUserId] = useState<number | null>(null);
 

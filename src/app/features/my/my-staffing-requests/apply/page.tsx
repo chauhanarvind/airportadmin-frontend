@@ -17,7 +17,7 @@ import { cleanStaffingRequestPayload } from "../cleanStaffingRequestPayload";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
 
 export default function ApplyMyStaffingRequestPage() {
-  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
+  useRequireRoles(["Admin", "Manager", "Supervisor"]);
   const { user } = useAuth();
   const router = useRouter();
 

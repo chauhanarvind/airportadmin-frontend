@@ -20,7 +20,7 @@ import { useRequireRoles } from "@/app/lib/useRequireRoles";
 import StatusBadge from "@/app/features/common/StatusBadge";
 
 export default function MyStaffingRequestDetailPage() {
-  useRequireRoles(["Admin", "Manager", "Supervisor", "Crew"]);
+  useRequireRoles(["Admin", "Manager", "Supervisor"]);
   const { id } = useParams();
   const [request, setRequest] = useState<StaffingRequestDetail | null>(null);
   const [rosterExists, setRosterExists] = useState(false);
