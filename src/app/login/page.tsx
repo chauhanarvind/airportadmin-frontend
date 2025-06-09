@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import api from "../lib/api";
 import { useAuth } from "../components/AuthProvider";
+import { uiTheme } from "@/app/lib/uiConfig";
 
 type LoginFormInputs = {
   email: string;
@@ -26,7 +27,6 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
-  // If already logged in, redirect to /features
   useEffect(() => {
     if (!loading && user) {
       router.push("/features");
@@ -35,30 +35,36 @@ export default function LoginPage() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     setSubmitting(true);
-
     try {
       await api.post("/api/auth/login", data);
       toast.success("Login successful");
-
-      // Manually refresh user context
       await fetchUser();
-
       router.push("/features");
-    } catch (err) {
+    } catch {
       toast.error("Invalid email or password");
-      console.error("Login error:", err);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div
+      className={`min-h-screen flex flex-col items-center justify-center space-y-8 px-4 ${uiTheme.colors.contentBg}`}
+    >
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-blue-700">Airport Admin</h1>
+        <p className="text-gray-600 text-sm mt-1">
+          Staff & Operations Management Portal
+        </p>
+      </div>
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md bg-white p-6 rounded-xl shadow space-y-4"
+        className="w-full max-w-md bg-white p-6 rounded-xl shadow-md space-y-4"
       >
-        <h1 className="text-2xl font-semibold text-center">Admin Login</h1>
+        <h2 className="text-xl font-semibold text-center text-gray-800">
+          Login
+        </h2>
 
         <div className="space-y-1">
           <Label htmlFor="email">Email</Label>
@@ -68,7 +74,7 @@ export default function LoginPage() {
             {...register("email", { required: "Email is required" })}
           />
           {errors.email && (
-            <p className="text-sm text-red-500">{errors.email.message}</p>
+            <p className={uiTheme.form.errorText}>{errors.email.message}</p>
           )}
         </div>
 
@@ -80,7 +86,7 @@ export default function LoginPage() {
             {...register("password", { required: "Password is required" })}
           />
           {errors.password && (
-            <p className="text-sm text-red-500">{errors.password.message}</p>
+            <p className={uiTheme.form.errorText}>{errors.password.message}</p>
           )}
         </div>
 
