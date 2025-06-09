@@ -37,9 +37,13 @@ export default function LoginPage() {
 
     try {
       await api.post("/api/auth/login", data);
-
       toast.success("Login successful");
-      window.location.href = "/features"; // redirect after login
+
+      //  Wait for /me to confirm cookie is usable
+      await api.get("/api/auth/me");
+
+      //  Client-side route change
+      router.push("/features");
     } catch (err: unknown) {
       toast.error("Invalid email or password");
       console.error("Login error:", err);
