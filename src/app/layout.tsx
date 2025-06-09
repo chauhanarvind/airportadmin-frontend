@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { AuthProvider } from "./components/AuthProvider";
-import ProtectedLayout from "./components/ProtectedLayout";
+import AuthLayout from "./components/layout/AuthLayout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,29 +21,19 @@ export const metadata: Metadata = {
   description: "Admin system for airport staff management",
 };
 
-// Utility to detect protected routes
-function isProtectedPath(path: string): boolean {
-  return path.startsWith("/features");
-}
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const path = typeof window !== "undefined" ? window.location.pathname : "";
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          {isProtectedPath(path) ? (
-            <ProtectedLayout>{children}</ProtectedLayout>
-          ) : (
-            children
-          )}
+          <AuthLayout>{children}</AuthLayout>
+
           <Toaster />
         </AuthProvider>
       </body>

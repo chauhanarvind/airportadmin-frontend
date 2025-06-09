@@ -14,6 +14,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   loading: boolean;
   logout: () => void;
+  fetchUser: () => Promise<void>; // added this for manual refresh
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,18 +23,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await api.get("/api/auth/me");
-        setUser(res.data);
-      } catch {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchUser = async () => {
+    try {
+      const res = await api.get("/api/auth/me");
+      setUser(res.data);
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchUser();
   }, []);
 
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await api.get("/api/auth/logout");
     } catch {
-      // ignore
+      // ignore logout errors
     } finally {
       setUser(null);
       window.location.href = "/login";
@@ -55,6 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isAuthenticated: !!user,
         loading,
         logout,
+        fetchUser, // exposed here
       }}
     >
       {children}

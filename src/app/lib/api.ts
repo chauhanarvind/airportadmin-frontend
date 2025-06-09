@@ -7,12 +7,13 @@ const api = axios.create({
 });
 
 api.interceptors.response.use(
-  (response) => response,
+  (res) => res,
   (error) => {
     if (error.response?.status === 401) {
-      toast.error("Session expired. Please log in again.");
-      if (typeof window !== "undefined") {
-        window.location.href = "/login"; // fallback
+      const currentPath = window.location.pathname;
+      if (currentPath !== "/login") {
+        toast.error("Session expired. Please log in again.");
+        window.location.href = "/login";
       }
     }
     return Promise.reject(error);

@@ -2,13 +2,13 @@
 
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import api from "../lib/api";
 import { useAuth } from "../components/AuthProvider";
-import { useRouter } from "next/navigation";
 
 type LoginFormInputs = {
   email: string;
@@ -16,15 +16,9 @@ type LoginFormInputs = {
 };
 
 export default function LoginPage() {
-  const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, loading, fetchUser } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      router.push("/features");
-    }
-  }, [user]);
+  const [submitting, setSubmitting] = useState(false);
 
   const {
     register,
@@ -32,23 +26,29 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
+  // If already logged in, redirect to /features
+  useEffect(() => {
+    if (!loading && user) {
+      router.push("/features");
+    }
+  }, [user, loading, router]);
+
   const onSubmit = async (data: LoginFormInputs) => {
-    setLoading(true);
+    setSubmitting(true);
 
     try {
       await api.post("/api/auth/login", data);
       toast.success("Login successful");
 
-      //  Wait for /me to confirm cookie is usable
-      await api.get("/api/auth/me");
+      // Manually refresh user context
+      await fetchUser();
 
-      //  Client-side route change
       router.push("/features");
-    } catch (err: unknown) {
+    } catch (err) {
       toast.error("Invalid email or password");
       console.error("Login error:", err);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
     }
   };
 
@@ -84,8 +84,8 @@ export default function LoginPage() {
           )}
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+        <Button type="submit" className="w-full" disabled={submitting}>
+          {submitting ? "Logging in..." : "Login"}
         </Button>
       </form>
     </div>

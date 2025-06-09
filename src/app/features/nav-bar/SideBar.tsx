@@ -6,6 +6,7 @@ import { Menu, ChevronLeft } from "lucide-react";
 import { useAuth } from "@/app/components/AuthProvider";
 import { uiTheme } from "@/app/lib/uiConfig";
 import { navItems } from "./navConfig";
+import LogoutDialog from "@/app/components/ui/LogoutDialog";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -45,7 +46,6 @@ export default function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
           {collapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
         </button>
       </div>
-
       {/* Navigation Items */}
       <nav className="p-2 space-y-1">
         {filteredNav.map(({ label, href, icon: Icon, children }) => {
@@ -98,19 +98,15 @@ export default function Sidebar({ collapsed, setCollapsed }: SidebarProps) {
         })}
       </nav>
       {/* Logout Button */}
-      <div className="mt-auto p-4 border-t">
-        <button
-          onClick={() => {
-            if (confirm("Are you sure you want to log out?")) {
-              logout(); // ✅ from useAuth
-            }
-          }}
-          className="flex items-center gap-3 text-sm font-medium text-red-600 hover:text-red-800 transition-colors"
-        >
-          <Menu size={18} />
-          {!collapsed && <span>Logout</span>}
-        </button>
-      </div>
+      <LogoutDialog
+        onConfirm={logout}
+        trigger={
+          <button className="flex items-center gap-3 text-sm font-medium text-red-600 hover:text-red-800 transition-colors">
+            <Menu size={18} />
+            {!collapsed && <span>Logout</span>}
+          </button>
+        }
+      />
     </aside>
   );
 }
