@@ -28,7 +28,7 @@ export default function LoginPage() {
   } = useForm<LoginFormInputs>();
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && user && window.location.pathname !== "/features") {
       router.push("/features");
     }
   }, [user, loading, router]);
@@ -90,7 +90,11 @@ export default function LoginPage() {
           )}
         </div>
 
-        <Button type="submit" className="w-full" disabled={submitting}>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={submitting || loading}
+        >
           {submitting ? "Logging in..." : "Login"}
         </Button>
       </form>

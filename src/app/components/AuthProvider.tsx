@@ -23,12 +23,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchUser = async () => {
+  const fetchUser = async (retry = 0): Promise<void> => {
     try {
       const res = await api.get("/api/auth/me");
       setUser(res.data);
     } catch {
       setUser(null);
+
+      // Retry up to 2 more times (total 3 attempts)
+      if (retry < 2) {
+        await new Promise((res) => setTimeout(res, 1000)); //
+        return fetchUser(retry + 1); // try again
+      }
     } finally {
       setLoading(false);
     }
