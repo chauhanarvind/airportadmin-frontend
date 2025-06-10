@@ -28,18 +28,35 @@ export default function LoginPage() {
   } = useForm<LoginFormInputs>();
 
   useEffect(() => {
-    if (!loading && user && window.location.pathname !== "/features") {
+    if (!loading && user) {
       router.push("/features");
     }
   }, [user, loading, router]);
+
+  const retryFetchUser = async () => {
+    for (let i = 0; i < 3; i++) {
+      try {
+        await fetchUser();
+        return true;
+      } catch {
+        await new Promise((res) => setTimeout(res, 300));
+      }
+    }
+    return false;
+  };
 
   const onSubmit = async (data: LoginFormInputs) => {
     setSubmitting(true);
     try {
       await api.post("/api/auth/login", data);
       toast.success("Login successful");
-      await fetchUser();
-      router.push("/features");
+
+      const success = await retryFetchUser();
+      if (success) {
+        router.push("/features");
+      } else {
+        toast.error("Login succeeded, but session failed. Try again.");
+      }
     } catch {
       toast.error("Invalid email or password");
     } finally {
@@ -71,6 +88,7 @@ export default function LoginPage() {
           <Input
             id="email"
             type="email"
+            autoComplete="email"
             {...register("email", { required: "Email is required" })}
           />
           {errors.email && (
@@ -83,6 +101,7 @@ export default function LoginPage() {
           <Input
             id="password"
             type="password"
+            autoComplete="current-password"
             {...register("password", { required: "Password is required" })}
           />
           {errors.password && (
