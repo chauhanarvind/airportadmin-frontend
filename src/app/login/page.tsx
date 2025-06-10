@@ -42,9 +42,9 @@ export default function LoginPage() {
       const token = res.data?.token;
       if (token) {
         localStorage.setItem("token", token);
-        toast.success("Login successful");
 
         await fetchUser();
+        toast.success("Login successful");
         router.push("/features");
       } else {
         throw new Error("Token missing from response");

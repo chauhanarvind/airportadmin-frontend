@@ -15,6 +15,7 @@ import PageContainer from "@/app/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { cleanStaffingRequestPayload } from "../cleanStaffingRequestPayload";
 import { useRequireRoles } from "@/app/lib/useRequireRoles";
+import { toast } from "sonner";
 
 export default function ApplyMyStaffingRequestPage() {
   useRequireRoles(["Admin", "Manager", "Supervisor"]);
@@ -23,6 +24,17 @@ export default function ApplyMyStaffingRequestPage() {
 
   const handleSubmit = async (data: StaffingRequestCreate) => {
     if (!user?.id) return;
+
+    if (data.days.length === 0) {
+      toast.error("Please select a week to request staffing for.");
+      return;
+    }
+
+    const hasEmptyItems = data.days.some((day) => day.items?.length === 0);
+    if (hasEmptyItems) {
+      toast.error("Each selected day must have at least one staffing role.");
+      return;
+    }
 
     const payload: StaffingRequestCreate = {
       ...data,

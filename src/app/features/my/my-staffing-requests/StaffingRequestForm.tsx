@@ -3,16 +3,10 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { uiTheme } from "@/app/lib/uiConfig";
-import MyStaffingRosterTable from "./StaffingRosterTable";
+import MyStaffingRosterTable from "./MyStaffingRosterTable";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { StaffingRequestCreate } from "../../common/staffing-requests/StaffingRequestTypes";
 import WeekPicker from "../../common/staffing-requests/WeekPicker";
 
@@ -31,6 +25,7 @@ export default function StaffingRequestForm({ onSubmit }: Props) {
       reason: "",
       days: [],
     },
+    mode: "onSubmit",
   });
 
   const {
