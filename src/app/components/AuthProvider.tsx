@@ -14,7 +14,7 @@ type AuthContextType = {
   isAuthenticated: boolean;
   loading: boolean;
   logout: () => void;
-  fetchUser: () => Promise<void>; // added this for manual refresh
+  fetchUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,18 +23,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchUser = async (retry = 0): Promise<void> => {
+  const fetchUser = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     try {
-      const res = await api.get("/api/auth/me");
+      const res = await api.get("/api/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setUser(res.data);
     } catch {
       setUser(null);
-
-      // Retry up to 2 more times (total 3 attempts)
-      if (retry < 2) {
-        await new Promise((res) => setTimeout(res, 1000)); //
-        return fetchUser(retry + 1); // try again
-      }
     } finally {
       setLoading(false);
     }
@@ -44,15 +50,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
-  const logout = async () => {
-    try {
-      await api.get("/api/auth/logout");
-    } catch {
-      // ignore logout errors
-    } finally {
-      setUser(null);
-      window.location.href = "/login";
-    }
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    window.location.href = "/login";
   };
 
   return (
@@ -62,7 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isAuthenticated: !!user,
         loading,
         logout,
-        fetchUser, // exposed here
+        fetchUser,
       }}
     >
       {children}

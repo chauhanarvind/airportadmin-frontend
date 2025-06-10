@@ -1,19 +1,29 @@
 import axios from "axios";
-import { toast } from "sonner";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080",
-  withCredentials: true,
 });
 
+// Attach Authorization header from localStorage if token exists
+api.interceptors.request.use((config) => {
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  }
+  return config;
+});
+
+// Optional: handle unauthorized globally
 api.interceptors.response.use(
   (res) => res,
   (error) => {
     if (error.response?.status === 401) {
       const currentPath = window.location.pathname;
       if (currentPath !== "/login") {
-        toast.error("Session expired. Please log in again.");
-        window.location.href = "/login";
+        window.localStorage.removeItem("token"); // clear token
+        window.location.href = "/login"; // redirect
       }
     }
     return Promise.reject(error);

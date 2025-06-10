@@ -33,31 +33,23 @@ export default function LoginPage() {
     }
   }, [user, loading, router]);
 
-  const retryFetchUser = async () => {
-    for (let i = 0; i < 3; i++) {
-      try {
-        await fetchUser();
-        return true;
-      } catch {
-        await new Promise((res) => setTimeout(res, 300));
-      }
-    }
-    return false;
-  };
-
   const onSubmit = async (data: LoginFormInputs) => {
     setSubmitting(true);
     try {
-      await api.post("/api/auth/login", data);
-      toast.success("Login successful");
+      const res = await api.post("/api/auth/login", data);
 
-      const success = await retryFetchUser();
-      if (success) {
+      // Save JWT to localStorage
+      const token = res.data?.token;
+      if (token) {
+        localStorage.setItem("token", token);
+        toast.success("Login successful");
+
+        await fetchUser();
         router.push("/features");
       } else {
-        toast.error("Login succeeded, but session failed. Try again.");
+        throw new Error("Token missing from response");
       }
-    } catch {
+    } catch (err) {
       toast.error("Invalid email or password");
     } finally {
       setSubmitting(false);
@@ -88,7 +80,6 @@ export default function LoginPage() {
           <Input
             id="email"
             type="email"
-            autoComplete="email"
             {...register("email", { required: "Email is required" })}
           />
           {errors.email && (
@@ -101,7 +92,6 @@ export default function LoginPage() {
           <Input
             id="password"
             type="password"
-            autoComplete="current-password"
             {...register("password", { required: "Password is required" })}
           />
           {errors.password && (
@@ -109,11 +99,7 @@ export default function LoginPage() {
           )}
         </div>
 
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={submitting || loading}
-        >
+        <Button type="submit" className="w-full" disabled={submitting}>
           {submitting ? "Logging in..." : "Login"}
         </Button>
       </form>
