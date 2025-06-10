@@ -28,7 +28,7 @@ export default function JobCategoryTable() {
       setLoading(true);
       try {
         const data = await handleFetchList<JobCategoryResponse[]>(
-          "/api/job-categories/",
+          "/job-categories/",
           "Job Categories"
         );
         if (data) setCategories(data);

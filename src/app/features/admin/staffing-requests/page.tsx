@@ -41,7 +41,7 @@ export default function StaffingRequestsPage() {
 
     const result = await handleFetchPaged<
       PaginatedResponse<StaffingRequestResponse>
-    >(`/api/staffing-requests/?${query.toString()}`, "Staffing Requests");
+    >(`/staffing-requests/?${query.toString()}`, "Staffing Requests");
 
     if (result) {
       setRequests(result.content);

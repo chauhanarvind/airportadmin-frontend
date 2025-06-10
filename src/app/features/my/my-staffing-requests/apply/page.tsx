@@ -43,7 +43,7 @@ export default function ApplyMyStaffingRequestPage() {
     const cleanedPayload = cleanStaffingRequestPayload(payload);
 
     await handleCreate(
-      "/api/staffing-requests/submit",
+      "/staffing-requests/submit",
       cleanedPayload,
       "Staffing request",
       () => router.push("/features/my/my-staffing-requests")

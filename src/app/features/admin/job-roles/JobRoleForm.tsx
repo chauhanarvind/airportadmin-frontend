@@ -63,7 +63,7 @@ export default function JobRoleForm({
           <ApiSelectDropdown
             name="categoryId"
             label="Job Category"
-            apiUrl="/api/job-categories/"
+            apiUrl="/job-categories/"
             optionKey="categoryName"
             required
           />

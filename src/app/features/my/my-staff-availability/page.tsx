@@ -34,7 +34,7 @@ export default function MyStaffAvailabilityPage() {
       setLoading(true);
 
       const res = await handleFetchList<StaffAvailabilityResponse[]>(
-        `/api/staff-availability/user/${userId}`,
+        `/staff-availability/user/${userId}`,
         "My Availability"
       );
 

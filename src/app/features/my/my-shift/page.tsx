@@ -30,10 +30,7 @@ export default function MyShiftsPage() {
     if (!user?.id) return;
 
     const fetchShifts = async () => {
-      const res = await handleFetchList<MyShift[]>(
-        `/api/roster/my`,
-        "My Shifts"
-      );
+      const res = await handleFetchList<MyShift[]>(`/roster/my`, "My Shifts");
       if (!res) return;
 
       const assignedShifts = res.filter((shift) => !shift.unassigned);

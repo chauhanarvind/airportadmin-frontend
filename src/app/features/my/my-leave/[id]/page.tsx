@@ -31,7 +31,7 @@ export default function MyLeaveDetailPage() {
   useEffect(() => {
     const fetchLeave = async () => {
       const data = await handleGetById<LeaveRequestResponse>(
-        `/api/leaves/${id}`,
+        `/leaves/${id}`,
         "Leave Request"
       );
       if (data) {
@@ -46,7 +46,7 @@ export default function MyLeaveDetailPage() {
 
   const handleResubmit = async (data: LeaveRequestCreate) => {
     const res = await handleUpdate<LeaveRequestResponse, LeaveRequestCreate>(
-      `/api/leaves/${id}/resubmit`,
+      `/leaves/${id}/resubmit`,
       "PUT",
       data,
       "Leave request"
@@ -56,7 +56,7 @@ export default function MyLeaveDetailPage() {
 
   const handleCancel = async () => {
     const res = await handleUpdate<LeaveRequestResponse, void>(
-      `/api/leaves/${id}/cancel?userId=${leave?.userId}`,
+      `/leaves/${id}/cancel?userId=${leave?.userId}`,
       "PUT",
       undefined,
       "Leave request"

@@ -31,13 +31,13 @@ export default function AdminStaffingRequestPage() {
 
   const fetchRequest = useCallback(async () => {
     const req = await handleGetById<StaffingRequestDetail>(
-      `/api/staffing-requests/${requestId}`,
+      `/staffing-requests/${requestId}`,
       "Staffing request"
     );
     if (req) setRequest(req);
 
     const exists = await handleGetById<boolean>(
-      `/api/roster/check/${requestId}`,
+      `/roster/check/${requestId}`,
       "Roster check"
     );
     setRosterExists(!!exists);
@@ -51,7 +51,7 @@ export default function AdminStaffingRequestPage() {
   const handleGenerateRoster = async () => {
     try {
       const exists = await handleGetById<boolean>(
-        `/api/roster/check/${requestId}`,
+        `/roster/check/${requestId}`,
         "Roster check"
       );
 
@@ -61,7 +61,7 @@ export default function AdminStaffingRequestPage() {
         return;
       }
 
-      await handleCreate(`/api/roster/generate/${requestId}`, {}, "Roster");
+      await handleCreate(`/roster/generate/${requestId}`, {}, "Roster");
       toast.success("Roster generated successfully");
 
       setRosterExists(true);

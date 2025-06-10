@@ -32,7 +32,7 @@ export default function MyLeavePage() {
       setLoading(true);
 
       const res = await handleFetchList<LeaveRequestResponse[]>(
-        `/api/leaves/user/${userId}`,
+        `/leaves/user/${userId}`,
         "My Leave Requests"
       );
 

@@ -23,7 +23,7 @@ export default function ConstraintProfileTable() {
     setLoading(true);
     try {
       const data = await handleFetchList<ConstraintProfileResponse[]>(
-        "/api/constraint-profiles/",
+        "/constraint-profiles/",
         "Constraint Profiles"
       );
       if (data) setProfiles(data);

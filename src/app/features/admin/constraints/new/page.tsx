@@ -20,7 +20,7 @@ export default function CreateConstraintProfilePage() {
 
   const handleSubmit = async (data: CreateConstraintProfile) => {
     await handleCreate<CreateConstraintProfile, ConstraintProfileResponse>(
-      "/api/constraint-profiles/create",
+      "/constraint-profiles/create",
       data,
       "Constraint Profile",
       () => router.push("/features/admin/constraints")

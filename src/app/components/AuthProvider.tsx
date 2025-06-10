@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     try {
-      const res = await api.get("/api/auth/me", {
+      const res = await api.get("/auth/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

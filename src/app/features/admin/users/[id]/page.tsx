@@ -36,10 +36,7 @@ export default function EditUserPage() {
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const user = await handleGetById<UserResponse>(
-          `/api/users/${id}`,
-          "User"
-        );
+        const user = await handleGetById<UserResponse>(`/users/${id}`, "User");
 
         if (user) {
           setInitialData({
@@ -65,7 +62,7 @@ export default function EditUserPage() {
 
   const handleSubmit = async (data: UserFormData) => {
     await handleUpdate<UserResponse, UserFormData>(
-      `/api/users/${data.id}`,
+      `/users/${data.id}`,
       "PUT",
       data,
       "User",

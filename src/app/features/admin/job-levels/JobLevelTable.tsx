@@ -28,7 +28,7 @@ export default function JobLevelTable() {
       setLoading(true);
       try {
         const data = await handleFetchList<JobLevelResponse[]>(
-          "/api/job-levels/",
+          "/job-levels/",
           "Job Levels"
         );
         if (data) setLevels(data);

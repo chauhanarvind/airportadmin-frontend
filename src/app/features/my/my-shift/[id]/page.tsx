@@ -39,12 +39,12 @@ export default function ShiftCoverDetailPage() {
     const loadData = async () => {
       setLoading(true);
       const [shiftData, requestData, users] = await Promise.all([
-        handleFetchList<MyShift>(`/api/roster/${id}`, "Shift"),
+        handleFetchList<MyShift>(`/roster/${id}`, "Shift"),
         handleFetchList<ShiftCoverResponseDto>(
-          `/api/cover-requests/shift/${id}`,
+          `/cover-requests/shift/${id}`,
           "Cover request"
         ),
-        handleFetchList<UserResponse[]>("/api/users/summaries", "Users"),
+        handleFetchList<UserResponse[]>("/users/summaries", "Users"),
       ]);
       setShift(shiftData ?? null);
       setCoverRequest(requestData || null);
@@ -59,7 +59,7 @@ export default function ShiftCoverDetailPage() {
     if (!coverRequest) return;
 
     await handleUpdate(
-      `/api/cover-requests/${coverRequest.id}/cancel`,
+      `/cover-requests/${coverRequest.id}/cancel`,
       "PUT",
       undefined,
       "Cover request",

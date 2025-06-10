@@ -46,7 +46,7 @@ export default function UsersPage() {
     query.append("size", "10");
 
     const result = await handleFetchPaged<PaginatedResponse<UserResponse>>(
-      `/api/users/?${query.toString()}`,
+      `/users/?${query.toString()}`,
       "Users"
     );
 

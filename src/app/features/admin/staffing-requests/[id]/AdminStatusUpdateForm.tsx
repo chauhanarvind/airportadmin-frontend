@@ -36,7 +36,7 @@ export default function AdminStatusUpdateForm({ onStatusUpdated }: Props) {
   useEffect(() => {
     const fetchStatus = async () => {
       const req = await handleGetById<StaffingRequestDetail>(
-        `/api/staffing-requests/${requestId}`,
+        `/staffing-requests/${requestId}`,
         "Staffing request"
       );
       if (req) {
@@ -52,7 +52,7 @@ export default function AdminStatusUpdateForm({ onStatusUpdated }: Props) {
     const payload: StaffingRequestUpdate = { status: selectedStatus };
 
     await handleUpdate(
-      `/api/staffing-requests/status/${requestId}`,
+      `/staffing-requests/status/${requestId}`,
       "PUT",
       payload,
       "Staffing request",

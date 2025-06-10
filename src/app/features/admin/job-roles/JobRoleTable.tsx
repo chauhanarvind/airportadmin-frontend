@@ -28,7 +28,7 @@ export default function JobRoleTable() {
       setLoading(true);
       try {
         const data = await handleFetchList<JobRoleResponse[]>(
-          "/api/job-roles/",
+          "/job-roles/",
           "Job Roles"
         );
         if (data) setJobRoles(data);

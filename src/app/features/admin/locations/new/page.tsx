@@ -20,7 +20,7 @@ export default function CreateLocationPage() {
 
   const handleSubmit = async (data: CreateLocation) => {
     await handleCreate<CreateLocation, LocationResponse>(
-      "/api/locations/create",
+      "/locations/create",
       data,
       "Location",
       () => router.push("/features/admin/locations")

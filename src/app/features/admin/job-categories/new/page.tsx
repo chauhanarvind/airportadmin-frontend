@@ -21,7 +21,7 @@ export default function CreateJobCategoryPage() {
 
   const handleSubmit = async (data: CreateJobCategory) => {
     await handleCreate<CreateJobCategory, JobCategoryResponse>(
-      "/api/job-categories/create",
+      "/job-categories/create",
       data,
       "Job Category",
       () => router.push("/features/admin/job-categories")

@@ -36,7 +36,7 @@ export default function EditConstraintProfilePage() {
       setLoading(true);
       try {
         const profile = await handleGetById<ConstraintProfileResponse>(
-          `/api/constraint-profiles/${id}`,
+          `/constraint-profiles/${id}`,
           "Constraint Profile"
         );
 
@@ -63,7 +63,7 @@ export default function EditConstraintProfilePage() {
 
   const handleSubmit = async (data: ConstraintProfileFormData) => {
     await handleUpdate<ConstraintProfileResponse, ConstraintProfileFormData>(
-      `/api/constraint-profiles/${id}`,
+      `/constraint-profiles/${id}`,
       "PUT",
       data,
       "Constraint Profile",

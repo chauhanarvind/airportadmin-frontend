@@ -61,10 +61,7 @@ export default function ShiftCoverRequestForm({
     };
 
     try {
-      const res = await api.post<string[]>(
-        "/api/cover-requests/check",
-        payload
-      );
+      const res = await api.post<string[]>("/cover-requests/check", payload);
       setWarnings(res.data || []);
       setShowConfirm(true);
     } catch {
@@ -83,8 +80,8 @@ export default function ShiftCoverRequestForm({
     };
 
     const url = isResubmitting
-      ? `/api/cover-requests/${requestId}/resubmit`
-      : "/api/cover-requests";
+      ? `/cover-requests/${requestId}/resubmit`
+      : "/cover-requests";
 
     const method = isResubmitting ? "PUT" : "POST";
 

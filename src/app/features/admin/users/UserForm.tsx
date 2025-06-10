@@ -73,28 +73,28 @@ export default function UserForm({
             <ApiSelectDropdown
               label="User Role"
               name="roleId"
-              apiUrl="/api/roles/"
+              apiUrl="/roles/"
               optionKey="name"
               required
             />
             <ApiSelectDropdown
               label="Job Role"
               name="jobRoleId"
-              apiUrl="/api/job-roles/"
+              apiUrl="/job-roles/"
               optionKey="roleName"
               required
             />
             <ApiSelectDropdown
               label="Job Level"
               name="jobLevelId"
-              apiUrl="/api/job-levels/"
+              apiUrl="/job-levels/"
               optionKey="levelName"
               required
             />
             <ApiSelectDropdown
               label="Constraint Profile"
               name="constraintProfileId"
-              apiUrl="/api/constraint-profiles/"
+              apiUrl="/constraint-profiles/"
               optionKey="name"
               required={false}
             />

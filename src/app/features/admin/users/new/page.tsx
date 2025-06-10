@@ -23,7 +23,7 @@ export default function CreateUserPage() {
 
   const handleSubmit = async (data: UserFormData) => {
     await handleCreate<UserFormData, UserResponse>(
-      "/api/users/create",
+      "/users/create",
       data,
       "User",
       () => router.push("/features/admin/users")

@@ -39,7 +39,7 @@ export default function EditJobLevelPage() {
       setLoading(true);
       try {
         const level = await handleGetById<JobLevelResponse>(
-          `/api/job-levels/${id}`,
+          `/job-levels/${id}`,
           "Job Level"
         );
 
@@ -61,7 +61,7 @@ export default function EditJobLevelPage() {
 
   const handleSubmit = async (data: JobLevelFormData) => {
     await handleUpdate<JobLevelResponse, JobLevelFormData>(
-      `/api/job-levels/${data.id}`,
+      `/job-levels/${data.id}`,
       "PUT",
       data,
       "Job Level",

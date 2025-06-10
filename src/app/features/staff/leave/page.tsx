@@ -64,7 +64,7 @@ export default function LeaveRequestsPage() {
 
       const res = await handleFetchPaged<
         PaginatedResponse<LeaveRequestResponse>
-      >(`/api/leaves?${query.toString()}`, "Leave Requests");
+      >(`/leaves?${query.toString()}`, "Leave Requests");
 
       if (res) {
         setLeaves(res.content);

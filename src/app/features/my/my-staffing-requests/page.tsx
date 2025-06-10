@@ -34,7 +34,7 @@ export default function MyStaffingRequestsPage() {
       setLoading(true);
 
       const result = await handleFetchList<StaffingRequestResponse[]>(
-        `/api/staffing-requests/user/${userId}`,
+        `/staffing-requests/user/${userId}`,
         "My Staffing Requests"
       );
 

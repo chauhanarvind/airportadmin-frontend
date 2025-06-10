@@ -28,7 +28,7 @@ export default function LocationTable() {
       setLoading(true);
       try {
         const data = await handleFetchList<LocationResponse[]>(
-          "/api/locations/",
+          "/locations/",
           "Locations"
         );
         if (data) setLocations(data);

@@ -38,7 +38,7 @@ export default function EditLocationPage() {
       setLoading(true);
       try {
         const location = await handleGetById<LocationResponse>(
-          `/api/locations/${id}`,
+          `/locations/${id}`,
           "Location"
         );
 
@@ -61,7 +61,7 @@ export default function EditLocationPage() {
 
   const handleSubmit = async (data: LocationFormData) => {
     await handleUpdate<LocationResponse, LocationFormData>(
-      `/api/locations/${data.id}`,
+      `/locations/${data.id}`,
       "PUT",
       data,
       "Location",

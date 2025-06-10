@@ -27,7 +27,7 @@ export default function ViewGeneratedRosterPage() {
   useEffect(() => {
     const fetchRoster = async () => {
       const response = await handleGetById<Assignment[]>(
-        `/api/roster/view/${requestId}`,
+        `/roster/view/${requestId}`,
         "Roster"
       );
 

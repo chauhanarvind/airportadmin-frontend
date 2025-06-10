@@ -25,7 +25,7 @@ export default function ShiftCoverDetailPage() {
 
     const fetchRequest = async () => {
       const res = await handleGetById<ShiftCoverResponseDto>(
-        `/api/cover-requests/${id}`,
+        `/cover-requests/${id}`,
         "Shift cover request"
       );
       if (res) setRequest(res);

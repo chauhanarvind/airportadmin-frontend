@@ -20,7 +20,7 @@ export default function CreateJobRolePage() {
 
   const handleSubmit = async (data: CreateJobRole) => {
     await handleCreate<CreateJobRole, JobRoleResponse>(
-      "/api/job-roles/create",
+      "/job-roles/create",
       data,
       "Job Role",
       () => router.push("/features/admin/job-roles")

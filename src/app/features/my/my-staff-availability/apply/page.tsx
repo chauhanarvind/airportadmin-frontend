@@ -26,7 +26,7 @@ export default function ApplyStaffAvailabilityPage() {
     const payload = { ...data, userId: user.id };
 
     await handleCreate(
-      "/api/staff-availability",
+      "/staff-availability",
       payload,
       "Staff availability",
       () => router.push("/features/my/my-staff-availability")

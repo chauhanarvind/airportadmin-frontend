@@ -28,7 +28,7 @@ export default function MyStaffingRequestDetailPage() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await handleGetById<StaffingRequestDetail>(
-        `/api/staffing-requests/${id}`,
+        `/staffing-requests/${id}`,
         "Staffing request"
       );
       if (data) {
@@ -36,7 +36,7 @@ export default function MyStaffingRequestDetailPage() {
 
         if (data.status !== "PENDING") {
           const exists = await handleGetById<boolean>(
-            `/api/roster/check/${id}`,
+            `/roster/check/${id}`,
             "Roster check"
           );
           setRosterExists(!!exists);

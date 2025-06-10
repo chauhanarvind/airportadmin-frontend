@@ -64,7 +64,7 @@ export default function StaffAvailabilityPage() {
 
     const result = await handleFetchPaged<
       PaginatedResponse<StaffAvailabilityResponse>
-    >(`/api/staff-availability?${query.toString()}`, "Staff Availability");
+    >(`/staff-availability?${query.toString()}`, "Staff Availability");
 
     if (result) {
       setData(result.content);

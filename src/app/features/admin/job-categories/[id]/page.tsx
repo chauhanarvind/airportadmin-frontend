@@ -38,7 +38,7 @@ export default function EditJobCategoryPage() {
       setLoading(true);
       try {
         const category = await handleGetById<JobCategoryResponse>(
-          `/api/job-categories/${id}`,
+          `/job-categories/${id}`,
           "Job Category"
         );
 
@@ -60,7 +60,7 @@ export default function EditJobCategoryPage() {
 
   const handleSubmit = async (data: JobCategoryFormData) => {
     await handleUpdate<JobCategoryResponse, JobCategoryFormData>(
-      `/api/job-categories/${data.id}`,
+      `/job-categories/${data.id}`,
       "PUT",
       data,
       "Job Category",

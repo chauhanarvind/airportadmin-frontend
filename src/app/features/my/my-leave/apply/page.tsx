@@ -25,7 +25,7 @@ export default function ApplyLeavePage() {
 
     const payload = { ...data, userId: user.id };
 
-    await handleCreate("/api/leaves/apply", payload, "Leave request", () =>
+    await handleCreate("/leaves/apply", payload, "Leave request", () =>
       router.push("/features/my/my-leave")
     );
   };

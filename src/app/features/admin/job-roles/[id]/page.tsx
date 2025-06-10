@@ -34,7 +34,7 @@ export default function EditJobRolePage() {
       setLoading(true);
       try {
         const role = await handleGetById<JobRoleResponse>(
-          `/api/job-roles/${id}`,
+          `/job-roles/${id}`,
           "Job Role"
         );
 
@@ -57,7 +57,7 @@ export default function EditJobRolePage() {
 
   const handleSubmit = async (data: JobRoleFormData) => {
     await handleUpdate<JobRoleResponse, JobRoleFormData>(
-      `/api/job-roles/${data.id}`,
+      `/job-roles/${data.id}`,
       "PUT",
       data,
       "Job Role",

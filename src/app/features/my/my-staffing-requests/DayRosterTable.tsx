@@ -43,7 +43,7 @@ export default function DayRosterTable({ day, dayIndex }: Props) {
           <ApiSelectDropdown
             label="Job Role"
             name={`days.${dayIndex}.items.${itemIndex}.jobRoleId`}
-            apiUrl="/api/job-roles/"
+            apiUrl="/job-roles/"
             optionKey="roleName"
             required={true}
           />
@@ -51,7 +51,7 @@ export default function DayRosterTable({ day, dayIndex }: Props) {
           <ApiSelectDropdown
             label="Job Level"
             name={`days.${dayIndex}.items.${itemIndex}.jobLevelId`}
-            apiUrl="/api/job-levels/"
+            apiUrl="/job-levels/"
             optionKey="levelName"
             required={true}
           />

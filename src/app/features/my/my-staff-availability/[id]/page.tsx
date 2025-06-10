@@ -35,7 +35,7 @@ export default function EditStaffAvailabilityPage() {
   useEffect(() => {
     const fetchAvailability = async () => {
       const data = await handleGetById<StaffAvailabilityResponse>(
-        `/api/staff-availability/${id}`,
+        `/staff-availability/${id}`,
         "Staff availability"
       );
       setAvailabilityId(data?.id);
@@ -46,7 +46,7 @@ export default function EditStaffAvailabilityPage() {
 
   const handleSubmit = async (data: StaffAvailabilityRequest) => {
     await handleUpdate(
-      `/api/staff-availability/${availabilityId}`,
+      `/staff-availability/${availabilityId}`,
       "PUT",
       data,
       "Staff availability",
@@ -56,7 +56,7 @@ export default function EditStaffAvailabilityPage() {
 
   const handleDelete = async () => {
     await handleDeleteCRUD(
-      `/api/staff-availability/${availabilityId}`,
+      `/staff-availability/${availabilityId}`,
       "Staff availability",
       () => router.push("/features/my/my-staff-availability")
     );

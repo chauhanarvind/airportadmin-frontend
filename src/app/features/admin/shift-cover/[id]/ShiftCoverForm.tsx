@@ -28,7 +28,7 @@ export default function ShiftCoverForm({ request }: Props) {
   const checkWarnings = async () => {
     try {
       const res = await api.get<string[]>(
-        `/api/cover-requests/${request.id}/warnings`
+        `/cover-requests/${request.id}/warnings`
       );
       setWarnings(res.data || []);
       setShowConfirm(true);
@@ -40,7 +40,7 @@ export default function ShiftCoverForm({ request }: Props) {
   const handleStatusUpdate = async (action: "approve" | "reject") => {
     setLoading(true);
     await handleUpdate<void, undefined>(
-      `/api/cover-requests/${request.id}/${action}`,
+      `/cover-requests/${request.id}/${action}`,
       "PUT",
       undefined,
       "Shift cover request",

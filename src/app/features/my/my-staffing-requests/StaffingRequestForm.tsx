@@ -46,7 +46,7 @@ export default function StaffingRequestForm({ onSubmit }: Props) {
           <ApiSelectDropdown
             label="Location"
             name="locationId"
-            apiUrl="/api/locations/"
+            apiUrl="/locations/"
             optionKey="locationName"
             required={true}
           />

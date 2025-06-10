@@ -21,7 +21,7 @@ export default function ProfilePage() {
     const fetchData = async () => {
       if (!user?.id) return;
       const data = await handleGetById<UserResponse>(
-        `/api/users/${user.id}`,
+        `/users/${user.id}`,
         "User"
       );
       if (data) setUserData(data);

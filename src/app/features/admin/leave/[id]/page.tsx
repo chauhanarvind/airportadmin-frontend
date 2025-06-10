@@ -33,7 +33,7 @@ export default function LeaveRequestByIdPage() {
     const fetchLeave = async () => {
       setLoading(true);
       const data = await handleGetById<LeaveRequestResponse>(
-        `/api/leaves/${id}`,
+        `/leaves/${id}`,
         "Leave Request"
       );
       if (data) reset(data);
@@ -47,7 +47,7 @@ export default function LeaveRequestByIdPage() {
     const updated = await handleUpdate<
       LeaveRequestResponse,
       LeaveRequestUpdate
-    >(`/api/leaves/${id}/status`, "PUT", payload, "Leave request");
+    >(`/leaves/${id}/status`, "PUT", payload, "Leave request");
     if (updated) router.push("/features/admin/leave");
   };
 

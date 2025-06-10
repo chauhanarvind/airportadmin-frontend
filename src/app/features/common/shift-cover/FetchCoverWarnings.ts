@@ -12,7 +12,7 @@ export async function fetchShiftCoverWarnings(
   payload: WarningPayload
 ): Promise<string[]> {
   try {
-    const res = await api.post<string[]>("/api/cover-requests/check", payload);
+    const res = await api.post<string[]>("/cover-requests/check", payload);
     return res.data || [];
   } catch (err) {
     console.error("Failed to check warnings:", err);

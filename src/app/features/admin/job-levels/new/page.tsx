@@ -20,7 +20,7 @@ export default function CreateJobLevelPage() {
 
   const handleSubmit = async (data: CreateJobLevel) => {
     await handleCreate<CreateJobLevel, JobLevelResponse>(
-      "/api/job-levels/create",
+      "/job-levels/create",
       data,
       "Job Level",
       () => router.push("/features/admin/job-levels")
