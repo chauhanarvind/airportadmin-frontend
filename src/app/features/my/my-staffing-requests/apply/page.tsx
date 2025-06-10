@@ -22,19 +22,39 @@ export default function ApplyMyStaffingRequestPage() {
   const { user } = useAuth();
   const router = useRouter();
 
+  const isDataValid = (data: StaffingRequestCreate) => {
+    if (!user?.id) return false;
+
+    // Step 1: Filter selected days (i.e., days where user added at least one role)
+    const selectedDays = data.days.filter(
+      (day) => Array.isArray(day.items) && day.items.length > 0
+    );
+
+    if (selectedDays.length === 0) {
+      toast.error("Please select at least one day and add staffing roles.");
+      return false;
+    }
+
+    // Step 2: Validate every item in selected days
+    const isInvalid = selectedDays.some((day) =>
+      day.items.some(
+        (item) =>
+          !item.jobRoleId ||
+          !item.jobLevelId ||
+          !item.requiredCount ||
+          !item.startTime ||
+          !item.endTime
+      )
+    );
+
+    if (isInvalid) {
+      toast.error("All fields are required for each staffing role.");
+      return false;
+    }
+    return true;
+  };
   const handleSubmit = async (data: StaffingRequestCreate) => {
-    if (!user?.id) return;
-
-    if (data.days.length === 0) {
-      toast.error("Please select a week to request staffing for.");
-      return;
-    }
-
-    const hasEmptyItems = data.days.some((day) => day.items?.length === 0);
-    if (hasEmptyItems) {
-      toast.error("Each selected day must have at least one staffing role.");
-      return;
-    }
+    if (!isDataValid(data)) return;
 
     const payload: StaffingRequestCreate = {
       ...data,
