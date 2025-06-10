@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -23,6 +23,8 @@ export default function ViewGeneratedRosterPage() {
 
   const [rosterDays, setRosterDays] = useState<GroupedDay[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from") || "/features"; // fallback
 
   useEffect(() => {
     const fetchRoster = async () => {
@@ -64,7 +66,7 @@ export default function ViewGeneratedRosterPage() {
       <PageHeader
         title="Generated Roster"
         actions={
-          <Link href="/features/admin/staffing-requests">
+          <Link href={from}>
             <Button size="sm" className={uiTheme.buttons.back}>
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back

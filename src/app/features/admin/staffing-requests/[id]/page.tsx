@@ -88,7 +88,12 @@ export default function AdminStaffingRequestPage() {
               </Button>
             )}
             {rosterExists && (
-              <Link href={`/features/staff/roster/${requestId}`}>
+              <Link
+                href={{
+                  pathname: `/features/staff/roster/${id}`,
+                  query: { from: "/features/admin/staffing-requests" },
+                }}
+              >
                 <Button className={uiTheme.colors.primary} variant="outline">
                   View Roster
                 </Button>

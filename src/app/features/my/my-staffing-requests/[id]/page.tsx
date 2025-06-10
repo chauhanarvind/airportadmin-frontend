@@ -55,7 +55,12 @@ export default function MyStaffingRequestDetailPage() {
         actions={
           <div className="flex gap-2">
             {rosterExists && (
-              <Link href={`/features/staff/roster/${id}`}>
+              <Link
+                href={{
+                  pathname: `/features/staff/roster/${id}`,
+                  query: { from: "/features/my/my-staffing-requests" },
+                }}
+              >
                 <Button className={uiTheme.colors.primary} variant="outline">
                   View Roster
                 </Button>
