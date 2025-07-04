@@ -134,6 +134,34 @@ export default function LoginPage() {
                 </p>
               </div>
               <div className="bg-gray-50 p-3 rounded-md border">
+                <span className="font-medium block mb-1">Supervisor</span>
+                <p>
+                  Email:{" "}
+                  <code className="bg-gray-100 px-1 rounded">
+                    supervisor@airport.com
+                  </code>
+                </p>
+                <p>
+                  Password:{" "}
+                  <code className="bg-gray-100 px-1 rounded">
+                    supervisor123
+                  </code>
+                </p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-md border">
+                <span className="font-medium block mb-1">Manager</span>
+                <p>
+                  Email:{" "}
+                  <code className="bg-gray-100 px-1 rounded">
+                    manager@airport.com
+                  </code>
+                </p>
+                <p>
+                  Password:{" "}
+                  <code className="bg-gray-100 px-1 rounded">manager123</code>
+                </p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-md border">
                 <span className="font-medium block mb-1">Crew Member</span>
                 <p>
                   Email:{" "}
