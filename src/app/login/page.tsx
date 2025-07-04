@@ -37,19 +37,17 @@ export default function LoginPage() {
     setSubmitting(true);
     try {
       const res = await api.post("/auth/login", data);
-
-      // Save JWT to localStorage
       const token = res.data?.token;
+
       if (token) {
         localStorage.setItem("token", token);
-
         await fetchUser();
         toast.success("Login successful");
         router.push("/features");
       } else {
         throw new Error("Token missing from response");
       }
-    } catch (err) {
+    } catch {
       toast.error("Invalid email or password");
     } finally {
       setSubmitting(false);
@@ -58,51 +56,100 @@ export default function LoginPage() {
 
   return (
     <div
-      className={`min-h-screen flex flex-col items-center justify-center space-y-8 px-4 ${uiTheme.colors.contentBg}`}
+      className={`min-h-screen flex flex-col items-center justify-center px-4 py-12 ${uiTheme.colors.contentBg}`}
     >
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-blue-700">Airport Admin</h1>
-        <p className="text-gray-600 text-sm mt-1">
-          Staff & Operations Management Portal
-        </p>
+      <div className="w-full max-w-2xl space-y-6">
+        <div className="text-center space-y-1">
+          <h1 className="text-4xl font-bold text-blue-700">Airport Admin</h1>
+          <p className="text-gray-600 text-sm">
+            Staff & Operations Management Portal
+          </p>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow space-y-5">
+          {/* Warning Message */}
+          <div className="text-sm text-yellow-800 bg-yellow-100 p-3 rounded-md border border-yellow-300">
+            ⚠️ <span className="font-semibold">Note:</span> Due to backend cold
+            starts (free-tier hosting), the app may take a few seconds to load
+            initially. If you see an “Invalid email or password” error on your
+            first attempt, please wait a moment and try again.
+          </div>
+
+          {/* Login Form */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-1">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                {...register("email", { required: "Email is required" })}
+              />
+              {errors.email && (
+                <p className={uiTheme.form.errorText}>{errors.email.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-1">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                {...register("password", {
+                  required: "Password is required",
+                })}
+              />
+              {errors.password && (
+                <p className={uiTheme.form.errorText}>
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              disabled={submitting}
+              className="w-full bg-blue-600 text-white hover:bg-blue-700 transition font-medium py-2 rounded-md"
+            >
+              {submitting ? "Logging in..." : "Login"}
+            </Button>
+          </form>
+
+          {/* Demo Credentials */}
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">
+              🔐 Demo Login Credentials
+            </h2>
+            <div className="grid gap-3 text-sm text-gray-700">
+              <div className="bg-gray-50 p-3 rounded-md border">
+                <span className="font-medium block mb-1">Admin</span>
+                <p>
+                  Email:{" "}
+                  <code className="bg-gray-100 px-1 rounded">
+                    systemadmin@airport.com
+                  </code>
+                </p>
+                <p>
+                  Password:{" "}
+                  <code className="bg-gray-100 px-1 rounded">admin123</code>
+                </p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded-md border">
+                <span className="font-medium block mb-1">Crew Member</span>
+                <p>
+                  Email:{" "}
+                  <code className="bg-gray-100 px-1 rounded">
+                    crew@airport.com
+                  </code>
+                </p>
+                <p>
+                  Password:{" "}
+                  <code className="bg-gray-100 px-1 rounded">crew123</code>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md bg-white p-6 rounded-xl shadow-md space-y-4"
-      >
-        <h2 className="text-xl font-semibold text-center text-gray-800">
-          Login
-        </h2>
-
-        <div className="space-y-1">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            {...register("email", { required: "Email is required" })}
-          />
-          {errors.email && (
-            <p className={uiTheme.form.errorText}>{errors.email.message}</p>
-          )}
-        </div>
-
-        <div className="space-y-1">
-          <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            {...register("password", { required: "Password is required" })}
-          />
-          {errors.password && (
-            <p className={uiTheme.form.errorText}>{errors.password.message}</p>
-          )}
-        </div>
-
-        <Button type="submit" className="w-full" disabled={submitting}>
-          {submitting ? "Logging in..." : "Login"}
-        </Button>
-      </form>
     </div>
   );
 }
