@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
       ? "http://localhost:8080/api"
-      : "/api", // Netlify will redirect this to your Render backend
+      : process.env.REACT_APP_API_URL,
 });
 
 // Attach Authorization header from localStorage if token exists
